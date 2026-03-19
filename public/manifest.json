@@ -1,0 +1,25 @@
+{
+  "name": "FYVR",
+  "short_name": "FYVR",
+  "description": "Personalized hybrid training powered by your DISC profile",
+  "theme_color": "#FF4500",
+  "background_color": "#000000",
+  "display": "standalone",
+  "start_url": "/today",
+  "scope": "/",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

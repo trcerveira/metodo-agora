@@ -1,0 +1,12 @@
+@import "tailwindcss";
+
+@theme {
+  --color-fyvr-black: #000000;
+  --color-fyvr-accent: #FF4500;
+  --color-fyvr-accent-light: #FF6B35;
+  --color-fyvr-gray-900: #111111;
+  --color-fyvr-gray-800: #1A1A1A;
+  --color-fyvr-gray-700: #2A2A2A;
+  --color-fyvr-gray-400: #888888;
+  --color-fyvr-white: #FFFFFF;
+}
