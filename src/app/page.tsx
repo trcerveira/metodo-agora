@@ -5,7 +5,7 @@ export default function Home() {
         FY<span className="text-fyvr-accent">VR</span>
       </h1>
       <p className="mt-4 text-lg text-fyvr-gray-400">
-        Hybrid training, powered by your DISC profile.
+        The training that adapts to you. Not the other way around.
       </p>
       <div className="mt-8">
         <a
