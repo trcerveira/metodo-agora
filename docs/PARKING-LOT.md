@@ -19,6 +19,7 @@
 
 | Data | Ideia | Categoria | Notas |
 |------|-------|-----------|-------|
+| 2026-03-19 | Integrar resultados HYROX de atletas na app para gerar hype — identificar atletas e mostrar performances | Marketing | Bom para fase de growth, não MVP |
 | | | | |
 | | | | |
 | | | | |
