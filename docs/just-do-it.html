@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Just Do It — 25</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: #0A0E1A;
+    color: #F0ECE4;
+    min-height: 100vh;
+    padding: 30px;
+  }
+  h1 {
+    font-size: 32px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 5px;
+  }
+  h1 span { color: #BFD64B; }
+  .subtitle {
+    color: #888;
+    font-size: 14px;
+    margin-bottom: 30px;
+  }
+
+  /* LAYOUT 2 COLUNAS */
+  .board {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+
+  /* COLUNAS */
+  .column {
+    background: #111827;
+    border-radius: 12px;
+    padding: 16px;
+    min-height: 300px;
+  }
+  .column-header {
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding-bottom: 10px;
+    margin-bottom: 12px;
+    border-bottom: 2px solid #1a2035;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .col-quick .column-header { color: #BFD64B; border-bottom-color: #BFD64B; }
+  .col-ivy .column-header { color: #ef4444; border-bottom-color: #ef4444; }
+  .col-week .column-header { color: #f59e0b; border-bottom-color: #f59e0b; }
+  .col-done .column-header { color: #22c55e; border-bottom-color: #22c55e; }
+  .task-count {
+    font-size: 11px;
+    color: #555;
+    font-weight: 400;
+  }
+
+  /* TASKS */
+  .task {
+    display: flex;
+    align-items: center;
+    padding: 10px 12px;
+    margin-bottom: 6px;
+    background: #0A0E1A;
+    border-radius: 6px;
+    cursor: grab;
+    transition: all 0.15s;
+    border-left: 3px solid transparent;
+    user-select: none;
+  }
+  .task:hover { background: #151d30; }
+  .task.dragging {
+    opacity: 0.5;
+    transform: scale(0.98);
+  }
+  .task.drag-over {
+    border-top: 2px solid #BFD64B;
+  }
+  .task-text {
+    flex: 1;
+    font-size: 14px;
+  }
+  .time {
+    font-size: 10px;
+    font-weight: 600;
+    color: #0A0E1A;
+    background: #BFD64B;
+    padding: 2px 6px;
+    border-radius: 3px;
+    margin-left: 8px;
+    white-space: nowrap;
+  }
+  .time.deep { background: #ef4444; color: #fff; }
+  .frog { border-left: 3px solid #ef4444; }
+  .frog-btn {
+    width: 20px;
+    height: 20px;
+    margin-right: 8px;
+    flex-shrink: 0;
+    cursor: pointer;
+    font-size: 14px;
+    line-height: 20px;
+    text-align: center;
+    opacity: 0.3;
+    transition: opacity 0.2s;
+  }
+  .frog-btn:hover { opacity: 0.7; }
+  .frog .frog-btn { opacity: 1; }
+  .checkbox {
+    width: 20px;
+    height: 20px;
+    border: 2px solid #444;
+    border-radius: 4px;
+    margin-right: 10px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .task.done .checkbox {
+    background: #22c55e;
+    border-color: #22c55e;
+  }
+  .task.done .checkbox::after {
+    content: '\2713';
+    color: #0A0E1A;
+    font-weight: 800;
+    font-size: 12px;
+  }
+  .task.done .task-text {
+    text-decoration: line-through;
+    opacity: 0.5;
+  }
+
+  /* DROP ZONE */
+  .column.drag-active {
+    outline: 2px dashed #BFD64B;
+    outline-offset: -2px;
+  }
+  .drop-hint {
+    text-align: center;
+    color: #333;
+    font-size: 12px;
+    padding: 20px;
+    display: none;
+  }
+  .column:empty .drop-hint { display: block; }
+
+  /* ADD TASK */
+  .add-task {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 24px;
+  }
+  .add-task input {
+    flex: 1;
+    background: #111827;
+    border: 1px solid #1a2035;
+    color: #F0ECE4;
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 14px;
+    outline: none;
+  }
+  .add-task input:focus { border-color: #BFD64B; }
+  .add-task input::placeholder { color: #444; }
+  .add-task select {
+    background: #111827;
+    border: 1px solid #1a2035;
+    color: #888;
+    padding: 10px;
+    border-radius: 8px;
+    font-size: 12px;
+    outline: none;
+    cursor: pointer;
+  }
+  .add-task button {
+    background: #BFD64B;
+    color: #0A0E1A;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 8px;
+    font-weight: 700;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  .add-task button:hover { background: #d4eb6b; }
+
+  /* COUNTER */
+  .counter {
+    text-align: center;
+    margin-top: 24px;
+    font-size: 13px;
+    color: #555;
+  }
+  .counter span { color: #BFD64B; font-weight: 700; }
+
+  /* ===== PARKING LOT DE IDEIAS ===== */
+  .ideas-section {
+    margin-top: 32px;
+    background: #111827;
+    border-radius: 12px;
+    padding: 20px;
+    border: 1px solid #1a2035;
+  }
+  .ideas-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    user-select: none;
+  }
+  .ideas-header h2 {
+    font-size: 16px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #8B5CF6;
+  }
+  .ideas-header h2 span { font-size: 20px; }
+  .ideas-toggle {
+    font-size: 12px;
+    color: #555;
+    transition: transform 0.3s;
+  }
+  .ideas-body { display: none; margin-top: 16px; }
+  .ideas-body.open { display: block; }
+  .ideas-rule {
+    background: #1a1030;
+    border: 1px solid #8B5CF620;
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin-bottom: 16px;
+    font-size: 12px;
+    color: #8B5CF6;
+    line-height: 1.6;
+  }
+  .ideas-rule strong { color: #A78BFA; }
+  .ideas-add {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+  .ideas-add input {
+    flex: 1;
+    background: #0A0E1A;
+    border: 1px solid #1a2035;
+    color: #F0ECE4;
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 14px;
+    outline: none;
+  }
+  .ideas-add input:focus { border-color: #8B5CF6; }
+  .ideas-add input::placeholder { color: #444; }
+  .ideas-add select {
+    background: #0A0E1A;
+    border: 1px solid #1a2035;
+    color: #888;
+    padding: 10px;
+    border-radius: 8px;
+    font-size: 12px;
+    outline: none;
+    cursor: pointer;
+  }
+  .ideas-add button {
+    background: #8B5CF6;
+    color: #fff;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 8px;
+    font-weight: 700;
+    cursor: pointer;
+    font-size: 14px;
+    white-space: nowrap;
+  }
+  .ideas-add button:hover { background: #A78BFA; }
+  .idea-item {
+    display: flex;
+    align-items: flex-start;
+    padding: 10px 12px;
+    margin-bottom: 6px;
+    background: #0A0E1A;
+    border-radius: 6px;
+    border-left: 3px solid #8B5CF6;
+    transition: all 0.15s;
+  }
+  .idea-item:hover { background: #151d30; }
+  .idea-date {
+    font-size: 10px;
+    color: #8B5CF6;
+    font-weight: 600;
+    min-width: 70px;
+    padding-top: 2px;
+  }
+  .idea-text {
+    flex: 1;
+    font-size: 14px;
+    color: #F0ECE4;
+  }
+  .idea-cat {
+    font-size: 10px;
+    font-weight: 600;
+    color: #0A0E1A;
+    background: #8B5CF6;
+    padding: 2px 6px;
+    border-radius: 3px;
+    margin-left: 8px;
+    white-space: nowrap;
+  }
+  .idea-delete {
+    color: #444;
+    cursor: pointer;
+    margin-left: 8px;
+    font-size: 16px;
+    line-height: 1;
+    padding: 0 4px;
+  }
+  .idea-delete:hover { color: #ef4444; }
+  .ideas-empty {
+    text-align: center;
+    color: #333;
+    font-size: 13px;
+    padding: 20px;
+    font-style: italic;
+  }
+  .ideas-count {
+    font-size: 11px;
+    color: #555;
+    margin-top: 12px;
+    text-align: center;
+  }
+  .ideas-count span { color: #8B5CF6; font-weight: 700; }
+  .quarterly-badge {
+    font-size: 10px;
+    background: #1a1030;
+    color: #8B5CF6;
+    padding: 3px 8px;
+    border-radius: 10px;
+    margin-left: 8px;
+  }
+</style>
+</head>
+<body>
+
+<h1>Just <span>Do It</span></h1>
+<p class="subtitle">Ivy Lee + Eat the Frog — Arrasta tarefas entre colunas</p>
+
+<!-- ADD TASK -->
+<div class="add-task">
+  <input type="text" id="newTask" placeholder="Nova tarefa..." onkeydown="if(event.key==='Enter')addTask()">
+  <select id="newTime">
+    <option value="1 min">1 min</option>
+    <option value="2 min" selected>2 min</option>
+    <option value="5 min">5 min</option>
+    <option value="15 min">15 min</option>
+    <option value="30 min">30 min</option>
+    <option value="1h">1h</option>
+    <option value="2h">2h</option>
+  </select>
+  <select id="newCol">
+    <option value="quick">2 Min</option>
+    <option value="ivy">Ivy Lee</option>
+    <option value="week">Semana</option>
+  </select>
+  <button onclick="addTask()">+</button>
+</div>
+
+<!-- BOARD -->
+<div class="board">
+  <!-- COLUNA RAPIDAS 2 MIN -->
+  <div class="column col-quick" id="col-quick" ondragover="dragOver(event)" ondrop="drop(event)" ondragenter="dragEnter(event)" ondragleave="dragLeave(event)">
+    <div class="column-header">
+      Rapidas (2 min)
+      <span class="task-count" id="count-quick"></span>
+    </div>
+    <div id="tasks-quick">
+      <div class="task" draggable="true" ondragstart="dragStart(event)">
+        <div class="frog-btn" onclick="event.stopPropagation(); toggleFrog(this.parentElement)" title="Marcar como Sapo">S</div>
+        <div class="checkbox" onclick="event.stopPropagation(); toggleDone(this.parentElement)"></div>
+        <div class="task-text">Enviar resumo consultoria ao CEO imobiliario</div>
+        <div class="time">2 min</div>
+      </div>
+      <div class="task" draggable="true" ondragstart="dragStart(event)">
+        <div class="frog-btn" onclick="event.stopPropagation(); toggleFrog(this.parentElement)" title="Marcar como Sapo">S</div>
+        <div class="checkbox" onclick="event.stopPropagation(); toggleDone(this.parentElement)"></div>
+        <div class="task-text">Criar grupo WhatsApp "Turma 25 - Desafio 14 Dias"</div>
+        <div class="time">2 min</div>
+      </div>
+      <div class="task" draggable="true" ondragstart="dragStart(event)">
+        <div class="frog-btn" onclick="event.stopPropagation(); toggleFrog(this.parentElement)" title="Marcar como Sapo">S</div>
+        <div class="checkbox" onclick="event.stopPropagation(); toggleDone(this.parentElement)"></div>
+        <div class="task-text">Colar regras no grupo WhatsApp</div>
+        <div class="time">1 min</div>
+      </div>
+      <div class="task" draggable="true" ondragstart="dragStart(event)">
+        <div class="frog-btn" onclick="event.stopPropagation(); toggleFrog(this.parentElement)" title="Marcar como Sapo">S</div>
+        <div class="checkbox" onclick="event.stopPropagation(); toggleDone(this.parentElement)"></div>
+        <div class="task-text">Pedir ao colega para escrever mensagem de boas-vindas</div>
+        <div class="time">2 min</div>
+      </div>
+      <div class="task" draggable="true" ondragstart="dragStart(event)">
+        <div class="frog-btn" onclick="event.stopPropagation(); toggleFrog(this.parentElement)" title="Marcar como Sapo">S</div>
+        <div class="checkbox" onclick="event.stopPropagation(); toggleDone(this.parentElement)"></div>
+        <div class="task-text">Adicionar os 4 confirmados ao grupo</div>
+        <div class="time">2 min</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- COLUNA IVY LEE (SAPO + 5) -->
+  <div class="column col-ivy" id="col-ivy" ondragover="dragOver(event)" ondrop="drop(event)" ondragenter="dragEnter(event)" ondragleave="dragLeave(event)">
+    <div class="column-header">
+      Ivy Lee — Sapo + 5
+      <span class="task-count" id="count-ivy"></span>
+    </div>
+    <div id="tasks-ivy">
+      <div class="task frog" draggable="true" ondragstart="dragStart(event)">
+        <div class="frog-btn" onclick="event.stopPropagation(); toggleFrog(this.parentElement)" title="Marcar como Sapo">S</div>
+        <div class="checkbox" onclick="event.stopPropagation(); toggleDone(this.parentElement)"></div>
+        <div class="task-text">Enviar convite Turma 25 a 12-15 pessoas (WhatsApp)</div>
+        <div class="time">15 min</div>
+      </div>
+      <div class="task frog" draggable="true" ondragstart="dragStart(event)">
+        <div class="frog-btn" onclick="event.stopPropagation(); toggleFrog(this.parentElement)" title="Marcar como Sapo">S</div>
+        <div class="checkbox" onclick="event.stopPropagation(); toggleDone(this.parentElement)"></div>
+        <div class="task-text">Amanha: ir ao ginasio recrutar pessoas presencialmente</div>
+        <div class="time deep">dia todo</div>
+      </div>
+      <div class="task" draggable="true" ondragstart="dragStart(event)">
+        <div class="frog-btn" onclick="event.stopPropagation(); toggleFrog(this.parentElement)" title="Marcar como Sapo">S</div>
+        <div class="checkbox" onclick="event.stopPropagation(); toggleDone(this.parentElement)"></div>
+        <div class="task-text">Meter 55 exercicios na app (biblioteca)</div>
+        <div class="time deep">60 min</div>
+      </div>
+      <div class="task" draggable="true" ondragstart="dragStart(event)">
+        <div class="frog-btn" onclick="event.stopPropagation(); toggleFrog(this.parentElement)" title="Marcar como Sapo">S</div>
+        <div class="checkbox" onclick="event.stopPropagation(); toggleDone(this.parentElement)"></div>
+        <div class="task-text">Meter treinos dos 7 dias na app</div>
+        <div class="time deep">45 min</div>
+      </div>
+      <div class="task" draggable="true" ondragstart="dragStart(event)">
+        <div class="frog-btn" onclick="event.stopPropagation(); toggleFrog(this.parentElement)" title="Marcar como Sapo">S</div>
+        <div class="checkbox" onclick="event.stopPropagation(); toggleDone(this.parentElement)"></div>
+        <div class="task-text">Confirmar 10 pessoas no grupo (tens 4)</div>
+        <div class="time">faltam 6</div>
+      </div>
+      <div class="task" draggable="true" ondragstart="dragStart(event)">
+        <div class="frog-btn" onclick="event.stopPropagation(); toggleFrog(this.parentElement)" title="Marcar como Sapo">S</div>
+        <div class="checkbox" onclick="event.stopPropagation(); toggleDone(this.parentElement)"></div>
+        <div class="task-text">Dia 1 do desafio: primeiro "FEITO" no grupo</div>
+        <div class="time">—</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- COLUNA SEMANA -->
+  <div class="column col-week" id="col-week" ondragover="dragOver(event)" ondrop="drop(event)" ondragenter="dragEnter(event)" ondragleave="dragLeave(event)">
+    <div class="column-header">
+      Esta Semana / Dia 14
+      <span class="task-count" id="count-week"></span>
+    </div>
+    <div id="tasks-week">
+      <div class="task" draggable="true" ondragstart="dragStart(event)">
+        <div class="frog-btn" onclick="event.stopPropagation(); toggleFrog(this.parentElement)" title="Marcar como Sapo">S</div>
+        <div class="checkbox" onclick="event.stopPropagation(); toggleDone(this.parentElement)"></div>
+        <div class="task-text">Check-in diario no grupo (tu tambem treinas e mandas FEITO)</div>
+        <div class="time">diario</div>
+      </div>
+      <div class="task" draggable="true" ondragstart="dragStart(event)">
+        <div class="frog-btn" onclick="event.stopPropagation(); toggleFrog(this.parentElement)" title="Marcar como Sapo">S</div>
+        <div class="checkbox" onclick="event.stopPropagation(); toggleDone(this.parentElement)"></div>
+        <div class="task-text">Cafe com Nuno Teles (agencia AI, paralelo)</div>
+        <div class="time">1h</div>
+      </div>
+      <div class="task" draggable="true" ondragstart="dragStart(event)">
+        <div class="frog-btn" onclick="event.stopPropagation(); toggleFrog(this.parentElement)" title="Marcar como Sapo">S</div>
+        <div class="checkbox" onclick="event.stopPropagation(); toggleDone(this.parentElement)"></div>
+        <div class="task-text">Se CEO responder: marcar call (ouvir, nao vender)</div>
+        <div class="time">30 min</div>
+      </div>
+      <div class="task" draggable="true" ondragstart="dragStart(event)">
+        <div class="frog-btn" onclick="event.stopPropagation(); toggleFrog(this.parentElement)" title="Marcar como Sapo">S</div>
+        <div class="checkbox" onclick="event.stopPropagation(); toggleDone(this.parentElement)"></div>
+        <div class="task-text">Dia 7: pedir feedback ao grupo</div>
+        <div class="time">5 min</div>
+      </div>
+      <div class="task" draggable="true" ondragstart="dragStart(event)">
+        <div class="frog-btn" onclick="event.stopPropagation(); toggleFrog(this.parentElement)" title="Marcar como Sapo">S</div>
+        <div class="checkbox" onclick="event.stopPropagation(); toggleDone(this.parentElement)"></div>
+        <div class="task-text">Dia 14: recolher testemunhos (texto WhatsApp)</div>
+        <div class="time">10 min</div>
+      </div>
+      <div class="task" draggable="true" ondragstart="dragStart(event)">
+        <div class="frog-btn" onclick="event.stopPropagation(); toggleFrog(this.parentElement)" title="Marcar como Sapo">S</div>
+        <div class="checkbox" onclick="event.stopPropagation(); toggleDone(this.parentElement)"></div>
+        <div class="task-text">Configurar Skool</div>
+        <div class="time deep">2h</div>
+      </div>
+      <div class="task" draggable="true" ondragstart="dragStart(event)">
+        <div class="frog-btn" onclick="event.stopPropagation(); toggleFrog(this.parentElement)" title="Marcar como Sapo">S</div>
+        <div class="checkbox" onclick="event.stopPropagation(); toggleDone(this.parentElement)"></div>
+        <div class="task-text">Convidar os 10 para Skool (FREE lifetime)</div>
+        <div class="time">5 min</div>
+      </div>
+      <div class="task" draggable="true" ondragstart="dragStart(event)">
+        <div class="frog-btn" onclick="event.stopPropagation(); toggleFrog(this.parentElement)" title="Marcar como Sapo">S</div>
+        <div class="checkbox" onclick="event.stopPropagation(); toggleDone(this.parentElement)"></div>
+        <div class="task-text">Decidir nome final: Turma 25 ou outro</div>
+        <div class="time">pensar</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- COLUNA FEITO -->
+  <div class="column col-done" id="col-done" ondragover="dragOver(event)" ondrop="drop(event)" ondragenter="dragEnter(event)" ondragleave="dragLeave(event)">
+    <div class="column-header">
+      Feito
+      <span class="task-count" id="count-done"></span>
+    </div>
+    <div id="tasks-done">
+    </div>
+  </div>
+</div>
+
+<div class="counter">
+  <span id="totalDone">0</span> tarefas concluidas
+</div>
+
+<!-- ===== PARKING LOT DE IDEIAS ===== -->
+<div class="ideas-section">
+  <div class="ideas-header" onclick="toggleIdeas()">
+    <h2><span>💡</span> Parking Lot de Ideias <span class="quarterly-badge">Revisão: Junho 2026</span></h2>
+    <div class="ideas-toggle" id="ideasToggle">▼</div>
+  </div>
+  <div class="ideas-body" id="ideasBody">
+    <div class="ideas-rule">
+      <strong>REGRA:</strong> Ideias entram aqui. Só saem na revisão trimestral (1 Junho 2026).<br>
+      <strong>Março → Junho = BUILD & SHIP.</strong> Zero desvios. A ideia não desaparece — fica segura aqui.<br>
+      <em>"If you have more than three priorities, you have no priorities." — Jim Collins</em>
+    </div>
+    <div class="ideas-add">
+      <input type="text" id="newIdea" placeholder="Escreve a tua ideia aqui..." onkeydown="if(event.key==='Enter')addIdea()">
+      <select id="ideaCat">
+        <option value="Feature">Feature</option>
+        <option value="Marketing">Marketing</option>
+        <option value="Parceria">Parceria</option>
+        <option value="Conteúdo">Conteúdo</option>
+        <option value="Tech">Tech</option>
+        <option value="Negócio">Negócio</option>
+        <option value="Outro">Outro</option>
+      </select>
+      <button onclick="addIdea()">+ Guardar Ideia</button>
+    </div>
+    <div id="ideasList"></div>
+    <div class="ideas-count">
+      <span id="ideasCount">0</span> ideias guardadas — próxima revisão: <span>1 Junho 2026</span>
+    </div>
+  </div>
+</div>
+
+<script>
+  let draggedEl = null;
+
+  function dragStart(e) {
+    draggedEl = e.target;
+    e.target.classList.add('dragging');
+    e.dataTransfer.effectAllowed = 'move';
+  }
+
+  function dragOver(e) {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'move';
+  }
+
+  function dragEnter(e) {
+    e.preventDefault();
+    const col = e.currentTarget;
+    col.classList.add('drag-active');
+  }
+
+  function dragLeave(e) {
+    e.currentTarget.classList.remove('drag-active');
+  }
+
+  function drop(e) {
+    e.preventDefault();
+    const col = e.currentTarget;
+    col.classList.remove('drag-active');
+    if (draggedEl) {
+      draggedEl.classList.remove('dragging');
+      const tasksContainer = col.querySelector('[id^="tasks-"]');
+      tasksContainer.appendChild(draggedEl);
+      draggedEl = null;
+      updateCounts();
+      saveState();
+    }
+  }
+
+  function toggleFrog(task) {
+    task.classList.toggle('frog');
+    updateCounts();
+    saveState();
+  }
+
+  function toggleDone(task) {
+    task.classList.add('done');
+    document.getElementById('tasks-done').appendChild(task);
+    updateCounts();
+    saveState();
+  }
+
+  function addTask() {
+    const input = document.getElementById('newTask');
+    const text = input.value.trim();
+    if (!text) return;
+    const time = document.getElementById('newTime').value;
+    const col = document.getElementById('newCol').value;
+    const task = document.createElement('div');
+    task.className = 'task';
+    task.draggable = true;
+    task.ondragstart = function(e) { dragStart(e); };
+    task.innerHTML = '<div class="frog-btn" onclick="event.stopPropagation(); toggleFrog(this.parentElement)" title="Marcar como Sapo">S</div>' +
+      '<div class="checkbox" onclick="event.stopPropagation(); toggleDone(this.parentElement)"></div>' +
+      '<div class="task-text">' + text + '</div>' +
+      '<div class="time">' + time + '</div>';
+    document.getElementById('tasks-' + col).appendChild(task);
+    input.value = '';
+    updateCounts();
+    saveState();
+  }
+
+  function updateCounts() {
+    ['quick','ivy','week','done'].forEach(function(id) {
+      const tasks = document.getElementById('tasks-' + id).querySelectorAll('.task');
+      const done = document.getElementById('tasks-' + id).querySelectorAll('.task.done');
+      document.getElementById('count-' + id).textContent = tasks.length > 0 ? done.length + '/' + tasks.length : '';
+    });
+    const allDone = document.querySelectorAll('.task.done').length;
+    document.getElementById('totalDone').textContent = allDone;
+  }
+
+  function saveState() {
+    const state = {};
+    ['quick','ivy','week','done'].forEach(function(id) {
+      state[id] = [];
+      document.getElementById('tasks-' + id).querySelectorAll('.task').forEach(function(t) {
+        state[id].push({
+          text: t.querySelector('.task-text').textContent,
+          time: t.querySelector('.time').textContent,
+          done: t.classList.contains('done'),
+          frog: t.classList.contains('frog')
+        });
+      });
+    });
+    localStorage.setItem('justdoit_v4', JSON.stringify(state));
+  }
+
+  function loadState() {
+    const raw = localStorage.getItem('justdoit_v4');
+    if (!raw) { updateCounts(); return; }
+    const state = JSON.parse(raw);
+    ['quick','ivy','week','done'].forEach(function(id) {
+      if (!state[id]) return;
+      const container = document.getElementById('tasks-' + id);
+      container.innerHTML = '';
+      state[id].forEach(function(t) {
+        const task = document.createElement('div');
+        task.className = 'task' + (t.done ? ' done' : '') + (t.frog ? ' frog' : '');
+        task.draggable = true;
+        task.ondragstart = function(e) { dragStart(e); };
+        const timeClass = (t.time === '60 min' || t.time === '45 min' || t.time === '2h') ? 'time deep' : 'time';
+        task.innerHTML = '<div class="frog-btn" onclick="event.stopPropagation(); toggleFrog(this.parentElement)" title="Marcar como Sapo">S</div>' +
+          '<div class="checkbox" onclick="event.stopPropagation(); toggleDone(this.parentElement)"></div>' +
+          '<div class="task-text">' + t.text + '</div>' +
+          '<div class="' + timeClass + '">' + t.time + '</div>';
+        container.appendChild(task);
+      });
+    });
+    updateCounts();
+  }
+
+  loadState();
+
+  // ===== PARKING LOT DE IDEIAS =====
+
+  function toggleIdeas() {
+    const body = document.getElementById('ideasBody');
+    const toggle = document.getElementById('ideasToggle');
+    body.classList.toggle('open');
+    toggle.textContent = body.classList.contains('open') ? '▲' : '▼';
+  }
+
+  function addIdea() {
+    const input = document.getElementById('newIdea');
+    const text = input.value.trim();
+    if (!text) return;
+    const cat = document.getElementById('ideaCat').value;
+    const now = new Date();
+    const date = now.getFullYear() + '-' +
+      String(now.getMonth()+1).padStart(2,'0') + '-' +
+      String(now.getDate()).padStart(2,'0');
+
+    const ideas = loadIdeas();
+    ideas.push({ text: text, cat: cat, date: date });
+    localStorage.setItem('fyvr_parking_lot', JSON.stringify(ideas));
+
+    input.value = '';
+    renderIdeas();
+  }
+
+  function deleteIdea(index) {
+    if (!confirm('Apagar esta ideia?')) return;
+    const ideas = loadIdeas();
+    ideas.splice(index, 1);
+    localStorage.setItem('fyvr_parking_lot', JSON.stringify(ideas));
+    renderIdeas();
+  }
+
+  function loadIdeas() {
+    const raw = localStorage.getItem('fyvr_parking_lot');
+    return raw ? JSON.parse(raw) : [];
+  }
+
+  function renderIdeas() {
+    const ideas = loadIdeas();
+    const list = document.getElementById('ideasList');
+    document.getElementById('ideasCount').textContent = ideas.length;
+
+    if (ideas.length === 0) {
+      list.innerHTML = '<div class="ideas-empty">Nenhuma ideia guardada. Foco no MVP!</div>';
+      return;
+    }
+
+    list.innerHTML = ideas.map(function(idea, i) {
+      return '<div class="idea-item">' +
+        '<div class="idea-date">' + idea.date + '</div>' +
+        '<div class="idea-text">' + idea.text + '</div>' +
+        '<div class="idea-cat">' + idea.cat + '</div>' +
+        '<div class="idea-delete" onclick="deleteIdea(' + i + ')" title="Apagar">×</div>' +
+        '</div>';
+    }).reverse().join('');
+  }
+
+  renderIdeas();
+</script>
+
+</body>
+</html>
