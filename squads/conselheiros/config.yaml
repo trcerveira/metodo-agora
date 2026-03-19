@@ -1,0 +1,72 @@
+squad:
+  name: conselheiros
+  title: "Squad de Conselheiros — Elite Minds Advisory Board"
+  version: "1.0.0"
+  created: "2026-03-18"
+  author: "Telmo Cerveira"
+  description: |
+    Squad de 11 conselheiros baseados em elite minds reais com frameworks
+    documentados. Cobre decisão, gestão, estratégia, produto, monetização,
+    coaching, confiança, propósito e IA aplicada a negócios.
+
+  domain: "Advisory & Strategic Counseling"
+  keywords:
+    - conselheiros
+    - advisory
+    - decision-making
+    - strategy
+    - leadership
+    - coaching
+    - monetization
+    - AI
+    - mental models
+
+  orchestrator: conselheiros-chief
+
+  tiers:
+    tier_0:
+      name: "Diagnóstico"
+      description: "Analisam antes de agir — frameworks de decisão e eficácia"
+      agents:
+        - charlie-munger
+        - peter-drucker
+
+    tier_1:
+      name: "Masters"
+      description: "Execução principal — estratégia, princípios, produto, pensamento"
+      agents:
+        - ray-dalio
+        - keith-cunningham
+        - jim-collins
+        - steve-jobs
+
+    tier_2:
+      name: "Especialistas"
+      description: "Áreas específicas — monetização, coaching, confiança, propósito, IA"
+      agents:
+        - alex-hormozi
+        - marshall-goldsmith
+        - brene-brown
+        - simon-sinek
+        - alan-nicolas
+
+  routing:
+    decision_making: charlie-munger
+    management: peter-drucker
+    principles: ray-dalio
+    ceo_advisory: keith-cunningham
+    strategy: jim-collins
+    product_innovation: steve-jobs
+    monetization: alex-hormozi
+    coaching: marshall-goldsmith
+    trust_vulnerability: brene-brown
+    purpose_vision: simon-sinek
+    ai_business: alan-nicolas
+
+  activation:
+    orchestrator: "@conselheiros"
+    agents: "@conselheiros:{agent-id}"
+    examples:
+      - "@conselheiros — activa o chief (orchestrator)"
+      - "@conselheiros:charlie-munger — activa o Munger directamente"
+      - "@conselheiros:alex-hormozi — activa o Hormozi directamente"
