@@ -1,9 +1,29 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
+import {
+  sections as assessmentSections,
+  getAllQuestions,
+  getTotalQuestions,
+  getSectionForQuestion,
+  type AssessmentQuestion,
+} from "@/lib/assessment/data";
+import {
+  calculateAssessmentResults,
+  formatScoresForPrompt,
+} from "@/lib/assessment/engine";
 
 // --- Dados dos Módulos ---
 const modules = [
+  {
+    id: "zg",
+    number: 0,
+    title: "Zona de Genialidade",
+    subtitle: "Assessment completo — 7 frameworks",
+    badge: "Genius",
+    duration: "15-20 min",
+    output: "Blueprint personalizado com plano a 90 dias",
+  },
   {
     id: "m1",
     number: 1,
@@ -269,7 +289,7 @@ function ModuleTab({
       <span className="mr-1">
         {isCompleted ? "✅" : isLocked ? "🔒" : "🔓"}
       </span>
-      M{mod.number}
+      {mod.number === 0 ? "ZG" : `M${mod.number}`}
     </button>
   );
 }
@@ -355,6 +375,421 @@ function OSTabs({ activeOS, setActiveOS }: { activeOS: string; setActiveOS: (os:
       ))}
     </div>
   );
+}
+
+// --- Conteúdo: Zona de Genialidade (Tab 0) ---
+type ZGStep = 'intro' | 'name' | 'quiz' | 'processing' | 'result' | 'error'
+
+function ZonaGenialidadeContent({ onComplete }: { onComplete: () => void }) {
+  const [zgStep, setZgStep] = useState<ZGStep>('intro')
+  const [zgName, setZgName] = useState('')
+  const [qi, setQi] = useState(0)
+  const [answers, setAnswers] = useState<Record<string, string | string[]>>({})
+  const [blueprint, setBlueprint] = useState<string | null>(null)
+  const [fade, setFade] = useState(true)
+
+  const allQuestions = getAllQuestions()
+  const totalQuestions = getTotalQuestions()
+
+  // Verificar se já tem blueprint guardado
+  useEffect(() => {
+    const saved = localStorage.getItem('blueprint_data')
+    if (saved) {
+      const parsed = JSON.parse(saved)
+      if (parsed.blueprint) {
+        setBlueprint(parsed.blueprint)
+        setZgName(parsed.name || '')
+        setZgStep('result')
+      }
+    }
+  }, [])
+
+  const transition = useCallback((fn: () => void) => {
+    setFade(false)
+    setTimeout(() => { fn(); setFade(true) }, 200)
+  }, [])
+
+  const handleSingleAnswer = (value: string) => {
+    const q = allQuestions[qi]
+    const newAnswers = { ...answers, [q.id]: value }
+    setAnswers(newAnswers)
+    if (qi < totalQuestions - 1) {
+      transition(() => setQi(qi + 1))
+    } else {
+      finishAssessment(newAnswers)
+    }
+  }
+
+  const handleMultiToggle = (value: string) => {
+    const q = allQuestions[qi]
+    const current = (answers[q.id] as string[]) || []
+    const updated = current.includes(value)
+      ? current.filter((v) => v !== value)
+      : [...current, value]
+    setAnswers({ ...answers, [q.id]: updated })
+  }
+
+  const handleMultiConfirm = () => {
+    if (qi < totalQuestions - 1) {
+      transition(() => setQi(qi + 1))
+    } else {
+      finishAssessment(answers)
+    }
+  }
+
+  const handleOpenAnswer = (value: string) => {
+    setAnswers({ ...answers, [allQuestions[qi].id]: value })
+  }
+
+  const handleOpenConfirm = () => {
+    const val = answers[allQuestions[qi].id]
+    if (!val || (typeof val === 'string' && val.trim().length < 3)) return
+    if (qi < totalQuestions - 1) {
+      transition(() => setQi(qi + 1))
+    } else {
+      finishAssessment(answers)
+    }
+  }
+
+  const goBack = () => {
+    if (qi > 0) transition(() => setQi(qi - 1))
+    else transition(() => setZgStep('name'))
+  }
+
+  const finishAssessment = async (finalAnswers: Record<string, string | string[]>) => {
+    setZgStep('processing')
+    try {
+      const result = calculateAssessmentResults(finalAnswers)
+      const formattedScores = formatScoresForPrompt(result)
+      const res = await fetch('/api/generate-blueprint', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: zgName, formattedScores }),
+      })
+      if (!res.ok) throw new Error('Erro na API')
+      const data = await res.json()
+      setBlueprint(data.blueprint)
+      localStorage.setItem('blueprint_data', JSON.stringify({
+        name: zgName, blueprint: data.blueprint,
+        result: { zone: result.zone, zoneTitle: result.zoneTitle, archetype: result.archetype, consistency: result.consistency },
+        timestamp: new Date().toISOString(),
+      }))
+      setZgStep('result')
+    } catch {
+      setZgStep('error')
+    }
+  }
+
+  // --- INTRO ---
+  if (zgStep === 'intro') {
+    return (
+      <div className="space-y-6">
+        <div className="border-l-2 border-now-green pl-4">
+          <p className="text-now-green/60 text-xs font-mono uppercase tracking-wider mb-1">ASSESSMENT COMPLETO</p>
+          <p className="text-now-ivory text-base">
+            43 perguntas · 7 frameworks de elite · Blueprint personalizado gerado por AI com o teu plano de monetização a 90 dias.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          {assessmentSections.map((s, i) => (
+            <div key={s.id} className="flex items-center gap-3 rounded-lg border border-now-green/20 bg-now-terminal px-4 py-3">
+              <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-now-green text-xs font-bold text-black">
+                {i + 1}
+              </span>
+              <div>
+                <p className="font-mono text-sm text-now-ivory">{s.title}</p>
+                <p className="text-xs text-now-green/40">{s.duration}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div className="bg-now-green/5 border border-now-green/10 rounded-lg p-4">
+          <p className="text-now-green text-sm font-mono font-bold mb-2">O QUE RECEBES</p>
+          <ul className="space-y-1 text-sm text-now-ivory/70">
+            <li>1. Diagnóstico de Zona (Gay Hendricks)</li>
+            <li>2. Mapa de Talentos (CliftonStrengths)</li>
+            <li>3. Habilidade Única (Dan Sullivan)</li>
+            <li>4. Perfil de Riqueza (Roger Hamilton)</li>
+            <li>5. Plano de Monetização (Alex Hormozi)</li>
+            <li>6. Estilo de Execução (Kathy Kolbe)</li>
+            <li>7. Posicionamento Pessoal (Sally Hogshead)</li>
+          </ul>
+        </div>
+
+        <button
+          onClick={() => setZgStep('name')}
+          className="w-full py-4 bg-now-green text-now-obsidian font-mono font-bold text-lg rounded-lg hover:bg-now-green/90 transition-all"
+        >
+          COMEÇAR ASSESSMENT
+        </button>
+
+        <p className="text-center text-xs text-now-green/30 font-mono">~15-20 minutos · Resultado imediato · 100% personalizado</p>
+      </div>
+    )
+  }
+
+  // --- NAME ---
+  if (zgStep === 'name') {
+    const valid = zgName.trim().length > 1
+    return (
+      <div className="space-y-6 max-w-md">
+        <h3 className="text-now-green font-mono font-bold text-sm">COMO TE CHAMAS?</h3>
+        <p className="text-now-ivory/60 text-sm">Precisamos do teu nome para personalizar o Blueprint.</p>
+        <form onSubmit={(e) => { e.preventDefault(); if (valid) transition(() => setZgStep('quiz')) }} className="space-y-4">
+          <input
+            type="text"
+            value={zgName}
+            onChange={(e) => setZgName(e.target.value)}
+            placeholder="O teu nome"
+            className="w-full rounded-md border border-now-green/20 bg-now-obsidian px-4 py-3 text-now-ivory placeholder-now-green/20 outline-none focus:border-now-green font-mono"
+            autoFocus
+          />
+          <button
+            type="submit"
+            disabled={!valid}
+            className="w-full rounded-md bg-now-green py-3.5 text-sm font-bold text-black transition hover:bg-now-green/90 disabled:opacity-30 font-mono"
+          >
+            CONTINUAR
+          </button>
+        </form>
+      </div>
+    )
+  }
+
+  // --- QUIZ ---
+  if (zgStep === 'quiz') {
+    const question = allQuestions[qi]
+    const answer = answers[question.id]
+    const progress = (qi / totalQuestions) * 100
+    const { section, sectionIndex } = getSectionForQuestion(qi)
+    const multiSelected = Array.isArray(answer) ? answer : []
+    const openValue = typeof answer === 'string' ? answer : ''
+
+    return (
+      <div className={`transition-opacity duration-200 ${fade ? 'opacity-100' : 'opacity-0'}`}>
+        {/* Progresso */}
+        <div className="mb-6">
+          <div className="flex items-center justify-between mb-2">
+            <button onClick={goBack} className="text-sm text-now-green/40 hover:text-now-green font-mono">&larr; voltar</button>
+            <div className="text-right">
+              <p className="text-xs font-medium text-now-green font-mono">{section.title}</p>
+              <span className="font-mono text-xs text-now-green/40">{qi + 1}/{totalQuestions}</span>
+            </div>
+          </div>
+          <div className="h-1.5 w-full overflow-hidden rounded-full bg-now-green/10">
+            <div className="h-full rounded-full bg-now-green transition-all duration-500" style={{ width: `${progress}%` }} />
+          </div>
+          <div className="mt-2 flex gap-1">
+            {assessmentSections.map((s, i) => (
+              <div key={s.id} className={`h-1 flex-1 rounded-full ${i < sectionIndex ? 'bg-now-green' : i === sectionIndex ? 'bg-now-green/50' : 'bg-now-green/10'}`} />
+            ))}
+          </div>
+        </div>
+
+        {/* Pergunta */}
+        <h3 className="mb-2 text-lg font-bold text-now-ivory">{question.question}</h3>
+        {question.subtitle && <p className="mb-6 text-sm text-now-ivory/40">{question.subtitle}</p>}
+
+        {/* Single choice */}
+        {question.type === 'single' && question.options && (
+          <div className="space-y-2">
+            {question.options.map((option) => (
+              <button
+                key={option.value}
+                onClick={() => handleSingleAnswer(option.value)}
+                className={`w-full rounded-lg border px-4 py-3 text-left text-sm font-mono transition ${
+                  answer === option.value
+                    ? 'border-now-green bg-now-green/10 text-now-green'
+                    : 'border-now-green/10 bg-now-terminal text-now-ivory/70 hover:border-now-green/30'
+                }`}
+              >
+                {option.label}
+              </button>
+            ))}
+          </div>
+        )}
+
+        {/* Multi choice */}
+        {question.type === 'multi' && question.options && (
+          <div className="space-y-2">
+            {question.options.map((option) => {
+              const selected = multiSelected.includes(option.value)
+              return (
+                <button
+                  key={option.value}
+                  onClick={() => handleMultiToggle(option.value)}
+                  className={`w-full rounded-lg border px-4 py-3 text-left text-sm font-mono transition ${
+                    selected
+                      ? 'border-now-green bg-now-green/10 text-now-green'
+                      : 'border-now-green/10 bg-now-terminal text-now-ivory/70 hover:border-now-green/30'
+                  }`}
+                >
+                  <span className="flex items-center gap-3">
+                    <span className={`flex h-4 w-4 shrink-0 items-center justify-center rounded border ${selected ? 'border-now-green bg-now-green text-black' : 'border-now-green/20'}`}>
+                      {selected && <span className="text-[10px] font-bold">✓</span>}
+                    </span>
+                    {option.label}
+                  </span>
+                </button>
+              )
+            })}
+            <button
+              onClick={handleMultiConfirm}
+              disabled={multiSelected.length === 0}
+              className="mt-3 w-full rounded-md bg-now-green py-3 text-sm font-bold text-black font-mono disabled:opacity-30"
+            >
+              CONFIRMAR ({multiSelected.length} selecionadas)
+            </button>
+          </div>
+        )}
+
+        {/* Open-ended */}
+        {question.type === 'open' && (
+          <div className="space-y-3">
+            {question.hint && (
+              <p className="rounded-lg border border-now-green/10 bg-now-terminal p-3 text-xs text-now-ivory/30 font-mono">{question.hint}</p>
+            )}
+            <textarea
+              value={openValue}
+              onChange={(e) => handleOpenAnswer(e.target.value)}
+              placeholder="Escreve a tua resposta aqui..."
+              maxLength={question.maxLength || 500}
+              rows={4}
+              className="w-full resize-none rounded-lg border border-now-green/20 bg-now-obsidian px-4 py-3 text-sm text-now-ivory placeholder-now-green/20 outline-none focus:border-now-green font-mono"
+              autoFocus
+            />
+            <div className="flex items-center justify-between">
+              <span className="text-xs text-now-green/30 font-mono">{openValue.length}/{question.maxLength || 500}</span>
+              <button
+                onClick={handleOpenConfirm}
+                disabled={openValue.trim().length < 3}
+                className="rounded-md bg-now-green px-6 py-2.5 text-sm font-bold text-black font-mono disabled:opacity-30"
+              >
+                CONTINUAR
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
+    )
+  }
+
+  // --- PROCESSING ---
+  if (zgStep === 'processing') {
+    return <ZGProcessingView />
+  }
+
+  // --- ERROR ---
+  if (zgStep === 'error') {
+    return (
+      <div className="py-12 text-center space-y-4">
+        <p className="text-now-ivory font-mono">Houve um erro ao gerar o Blueprint.</p>
+        <button
+          onClick={() => finishAssessment(answers)}
+          className="rounded-md bg-now-green px-8 py-3 text-sm font-bold text-black font-mono"
+        >
+          TENTAR NOVAMENTE
+        </button>
+      </div>
+    )
+  }
+
+  // --- RESULT (Blueprint) ---
+  if (zgStep === 'result' && blueprint) {
+    return (
+      <div className="space-y-6">
+        <div className="bg-now-green/5 border border-now-green/20 rounded-lg p-4 text-center">
+          <p className="text-now-green font-mono font-bold text-sm">BLUEPRINT GERADO</p>
+          <h3 className="text-now-ivory text-xl font-bold mt-1">{zgName}</h3>
+          <p className="text-now-green/40 text-xs font-mono mt-1">
+            Gerado em {new Date().toLocaleDateString('pt-PT')}
+          </p>
+        </div>
+
+        {/* Blueprint Markdown */}
+        <div className="blueprint-md" dangerouslySetInnerHTML={{ __html: simpleMarkdown(blueprint) }} />
+
+        <div className="flex gap-3">
+          <button
+            onClick={() => window.print()}
+            className="flex-1 py-3 border border-now-green/30 text-now-green font-mono text-sm rounded-lg hover:bg-now-green/10 transition"
+          >
+            GUARDAR / IMPRIMIR
+          </button>
+          <button
+            onClick={onComplete}
+            className="flex-1 py-3 bg-now-green text-now-obsidian font-mono font-bold text-sm rounded-lg hover:bg-now-green/90 transition"
+          >
+            PRÓXIMO MÓDULO →
+          </button>
+        </div>
+      </div>
+    )
+  }
+
+  return null
+}
+
+// Processamento animado
+function ZGProcessingView() {
+  const steps = [
+    'A analisar as tuas respostas...',
+    'Gay Hendricks — Zona de Genialidade...',
+    'Don Clifton — Mapa de Talentos...',
+    'Dan Sullivan — Habilidade Única...',
+    'Roger Hamilton — Perfil de Riqueza...',
+    'Alex Hormozi — Plano de Monetização...',
+    'Kathy Kolbe — Estilo de Execução...',
+    'Sally Hogshead — Posicionamento...',
+    'A cruzar os 7 frameworks...',
+    'A gerar o teu Blueprint...',
+  ]
+  const [stepIdx, setStepIdx] = useState(0)
+  const [progress, setProgress] = useState(0)
+
+  useEffect(() => {
+    const si = setInterval(() => setStepIdx((p) => p < steps.length - 1 ? p + 1 : p), 1500)
+    const pi = setInterval(() => setProgress((p) => p < 95 ? p + 1 : p), 150)
+    return () => { clearInterval(si); clearInterval(pi) }
+  }, [steps.length])
+
+  return (
+    <div className="py-12 text-center space-y-6">
+      <div className="h-10 w-10 mx-auto animate-spin rounded-full border-2 border-now-green/20 border-t-now-green" />
+      <h3 className="text-now-green font-mono font-bold">A GERAR O TEU BLUEPRINT</h3>
+      <div className="h-32 overflow-hidden font-mono text-sm">
+        {steps.slice(0, stepIdx + 1).map((s, i) => (
+          <p key={i} className={`transition-opacity duration-500 ${i === stepIdx ? 'text-now-green' : 'text-now-green/20'}`}>
+            &gt; {s}
+          </p>
+        ))}
+      </div>
+      <div className="w-48 mx-auto">
+        <div className="h-1.5 w-full overflow-hidden rounded-full bg-now-green/10">
+          <div className="h-full rounded-full bg-now-green transition-all duration-200" style={{ width: `${progress}%` }} />
+        </div>
+        <p className="mt-2 font-mono text-xs text-now-green/40">{progress}%</p>
+      </div>
+    </div>
+  )
+}
+
+// Markdown simples para o Blueprint
+function simpleMarkdown(md: string): string {
+  return md
+    .replace(/^### (.+)$/gm, '<h3 class="mt-8 mb-3 text-base font-bold text-now-green font-mono border-b border-now-green/10 pb-2">$1</h3>')
+    .replace(/^## (.+)$/gm, '<h2 class="mt-10 mb-3 text-lg font-bold text-now-ivory font-mono">$1</h2>')
+    .replace(/^# (.+)$/gm, '<h1 class="mt-10 mb-4 text-xl font-bold text-now-green font-mono">$1</h1>')
+    .replace(/\*\*(.+?)\*\*/g, '<strong class="text-now-ivory font-semibold">$1</strong>')
+    .replace(/\*(.+?)\*/g, '<em class="text-now-green/70">$1</em>')
+    .replace(/^- (.+)$/gm, '<li class="ml-4 mb-1 text-sm leading-relaxed text-now-ivory/70 list-disc list-inside font-mono">$1</li>')
+    .replace(/^(\d+)\. (.+)$/gm, '<li class="ml-4 mb-1 text-sm leading-relaxed text-now-ivory/70 list-decimal list-inside font-mono">$2</li>')
+    .replace(/^> (.+)$/gm, '<blockquote class="border-l-2 border-now-green pl-4 my-3 text-now-ivory/60 italic text-sm font-mono">$1</blockquote>')
+    .replace(/^---$/gm, '<hr class="my-6 border-now-green/10" />')
+    .replace(/^(?!<[hlubo]|<li|<hr)(.+)$/gm, '<p class="mb-2 text-sm leading-relaxed text-now-ivory/70 font-mono">$1</p>')
+    .replace(/<p class="[^"]*"><\/p>/g, '')
 }
 
 // --- Conteúdo do Módulo 1 ---
@@ -612,7 +1047,9 @@ export default function BlueprintPage() {
 
     switch (index) {
       case 0:
-        return <Module1Content onComplete={() => completeModule(0)} onStepChange={setChatStep} />;
+        return <ZonaGenialidadeContent onComplete={() => completeModule(0)} />;
+      case 1:
+        return <Module1Content onComplete={() => completeModule(1)} onStepChange={setChatStep} />;
       default:
         return (
           <div className="py-12 text-center">
@@ -637,10 +1074,10 @@ export default function BlueprintPage() {
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <div>
             <h1 className="text-now-green font-mono font-bold text-xl tracking-wider">
-              NOW<span className="text-now-green/40">_</span>BLUEPRINT
+              MÉTODO<span className="text-now-green/40">_</span>AGORA
             </h1>
             <p className="text-now-green/30 font-mono text-xs mt-1">
-              Método NOW — De zero a MVP em 48 horas
+              Pacote Completo — €9
             </p>
           </div>
           <div className="flex items-center gap-4">
@@ -737,7 +1174,7 @@ export default function BlueprintPage() {
       <footer className="border-t border-now-green/10 px-6 py-4 mt-8">
         <div className="max-w-7xl mx-auto text-center">
           <p className="text-now-green/20 font-mono text-xs">
-            Método NOW — A revolução não espera. Stay awake.
+            Método Agora — A revolução não espera.
           </p>
         </div>
       </footer>
