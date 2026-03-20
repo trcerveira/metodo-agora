@@ -87,6 +87,9 @@ export default function AssessmentPage() {
   const finishAssessment = async (finalAnswers: Record<string, string | string[]>) => {
     transition(() => setStep('processing'))
 
+    const controller = new AbortController()
+    const timeout = setTimeout(() => controller.abort(), 90000) // 90s timeout
+
     try {
       const result = calculateAssessmentResults(finalAnswers)
       const formattedScores = formatScoresForPrompt(result)
@@ -95,35 +98,69 @@ export default function AssessmentPage() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name, formattedScores }),
+        signal: controller.signal,
       })
 
-      if (!res.ok) throw new Error('Erro na API')
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({ error: 'Erro na API' }))
+        throw new Error(err.error || 'Erro na API')
+      }
 
-      const data = await res.json()
+      const saveBlueprintData = (text: string) => {
+        localStorage.setItem(
+          'blueprint_data',
+          JSON.stringify({
+            name,
+            blueprint: text,
+            result: {
+              zone: result.zone,
+              zoneTitle: result.zoneTitle,
+              archetype: result.archetype,
+              strengthsDomain: result.strengthsDomain,
+              wealthProfile: result.wealthProfile,
+              kolbeDominant: result.kolbeDominant,
+              consistency: result.consistency,
+            },
+            timestamp: new Date().toISOString(),
+          })
+        )
+      }
 
-      // Guardar no localStorage para a página de resultado
-      localStorage.setItem(
-        'blueprint_data',
-        JSON.stringify({
-          name,
-          blueprint: data.blueprint,
-          result: {
-            zone: result.zone,
-            zoneTitle: result.zoneTitle,
-            archetype: result.archetype,
-            strengthsDomain: result.strengthsDomain,
-            wealthProfile: result.wealthProfile,
-            kolbeDominant: result.kolbeDominant,
-            consistency: result.consistency,
-          },
-          timestamp: new Date().toISOString(),
-        })
-      )
+      // Ler o stream correctamente (a API retorna streaming de texto, não JSON)
+      const reader = res.body?.getReader()
 
+      if (!reader) {
+        // Fallback para browsers sem ReadableStream (iOS Safari < 16.4)
+        const fullText = await res.text()
+        saveBlueprintData(fullText)
+        window.location.href = '/resultado'
+        return
+      }
+
+      const decoder = new TextDecoder()
+      let fullText = ''
+
+      try {
+        while (true) {
+          const { done, value } = await reader.read()
+          if (done) break
+          fullText += decoder.decode(value, { stream: true })
+        }
+      } finally {
+        reader.releaseLock()
+      }
+
+      saveBlueprintData(fullText)
       window.location.href = '/resultado'
-    } catch {
-      setErrorMsg('Houve um erro ao gerar o teu Blueprint. Tenta novamente.')
+    } catch (err) {
+      if (err instanceof Error && err.name === 'AbortError') {
+        setErrorMsg('A geração demorou demasiado. Verifica a tua ligação e tenta novamente.')
+      } else {
+        setErrorMsg('Houve um erro ao gerar o teu Blueprint. Tenta novamente.')
+      }
       setStep('error')
+    } finally {
+      clearTimeout(timeout)
     }
   }
 
