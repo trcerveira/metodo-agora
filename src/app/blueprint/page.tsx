@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import {
   sections as assessmentSections,
   getAllQuestions,
@@ -395,20 +395,32 @@ function ZonaGenialidadeContent({ onComplete }: { onComplete: () => void }) {
   const [qi, setQi] = useState(0)
   const [answers, setAnswers] = useState<Record<string, string | string[]>>({})
   const [blueprint, setBlueprint] = useState<string | null>(null)
+  const [streamComplete, setStreamComplete] = useState(false)
   const [fade, setFade] = useState(true)
+  const abortRef = useRef<AbortController | null>(null)
 
   const allQuestions = getAllQuestions()
   const totalQuestions = getTotalQuestions()
+
+  // Cancelar stream ao desmontar
+  useEffect(() => {
+    return () => { abortRef.current?.abort() }
+  }, [])
 
   // Verificar se já tem blueprint guardado
   useEffect(() => {
     const saved = localStorage.getItem('blueprint_data')
     if (saved) {
-      const parsed = JSON.parse(saved)
-      if (parsed.blueprint) {
-        setBlueprint(parsed.blueprint)
-        setZgName(parsed.name || '')
-        setZgStep('result')
+      try {
+        const parsed = JSON.parse(saved)
+        if (parsed.blueprint) {
+          setBlueprint(parsed.blueprint)
+          setZgName(parsed.name || '')
+          setStreamComplete(true)
+          setZgStep('result')
+        }
+      } catch {
+        localStorage.removeItem('blueprint_data')
       }
     }
   }, [])
@@ -467,6 +479,14 @@ function ZonaGenialidadeContent({ onComplete }: { onComplete: () => void }) {
 
   const finishAssessment = async (finalAnswers: Record<string, string | string[]>) => {
     setZgStep('processing')
+    setStreamComplete(false)
+
+    // Cancelar stream anterior se existir
+    abortRef.current?.abort()
+    const controller = new AbortController()
+    abortRef.current = controller
+    const timeoutId = setTimeout(() => controller.abort(), 90_000)
+
     try {
       const result = calculateAssessmentResults(finalAnswers)
       const formattedScores = formatScoresForPrompt(result)
@@ -474,32 +494,57 @@ function ZonaGenialidadeContent({ onComplete }: { onComplete: () => void }) {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name: zgName, formattedScores }),
+        signal: controller.signal,
       })
-      if (!res.ok) throw new Error('Erro na API')
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({ error: 'Erro na API' }))
+        throw new Error(err.error || 'Erro na API')
+      }
 
       const reader = res.body?.getReader()
-      if (!reader) throw new Error('Stream indisponível')
+
+      const saveBlueprint = (text: string) => {
+        localStorage.setItem('blueprint_data', JSON.stringify({
+          name: zgName, blueprint: text,
+          result: { zone: result.zone, zoneTitle: result.zoneTitle, archetype: result.archetype, consistency: result.consistency },
+          timestamp: new Date().toISOString(),
+        }))
+      }
+
+      if (!reader) {
+        // Fallback para browsers sem ReadableStream (iOS Safari < 16.4)
+        const fullText = await res.text()
+        setBlueprint(fullText)
+        setZgStep('result')
+        setStreamComplete(true)
+        saveBlueprint(fullText)
+        return
+      }
 
       const decoder = new TextDecoder()
       let fullText = ''
       setBlueprint('')
       setZgStep('result')
 
-      while (true) {
-        const { done, value } = await reader.read()
-        if (done) break
-        const chunk = decoder.decode(value, { stream: true })
-        fullText += chunk
-        setBlueprint(fullText)
+      try {
+        while (true) {
+          const { done, value } = await reader.read()
+          if (done) break
+          const chunk = decoder.decode(value, { stream: true })
+          fullText += chunk
+          setBlueprint(fullText)
+        }
+      } finally {
+        reader.releaseLock()
       }
 
-      localStorage.setItem('blueprint_data', JSON.stringify({
-        name: zgName, blueprint: fullText,
-        result: { zone: result.zone, zoneTitle: result.zoneTitle, archetype: result.archetype, consistency: result.consistency },
-        timestamp: new Date().toISOString(),
-      }))
-    } catch {
+      setStreamComplete(true)
+      saveBlueprint(fullText)
+    } catch (err) {
+      if (err instanceof Error && err.name === 'AbortError') return
       setZgStep('error')
+    } finally {
+      clearTimeout(timeoutId)
     }
   }
 
@@ -721,7 +766,7 @@ function ZonaGenialidadeContent({ onComplete }: { onComplete: () => void }) {
 
   // --- RESULT (Blueprint) ---
   if (zgStep === 'result' && blueprint !== null) {
-    const streamDone = blueprint.length > 0 && !!localStorage.getItem('blueprint_data')
+    const done = streamComplete
     return (
       <div className="space-y-6">
         <div className="bg-now-green/5 border border-now-green/20 rounded-lg p-4 text-center">
@@ -742,7 +787,7 @@ function ZonaGenialidadeContent({ onComplete }: { onComplete: () => void }) {
         )}
 
         {/* Indicador de streaming */}
-        {!streamDone && blueprint.length > 0 && (
+        {!done && blueprint.length > 0 && (
           <div className="flex items-center gap-2 py-2">
             <div className="h-3 w-3 animate-spin rounded-full border border-now-green/20 border-t-now-green" />
             <p className="text-now-green/40 font-mono text-xs">a escrever...</p>
@@ -750,7 +795,7 @@ function ZonaGenialidadeContent({ onComplete }: { onComplete: () => void }) {
         )}
 
         {/* CTA e botões só aparecem quando o stream acabou */}
-        {streamDone && (
+        {done && (
           <>
             {/* Divisor */}
             <div className="my-10 border-t border-now-green/10" />
@@ -844,9 +889,29 @@ function ZGProcessingView() {
   )
 }
 
-// Markdown simples para o Blueprint
+// Escape HTML para prevenir XSS
+function escapeHtml(text: string): string {
+  return text
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+}
+
+// Sanitização final — remove qualquer tag HTML que não esteja na whitelist
+function sanitizeHtml(html: string): string {
+  const allowedTags = ['h1', 'h2', 'h3', 'p', 'strong', 'em', 'li', 'blockquote', 'hr']
+  return html.replace(/<\/?([a-zA-Z][a-zA-Z0-9]*)\b[^>]*\/?>/g, (match, tag) => {
+    return allowedTags.includes(tag.toLowerCase()) ? match : ''
+  })
+}
+
+// Markdown simples para o Blueprint (com sanitização)
 function simpleMarkdown(md: string): string {
-  return md
+  // 1. Escapar HTML primeiro (previne XSS de output do LLM)
+  const safe = escapeHtml(md)
+  // 2. Converter markdown para HTML seguro
+  const html = safe
     .replace(/^### (.+)$/gm, '<h3 class="mt-8 mb-3 text-base font-bold text-now-green font-mono border-b border-now-green/10 pb-2">$1</h3>')
     .replace(/^## (.+)$/gm, '<h2 class="mt-10 mb-3 text-lg font-bold text-now-ivory font-mono">$1</h2>')
     .replace(/^# (.+)$/gm, '<h1 class="mt-10 mb-4 text-xl font-bold text-now-green font-mono">$1</h1>')
@@ -854,10 +919,12 @@ function simpleMarkdown(md: string): string {
     .replace(/\*(.+?)\*/g, '<em class="text-now-green/70">$1</em>')
     .replace(/^- (.+)$/gm, '<li class="ml-4 mb-1 text-sm leading-relaxed text-now-ivory/70 list-disc list-inside font-mono">$1</li>')
     .replace(/^(\d+)\. (.+)$/gm, '<li class="ml-4 mb-1 text-sm leading-relaxed text-now-ivory/70 list-decimal list-inside font-mono">$2</li>')
-    .replace(/^> (.+)$/gm, '<blockquote class="border-l-2 border-now-green pl-4 my-3 text-now-ivory/60 italic text-sm font-mono">$1</blockquote>')
+    .replace(/^&gt; (.+)$/gm, '<blockquote class="border-l-2 border-now-green pl-4 my-3 text-now-ivory/60 italic text-sm font-mono">$1</blockquote>')
     .replace(/^---$/gm, '<hr class="my-6 border-now-green/10" />')
     .replace(/^(?!<[hlubo]|<li|<hr)(.+)$/gm, '<p class="mb-2 text-sm leading-relaxed text-now-ivory/70 font-mono">$1</p>')
     .replace(/<p class="[^"]*"><\/p>/g, '')
+  // 3. Sanitizar — remover tags não permitidas
+  return sanitizeHtml(html)
 }
 
 // --- Conteúdo do Módulo 1 ---

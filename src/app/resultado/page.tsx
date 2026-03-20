@@ -24,7 +24,11 @@ export default function ResultadoPage() {
   useEffect(() => {
     const stored = localStorage.getItem('blueprint_data')
     if (stored) {
-      setData(JSON.parse(stored))
+      try {
+        setData(JSON.parse(stored))
+      } catch {
+        localStorage.removeItem('blueprint_data')
+      }
     }
     setLoading(false)
   }, [])
@@ -152,28 +156,36 @@ function MarkdownRenderer({ content }: { content: string }) {
   )
 }
 
+function escapeHtml(text: string): string {
+  return text
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+}
+
+// Sanitização final — remove qualquer tag HTML que não esteja na whitelist
+function sanitizeHtml(html: string): string {
+  const allowedTags = ['h1', 'h2', 'h3', 'p', 'strong', 'em', 'li', 'blockquote', 'hr']
+  return html.replace(/<\/?([a-zA-Z][a-zA-Z0-9]*)\b[^>]*\/?>/g, (match, tag) => {
+    return allowedTags.includes(tag.toLowerCase()) ? match : ''
+  })
+}
+
 function markdownToHtml(md: string): string {
-  let html = md
-    // Headers
+  const safe = escapeHtml(md)
+  const html = safe
     .replace(/^### (.+)$/gm, '<h3 class="mt-10 mb-4 text-lg font-bold text-now-green border-b border-now-green-dim pb-2">$1</h3>')
-    .replace(/^## (.+)$/gm, '<h2 class="mt-12 mb-4 text-xl font-bold text-now-ivory">$2</h2>')
+    .replace(/^## (.+)$/gm, '<h2 class="mt-12 mb-4 text-xl font-bold text-now-ivory">$1</h2>')
     .replace(/^# (.+)$/gm, '<h1 class="mt-12 mb-6 text-2xl font-bold text-now-green">$1</h1>')
-    // Bold
     .replace(/\*\*(.+?)\*\*/g, '<strong class="text-now-ivory font-semibold">$1</strong>')
-    // Italic
     .replace(/\*(.+?)\*/g, '<em class="text-now-green/80">$1</em>')
-    // Unordered lists
     .replace(/^- (.+)$/gm, '<li class="ml-4 mb-1.5 text-sm leading-relaxed text-now-white/80 list-disc list-inside">$1</li>')
-    // Ordered lists
     .replace(/^(\d+)\. (.+)$/gm, '<li class="ml-4 mb-1.5 text-sm leading-relaxed text-now-white/80 list-decimal list-inside">$2</li>')
-    // Blockquotes
-    .replace(/^> (.+)$/gm, '<blockquote class="border-l-2 border-now-green pl-4 my-4 text-now-white/70 italic">$1</blockquote>')
-    // Horizontal rules
+    .replace(/^&gt; (.+)$/gm, '<blockquote class="border-l-2 border-now-green pl-4 my-4 text-now-white/70 italic">$1</blockquote>')
     .replace(/^---$/gm, '<hr class="my-8 border-now-green-dim" />')
-    // Paragraphs (lines that aren't already wrapped)
     .replace(/^(?!<[hlubo]|<li|<hr)(.+)$/gm, '<p class="mb-3 text-sm leading-relaxed text-now-white/80">$1</p>')
-    // Clean up empty paragraphs
     .replace(/<p class="[^"]*"><\/p>/g, '')
 
-  return html
+  return sanitizeHtml(html)
 }
