@@ -46,7 +46,7 @@ const modules = [
     id: "m3",
     number: 3,
     title: "O Terreno",
-    subtitle: "4 comandos de terminal",
+    subtitle: "4 comandos. Ciclo completo. Dominas o terminal.",
     badge: "Operator",
     duration: "15 min",
     output: "Pasta do projecto criada e organizada",
@@ -1137,22 +1137,112 @@ function Module3Content({ onComplete }: { onComplete: () => void }) {
   const allDone = checks.every(Boolean);
   return (
     <div className="space-y-6">
+      {/* Título e subtítulo */}
       <div className="border-l-2 border-now-green pl-4">
-        <p className="text-now-green/60 text-xs font-mono uppercase tracking-wider mb-1">O CICLO DE VIDA DE UMA PASTA</p>
-        <p className="text-now-ivory text-base">4 comandos. Nascimento, vida, exploração e morte. Quando dominares estes, o terminal deixa de ser um ecrã preto assustador e passa a ser a tua ferramenta mais poderosa.</p>
+        <p className="text-now-green/60 text-xs font-mono uppercase tracking-wider mb-1">DO NASCIMENTO À MORTE DE UMA PASTA</p>
+        <p className="text-now-ivory text-base">4 comandos. Ciclo completo. Dominas o terminal.</p>
       </div>
+
+      {/* Nota inicial */}
       <BeginnerNote>
-        <strong className="text-now-green">Antes de começar:</strong> Abre o terminal do teu computador.<br />
+        Não precisas de decorar nada. Precisas de fazer uma vez.<br />
+        Abre o terminal e segue os passos.<br /><br />
+        <strong className="text-now-green">Como abrir o terminal:</strong><br />
         <strong>Mac:</strong> Cmd + Espaço → escreve &quot;Terminal&quot; → Enter.<br />
         <strong>Windows:</strong> Tecla Windows → escreve &quot;PowerShell&quot; → Enter.<br /><br />
         Cada comando abaixo é para escreveres (ou colares) no terminal e carregar <strong>Enter</strong>. O sinal <strong>$</strong> antes do comando é apenas visual — não o escrevas.
       </BeginnerNote>
-      <div><h3 className="text-now-green font-mono font-bold text-sm mb-2">1. NASCIMENTO — mkdir</h3><p className="text-now-ivory/70 text-sm mb-3">Criar uma pasta é dar vida a um projecto. Cada pasta é um universo. Vais escrever um comando que diz ao computador: &quot;cria uma pasta nova com este nome&quot;.</p><TerminalBlock command="mkdir o-meu-projecto" description="Cria uma nova pasta — o nascimento" /><p className="text-now-ivory/40 text-xs mt-2 font-mono">mkdir = &quot;make directory&quot; = criar directório. Escreve isto no terminal e carrega Enter.</p></div>
-      <div><h3 className="text-now-green font-mono font-bold text-sm mb-2">2. VIDA — cd</h3><p className="text-now-ivory/70 text-sm mb-3">Entrar numa pasta é como abrir uma porta. Sair é subir um andar.</p><TerminalBlock command="cd o-meu-projecto" description="Entra na pasta — estás dentro" /><TerminalBlock command="cd .." description="Sobe um nível — volta para trás" /><p className="text-now-ivory/40 text-xs mt-2 font-mono">cd = &quot;change directory&quot;. Os dois pontos (..) significam &quot;a pasta acima&quot;.</p></div>
-      <div><h3 className="text-now-green font-mono font-bold text-sm mb-2">3. EXPLORAÇÃO — ls</h3><p className="text-now-ivory/70 text-sm mb-3">Ver o que está dentro. Olhar à volta. Saber onde estás.</p><TerminalBlock command="ls" description="Lista tudo o que está na pasta actual" /><TerminalBlock command="ls -la" description="Lista TUDO — incluindo ficheiros escondidos" /><p className="text-now-ivory/40 text-xs mt-2 font-mono">ls = &quot;list&quot;. A flag -la mostra ficheiros ocultos e detalhes.</p></div>
-      <div><h3 className="text-now-green font-mono font-bold text-sm mb-2">4. MORTE — rm</h3><p className="text-now-ivory/70 text-sm mb-3">Apagar. Sem caixote do lixo. Poder absoluto requer responsabilidade absoluta.</p><TerminalBlock command="rm ficheiro.txt" description="Apaga um ficheiro — sem volta" /><TerminalBlock command="rm -r pasta-teste" description="Apaga uma pasta e tudo dentro dela" /><div className="mt-2 bg-red-500/5 border border-red-500/20 rounded-lg p-3"><p className="text-red-400 text-xs font-mono">⚠️ Cuidado: rm não tem &quot;undo&quot;. Verifica sempre o que estás a apagar.</p></div></div>
-      <div className="bg-now-green/5 border border-now-green/10 rounded-lg p-4"><p className="text-now-green text-sm font-mono font-bold mb-2">EXERCÍCIO PRÁTICO</p><p className="text-now-ivory/70 text-sm mb-3">Executa estes comandos pela ordem. O ciclo completo.</p><TerminalBlock command="mkdir teste-agora && cd teste-agora && ls" description="1. Nasce + entra + explora" /><TerminalBlock command="mkdir sub-pasta && ls" description="2. Cria algo dentro + verifica" /><TerminalBlock command="cd .. && rm -r teste-agora && ls" description="3. Sai + destrói + confirma" /></div>
-      <div className="border border-now-green/20 rounded-lg p-4 bg-now-terminal"><p className="text-now-green font-mono font-bold text-sm mb-3">✅ CHECKPOINT</p><div className="space-y-1"><Checkpoint text="Criei uma pasta com mkdir" checked={checks[0]} onToggle={() => toggle(0)} /><Checkpoint text="Entrei e saí com cd e cd .." checked={checks[1]} onToggle={() => toggle(1)} /><Checkpoint text="Listei conteúdo com ls" checked={checks[2]} onToggle={() => toggle(2)} /><Checkpoint text="Apaguei a pasta de teste com rm -r" checked={checks[3]} onToggle={() => toggle(3)} /></div></div>
+
+      {/* Comando 1 — mkdir */}
+      <div>
+        <h3 className="text-now-green font-mono font-bold text-sm mb-2">1. NASCIMENTO — mkdir</h3>
+        <p className="text-now-ivory/70 text-sm mb-3">Cria uma pasta. Dás um nome, ela nasce. Simples.</p>
+        <TerminalBlock command="mkdir missao-teste" description="Nascimento. Cria uma pasta chamada missao-teste" />
+        <p className="text-now-ivory/40 text-xs mt-2 font-mono">mkdir = &quot;make directory&quot; = criar pasta. Escreve isto no terminal e carrega Enter.</p>
+      </div>
+
+      {/* Comando 2 — cd */}
+      <div>
+        <h3 className="text-now-green font-mono font-bold text-sm mb-2">2. VIDA — cd</h3>
+        <p className="text-now-ivory/70 text-sm mb-3">Entra na pasta. Como abrir uma porta e entrar na sala.</p>
+        <TerminalBlock command="cd missao-teste" description="Vida. Entra na pasta" />
+        <p className="text-now-ivory/40 text-xs mt-2 font-mono">cd = &quot;change directory&quot; = mudar de pasta. Agora estás dentro de missao-teste.</p>
+      </div>
+
+      {/* Comando 3 — ls */}
+      <div>
+        <h3 className="text-now-green font-mono font-bold text-sm mb-2">3. EXPLORAÇÃO — ls</h3>
+        <p className="text-now-ivory/70 text-sm mb-3">Olha à volta. Vê o que existe dentro da pasta.</p>
+        <TerminalBlock command="ls" description="Exploração. Vê o que está dentro" />
+        <p className="text-now-ivory/40 text-xs mt-2 font-mono">ls = &quot;list&quot; = listar. Mostra todos os ficheiros e pastas que existem ali.</p>
+      </div>
+
+      {/* Comando 4 — rm -rf */}
+      <div>
+        <h3 className="text-now-green font-mono font-bold text-sm mb-2">4. MORTE — rm -rf</h3>
+        <p className="text-now-ivory/70 text-sm mb-3">Apaga tudo. Sem caixote do lixo. Sem volta atrás.</p>
+        <TerminalBlock command="rm -rf missao-teste" description="Morte. Apaga a pasta e tudo dentro dela" />
+        <div className="mt-2 bg-yellow-500/5 border border-yellow-500/20 rounded-lg p-3">
+          <p className="text-yellow-400 text-xs font-mono">🪟 <strong>Windows (PowerShell):</strong> Em vez de rm -rf, usa: <code className="bg-now-obsidian px-1 rounded">rmdir /s /q missao-teste</code></p>
+        </div>
+        <div className="mt-2 bg-red-500/5 border border-red-500/20 rounded-lg p-3">
+          <p className="text-red-400 text-xs font-mono">⚠️ Cuidado: rm -rf não tem &quot;undo&quot;. Verifica sempre o que estás a apagar.</p>
+        </div>
+      </div>
+
+      {/* Exercício prático */}
+      <div className="bg-now-green/5 border border-now-green/10 rounded-lg p-4">
+        <p className="text-now-green text-sm font-mono font-bold mb-2">EXERCÍCIO PRÁTICO — PASSO A PASSO</p>
+        <p className="text-now-ivory/70 text-sm mb-4">Executa cada comando, um de cada vez, pela ordem. Não saltes nenhum.</p>
+        <div className="space-y-3">
+          <div>
+            <p className="text-now-ivory/50 text-xs font-mono mb-1">Passo 1 — Cria a pasta</p>
+            <TerminalBlock command="mkdir missao-teste" description="Cria a pasta missao-teste" />
+          </div>
+          <div>
+            <p className="text-now-ivory/50 text-xs font-mono mb-1">Passo 2 — Entra na pasta</p>
+            <TerminalBlock command="cd missao-teste" description="Entra dentro da pasta" />
+          </div>
+          <div>
+            <p className="text-now-ivory/50 text-xs font-mono mb-1">Passo 3 — Vê o que está dentro (está vazia)</p>
+            <TerminalBlock command="ls" description="Lista o conteúdo — não deve aparecer nada" />
+          </div>
+          <div>
+            <p className="text-now-ivory/50 text-xs font-mono mb-1">Passo 4 — Cria um ficheiro</p>
+            <TerminalBlock command="touch notas.md" description="Cria um ficheiro vazio chamado notas.md" />
+            <div className="mt-1 bg-yellow-500/5 border border-yellow-500/20 rounded-lg p-2">
+              <p className="text-yellow-400 text-xs font-mono">🪟 <strong>Windows (PowerShell):</strong> Em vez de touch, usa: <code className="bg-now-obsidian px-1 rounded">New-Item notas.md</code></p>
+            </div>
+          </div>
+          <div>
+            <p className="text-now-ivory/50 text-xs font-mono mb-1">Passo 5 — Vê outra vez (agora tem ficheiro!)</p>
+            <TerminalBlock command="ls" description="Lista o conteúdo — agora aparece notas.md" />
+          </div>
+          <div>
+            <p className="text-now-ivory/50 text-xs font-mono mb-1">Passo 6 — Sai da pasta</p>
+            <TerminalBlock command="cd .." description="Sobe um nível — volta para a pasta anterior" />
+          </div>
+          <div>
+            <p className="text-now-ivory/50 text-xs font-mono mb-1">Passo 7 — Apaga tudo</p>
+            <TerminalBlock command="rm -rf missao-teste" description="Apaga a pasta e tudo dentro dela" />
+            <div className="mt-1 bg-yellow-500/5 border border-yellow-500/20 rounded-lg p-2">
+              <p className="text-yellow-400 text-xs font-mono">🪟 <strong>Windows:</strong> <code className="bg-now-obsidian px-1 rounded">rmdir /s /q missao-teste</code></p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Checkpoint */}
+      <div className="border border-now-green/20 rounded-lg p-4 bg-now-terminal">
+        <p className="text-now-green font-mono font-bold text-sm mb-3">✅ CHECKPOINT</p>
+        <div className="space-y-1">
+          <Checkpoint text="Criar pasta ✅" checked={checks[0]} onToggle={() => toggle(0)} />
+          <Checkpoint text="Entrar e sair ✅" checked={checks[1]} onToggle={() => toggle(1)} />
+          <Checkpoint text="Ver conteúdo ✅" checked={checks[2]} onToggle={() => toggle(2)} />
+          <Checkpoint text="Apagar ✅" checked={checks[3]} onToggle={() => toggle(3)} />
+        </div>
+      </div>
+
       {allDone && <button onClick={onComplete} className="w-full py-4 bg-now-green text-now-obsidian font-mono font-bold text-lg rounded-lg hover:bg-now-green/90 transition-all animate-pulse">Próximo Módulo →</button>}
       {!allDone && <p className="text-center text-now-green/30 text-xs font-mono py-4">Completa o checkpoint para desbloquear o próximo módulo</p>}
     </div>
