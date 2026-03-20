@@ -1042,41 +1042,88 @@ function PromptCard({ title, description, prompt, icon }: { title: string; descr
   );
 }
 
-// --- M2 — 5 coisas em 10 minutos ---
+// --- M2 — Efeito "Eh Lá" ---
 function Module2Content({ onComplete }: { onComplete: () => void }) {
   const [done, setDone] = useState<boolean[]>([false, false, false, false, false]);
   const toggle = (i: number) => { const u = [...done]; u[i] = !u[i]; setDone(u); };
   const allDone = done.every(Boolean);
   const prompts = [
-    { icon: '🌐', title: 'Landing Page', description: 'Uma página profissional em segundos', prompt: 'Cria uma landing page moderna para o meu projecto. Nome: [o teu projecto]. É um [descreve em 1 frase]. Usa design escuro com acentos verdes. Inclui: hero section com headline forte, 3 benefícios, secção de preço, e um botão de CTA. Tudo num só ficheiro HTML com CSS inline.' },
-    { icon: '📊', title: 'Análise de Mercado', description: 'Percebe o terreno antes de construir', prompt: 'Analisa o mercado para: [descreve o teu produto/serviço]. Quero saber: 1) Quem é o público-alvo (perfil demográfico e psicográfico), 2) Quem são os 5 principais concorrentes e o que fazem bem/mal, 3) Qual o tamanho estimado do mercado, 4) Qual a oportunidade que ainda não está a ser explorada. Formato: relatório executivo com bullets.' },
-    { icon: '💳', title: 'Cartão Digital', description: 'O teu cartão de visita do futuro', prompt: 'Cria um cartão de visita digital em HTML. Nome: [o teu nome]. Título: [o que fazes]. Inclui: foto placeholder, links para LinkedIn, email e WhatsApp, uma frase de posicionamento, e um botão "Guardar Contacto". Design minimalista escuro. Deve funcionar como página web standalone.' },
-    { icon: '❓', title: 'Quiz Interactivo', description: 'Captura leads com inteligência', prompt: 'Cria um quiz interactivo em HTML + JavaScript. Tema: "[o teu nicho] — Qual é o teu nível?". 5 perguntas de escolha múltipla. No final mostra o resultado (Iniciante/Intermédio/Avançado) com uma descrição personalizada e um campo para capturar o email. Design atrativo com transições suaves.' },
-    { icon: '📈', title: 'Dashboard', description: 'Visualiza dados como um pro', prompt: 'Cria um dashboard HTML com dados fictícios para um negócio de [o teu nicho]. Inclui: 4 cards de métricas no topo (receita, clientes, conversão, crescimento), 1 gráfico de barras de receita mensal (usa CSS puro, sem bibliotecas), e uma tabela com os últimos 5 clientes. Design escuro profissional.' },
+    { icon: '🌐', title: 'Landing Page do Teu Projecto', description: 'Uma página profissional criada em segundos — sem saber programar.',
+      prompt: 'Lê o meu CLAUDE.md e cria uma landing page profissional para o meu projecto. Um ficheiro HTML. Hero section, 3 benefícios, CTA. Visual moderno dark mode. Responsivo. Abre no browser.' },
+    { icon: '📊', title: 'Análise de Mercado', description: 'Percebe quem são os teus concorrentes e onde está a oportunidade.',
+      prompt: 'Analisa o mercado para [a minha ideia]. Quem são os concorrentes? Qual é o gap? Qual é a oportunidade? Apresenta numa tabela clara.' },
+    { icon: '📋', title: 'Plano de Negócio Rápido', description: 'O essencial do teu negócio numa única página.',
+      prompt: 'Cria um plano de negócio de 1 página para [a minha ideia]. Problema, solução, público-alvo, modelo de receita, diferenciadores, próximos passos.' },
+    { icon: '🐍', title: 'Jogo da Cobra', description: 'Sim, um jogo completo. Em segundos. Para veres o poder disto.',
+      prompt: 'Cria um jogo Snake completo num ficheiro HTML. Canvas, setas do teclado, pontuação, game over com restart. Visual dark mode neon. Abre no browser.' },
+    { icon: '📈', title: 'Dashboard Pessoal', description: 'Relógio, tarefas, bloco de notas — tudo num ficheiro.',
+      prompt: 'Cria um dashboard pessoal num ficheiro HTML. Relógio em tempo real, lista de tarefas com checkbox que guarda em localStorage, bloco de notas, data de hoje. Dark mode. Abre no browser.' },
   ];
   return (
     <div className="space-y-6">
+      {/* Header */}
       <div className="border-l-2 border-now-green pl-4">
-        <p className="text-now-green/60 text-xs font-mono uppercase tracking-wider mb-1">O MOMENTO &quot;EH LÁ&quot;</p>
-        <p className="text-now-ivory text-base">5 coisas que normalmente levam horas ou dias — tu vais fazê-las em 10 minutos. Copia o prompt, cola no Claude Code, e vê a magia acontecer.</p>
+        <p className="text-now-green/60 text-xs font-mono uppercase tracking-wider mb-1">EFEITO &quot;EH LÁ&quot;</p>
+        <h3 className="text-now-ivory text-lg font-bold">5 Coisas que Podes Construir em 10 Minutos</h3>
+        <p className="text-now-ivory/60 text-sm mt-1">Claude Code instalado? Copia o prompt, cola no terminal, vê a magia.</p>
       </div>
+
+      {/* Nota inicial para iniciantes */}
       <BeginnerNote>
-        <strong className="text-now-green">Precisas do Claude Code aberto para este módulo.</strong> Se ainda não o instalaste, volta ao M1 primeiro.<br /><br />
-        Abre o terminal (Mac: Cmd+Espaço → &quot;Terminal&quot; / Windows: tecla Windows → &quot;PowerShell&quot;), navega até à pasta do teu projecto com <strong>cd o-meu-projecto</strong>, e escreve <strong>claude</strong> para abrir o Claude Code.
+        <strong className="text-now-green">Tens de estar dentro do Claude Code</strong> (cursor a piscar). Se não estás:<br /><br />
+        1. Abre o terminal (<strong>Mac:</strong> Cmd+Espaço → escreve &quot;Terminal&quot; → Enter / <strong>Windows:</strong> tecla Windows → escreve &quot;PowerShell&quot; → Enter)<br />
+        2. Escreve <strong>cd o-meu-projecto</strong> e carrega Enter (para entrar na pasta do projecto)<br />
+        3. Escreve <strong>claude</strong> e carrega Enter<br />
+        4. Quando vires o cursor a piscar — estás dentro. Pronto para começar.
       </BeginnerNote>
+
+      {/* Como funciona */}
       <div className="bg-now-green/5 border border-now-green/10 rounded-lg p-4">
-        <p className="text-now-green text-sm font-mono font-bold mb-1">COMO FUNCIONA</p>
-        <p className="text-now-ivory/70 text-sm">1. Clica em <strong className="text-now-green">Copiar prompt</strong> (o botão verde em cada card)<br />2. Vai ao Claude Code e carrega <strong>Ctrl+V</strong> (ou Cmd+V no Mac) para colar<br />3. Carrega <strong>Enter</strong> — e espera a magia<br />4. Marca como feito</p>
+        <p className="text-now-green text-sm font-mono font-bold mb-2">COMO FUNCIONA</p>
+        <p className="text-now-ivory/70 text-sm leading-relaxed">
+          1. Carrega no botão verde <strong className="text-now-green">Copiar prompt</strong> em cada card abaixo<br />
+          2. Vai ao terminal onde tens o Claude Code aberto<br />
+          3. Cola o prompt: <strong>Ctrl+V</strong> (Windows) ou <strong>Cmd+V</strong> (Mac)<br />
+          4. Carrega <strong>Enter</strong> — o Claude vai criar tudo sozinho<br />
+          5. Espera uns segundos e vê a magia acontecer<br />
+          6. Quando terminar, marca como feito
+        </p>
       </div>
-      <div className="space-y-4">
+
+      {/* Nota sobre placeholders */}
+      <BeginnerNote>
+        Alguns prompts têm <strong className="text-now-green">[texto entre parênteses rectos]</strong>. Substitui essas partes pela tua informação antes de colar. Exemplo: onde diz &quot;[a minha ideia]&quot; escreve a tua ideia real, tipo &quot;uma app de receitas saudáveis&quot;.
+      </BeginnerNote>
+
+      {/* Cards */}
+      <div className="space-y-5">
         {prompts.map((p, i) => (
-          <div key={i}><PromptCard {...p} /><div className="mt-2"><Checkpoint text={`${p.title} — feito`} checked={done[i]} onToggle={() => toggle(i)} /></div></div>
+          <div key={i}>
+            <PromptCard {...p} />
+            {i === 0 && (
+              <BeginnerNote>
+                Cola o prompt no terminal onde o cursor está a piscar e carrega Enter. O Claude vai criar o ficheiro, e se tudo correr bem, abre-o automaticamente no browser. Se não abrir, ele diz-te o nome do ficheiro — abre-o tu mesmo clicando duas vezes nele.
+              </BeginnerNote>
+            )}
+            <div className="mt-2">
+              <Checkpoint text={`${p.title} — feito`} checked={done[i]} onToggle={() => toggle(i)} />
+            </div>
+          </div>
         ))}
       </div>
+
+      {/* Output */}
       <div className="bg-now-green/5 border border-now-green/20 rounded-lg p-4">
         <p className="text-now-green font-mono font-bold text-sm mb-2">🔥 O TEU OUTPUT</p>
-        <p className="text-now-ivory text-sm">5 projectos reais, criados em minutos. Um freelancer cobraria <span className="text-now-green font-bold">€500+</span> por isto. Tu fizeste enquanto bebes o café.</p>
+        <p className="text-now-ivory text-sm">
+          5 coisas reais, criadas em minutos. Uma landing page. Uma análise de mercado. Um plano de negócio. Um jogo. Um dashboard. Tudo feito por ti — com um assistente que nunca dorme.
+        </p>
+        <p className="text-now-ivory/40 text-xs mt-2 italic">
+          Isto é o momento em que percebes que o jogo mudou.
+        </p>
       </div>
+
+      {/* Avançar */}
       {allDone && <button onClick={onComplete} className="w-full py-4 bg-now-green text-now-obsidian font-mono font-bold text-lg rounded-lg hover:bg-now-green/90 transition-all animate-pulse">Próximo Módulo →</button>}
       {!allDone && <p className="text-center text-now-green/30 text-xs font-mono py-4">Completa os 5 para desbloquear o próximo módulo</p>}
     </div>
