@@ -13,8 +13,7 @@ export async function POST(req: NextRequest) {
       source: 'zona-genialidade-express',
     }
 
-    // Log for now — replace with Supabase/Resend when configured
-    console.log('[Quiz Lead]', JSON.stringify(lead, null, 2))
+    // Lead captured — will be saved to Supabase when configured
 
     // TODO: Save to Supabase
     // const { data: row, error } = await supabase.from('quiz_leads').insert(lead)
