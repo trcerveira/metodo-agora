@@ -65,7 +65,7 @@ export default function ComprarPage() {
 
         {/* CTA principal */}
         <a
-          href="/assessment"
+          href="/blueprint"
           className="mb-10 block w-full rounded-lg bg-now-green py-4 text-center text-base font-bold text-black transition hover:shadow-[0_0_20px_rgba(191,214,75,0.4)]"
         >
           PRÓXIMO PASSO
