@@ -439,13 +439,20 @@ function ResultScreen({
       {/* Divisor */}
       <div className="mb-8 border-t border-now-green-dim" />
 
+      {/* Hook — o estalo */}
+      <div className="mb-8 rounded-lg border border-yellow-400/30 bg-yellow-400/5 p-6 text-center">
+        <p className="text-lg font-bold text-yellow-400">
+          {result.zoneHook}
+        </p>
+      </div>
+
       {/* Teaser — o que falta */}
       <div className="mb-6">
         <h3 className="mb-2 text-base font-bold text-now-white">
           Isto foram 3 de 7 frameworks.
         </h3>
         <p className="mb-1 text-sm text-now-white/60">
-          Acabaste de ver uma amostra. O pacote completo inclui:
+          O que viste é apenas a superfície. Faltam-te 4 frameworks críticos — incluindo o padrão oculto que sabota o teu crescimento.
         </p>
       </div>
 

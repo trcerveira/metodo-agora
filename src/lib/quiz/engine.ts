@@ -10,6 +10,7 @@ export interface QuizResult {
   zone: Zone
   zoneTitle: string
   zoneDescription: string
+  zoneHook: string
   strengthsDomain: StrengthsDomain
   strengthsTitle: string
   strengthsDescription: string
@@ -22,21 +23,24 @@ export interface QuizResult {
 
 // --- Descrições ---
 
-const ZONE_DATA: Record<Zone, { title: string; description: string }> = {
+const ZONE_DATA: Record<Zone, { title: string; description: string; hook: string }> = {
   genius: {
     title: 'Zona de Genialidade',
     description:
-      'Estás a operar onde o talento natural, a paixão profunda e a energia infinita se encontram. As tuas respostas mostram um forte alinhamento entre o que te dá energia, aquilo em que és naturalmente excelente, e como os outros te veem. É aqui que a magia acontece — protege esta zona a todo o custo.',
+      'As tuas respostas mostram forte alinhamento entre talento, energia e paixão. Mas atenção — 87% das pessoas nesta zona acabam por sabotá-la inconscientemente. Chama-se Upper Limit Problem: quanto mais perto estás do teu potencial, mais o teu cérebro inventa formas de te puxar para baixo. Estás a proteger esta zona — ou a sabotá-la sem saber?',
+    hook: 'Estás na zona certa. Mas estás a sabotá-la sem saber?',
   },
   excellence: {
     title: 'Zona de Excelência',
     description:
-      'Estás a fazer trabalho em que és EXCELENTE — mas que não te acende verdadeiramente por dentro. Os outros recompensam-te e validam-te aqui, o que torna difícil sair. Mas a tua verdadeira genialidade está numa direção ligeiramente diferente. O assessment completo de 43 perguntas vai revelar exatamente onde.',
+      'Estás a fazer trabalho em que és EXCELENTE — mas que não te acende verdadeiramente por dentro. Os outros recompensam-te e validam-te aqui, o que torna difícil sair. É a armadilha mais perigosa: ser tão bom em algo que nunca chegas ao que és GENIAL. A tua genialidade está numa direção diferente — e os 7 frameworks completos revelam exatamente qual.',
+    hook: 'És excelente. Mas excelente não é genial.',
   },
   competence: {
     title: 'Zona de Descoberta',
     description:
-      'Tens interesses e capacidades diversas — o que é poderoso, não fraco. As tuas respostas sugerem que ainda não encaixaste na tua zona de genialidade singular. A análise completa dos 7 frameworks vai mapear o caminho exato desde onde estás até onde a tua genialidade vive.',
+      'Tens interesses e capacidades diversas — o que é poderoso, não fraco. Mas sem foco, essa diversidade dispersa-te em vez de te servir. As tuas respostas mostram que ainda não encaixaste na tua zona de genialidade singular. A análise completa dos 7 frameworks vai mapear o caminho exato desde onde estás até onde a tua genialidade vive.',
+    hook: 'Tens potencial espalhado. Precisas de foco.',
   },
 }
 
@@ -166,6 +170,7 @@ export function calculateResults(answers: Record<string, string>): QuizResult {
     zone,
     zoneTitle: zoneInfo.title,
     zoneDescription: zoneInfo.description,
+    zoneHook: zoneInfo.hook,
     strengthsDomain: topStrength,
     strengthsTitle: strengthInfo.title,
     strengthsDescription: strengthInfo.description,
