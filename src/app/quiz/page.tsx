@@ -480,17 +480,14 @@ function ResultScreen({
       </div>
 
       {/* CTA principal */}
-      <div className="mb-4">
+      <div className="mb-12">
         <a
-          href="https://buy.stripe.com/eVqdRb9SvcsMbda6Dwa3u00"
+          href="/assessment"
           className="block w-full rounded-lg bg-now-green py-4 text-center text-base font-bold text-black transition hover:shadow-[0_0_20px_rgba(191,214,75,0.4)]"
         >
-          QUERO O PACOTE COMPLETO — €9
+          PRÓXIMO PASSO
         </a>
       </div>
-      <p className="mb-12 text-center text-xs text-now-white/40">
-        Pagamento único · Acesso imediato · Garantia 7 dias
-      </p>
 
       {/* Rodapé */}
       <div className="border-t border-now-green-dim pt-8 text-center">

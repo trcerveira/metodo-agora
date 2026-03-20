@@ -1,12 +1,8 @@
 'use client'
 
 // ============================================================
-// Página de Venda — Método Agora (Low Ticket €9)
-// O botão redireciona para checkout externo (Gumroad/LemonSqueezy)
+// Página — Método Agora
 // ============================================================
-
-// Stripe Payment Link — após pagamento redireciona para /blueprint
-const CHECKOUT_URL = 'https://buy.stripe.com/eVqdRb9SvcsMbda6Dwa3u00'
 
 export default function ComprarPage() {
   return (
@@ -67,30 +63,13 @@ export default function ComprarPage() {
           </ul>
         </div>
 
-        {/* Escassez */}
-        <div className="mb-6 rounded-lg border border-now-green/30 bg-now-green/5 p-4 text-center">
-          <p className="text-sm text-now-white/70">
-            Apenas <strong className="text-now-green">10 vagas</strong> a este preço. Depois sobe.
-          </p>
-        </div>
-
-        {/* Preço + CTA */}
-        <div className="mb-6 text-center">
-          <p className="text-5xl font-bold text-now-green">€9</p>
-          <p className="mt-1 text-xs text-now-white/40">Pagamento único · Acesso imediato · Cartão ou PayPal</p>
-        </div>
-
+        {/* CTA principal */}
         <a
-          href={CHECKOUT_URL}
-          className="mb-4 block w-full rounded-lg bg-now-green py-4 text-center text-base font-bold text-black transition hover:shadow-[0_0_20px_rgba(191,214,75,0.4)]"
+          href="/assessment"
+          className="mb-10 block w-full rounded-lg bg-now-green py-4 text-center text-base font-bold text-black transition hover:shadow-[0_0_20px_rgba(191,214,75,0.4)]"
         >
-          QUERO O PACOTE COMPLETO
+          PRÓXIMO PASSO
         </a>
-
-        {/* Garantia */}
-        <p className="mb-10 text-center text-xs text-now-white/40">
-          Garantia de 7 dias — se não ficares satisfeito, devolvemos o dinheiro. Sem perguntas.
-        </p>
 
         {/* Teaser próximo nível */}
         <div className="mb-8 rounded-lg border border-now-green-dim/50 bg-now-terminal/50 p-4">
