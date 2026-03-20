@@ -1266,24 +1266,17 @@ export default function BlueprintPage() {
     }
 
     switch (index) {
-      case 0:
-        return <ZonaGenialidadeContent onComplete={() => completeModule(0)} />;
-      case 1:
-        return <Module1Content onComplete={() => completeModule(1)} onStepChange={setChatStep} />;
-      default:
-        return (
-          <div className="py-12 text-center">
-            <p className="text-now-green/40 font-mono text-sm mb-4">
-              Módulo em construção
-            </p>
-            <button
-              onClick={() => completeModule(index)}
-              className="px-6 py-2 border border-now-green/30 text-now-green/50 font-mono text-sm rounded-lg hover:bg-now-green/10 transition-colors"
-            >
-              Marcar como completo (dev mode)
-            </button>
-          </div>
-        );
+      case 0: return <ZonaGenialidadeContent onComplete={() => completeModule(0)} />;
+      case 1: return <Module1Content onComplete={() => completeModule(1)} onStepChange={setChatStep} />;
+      case 2: return <Module2Content onComplete={() => completeModule(2)} />;
+      case 3: return <Module3Content onComplete={() => completeModule(3)} />;
+      case 4: return <Module4Content onComplete={() => completeModule(4)} />;
+      case 5: return <Module5Content onComplete={() => completeModule(5)} />;
+      case 6: return <Module6Content onComplete={() => completeModule(6)} />;
+      case 7: return <Module7Content onComplete={() => completeModule(7)} />;
+      case 8: return <Module8Content onComplete={() => completeModule(8)} />;
+      case 9: return <Module9Content onComplete={() => completeModule(9)} />;
+      default: return <ModulePlaceholder mod={mod} />;
     }
   };
 
