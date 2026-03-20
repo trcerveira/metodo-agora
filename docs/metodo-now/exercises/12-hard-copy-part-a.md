@@ -119,7 +119,7 @@ NOW OX: equipa de pescadores que trabalha contigo.
 | "Tenho ideias mas nunca faço" | **"Eu CONSTRUÍ isto. EU"** |
 | "Consumidor de conteúdo" | **"Construtor COM IA"** |
 | "Estou a ficar para trás" | **"Sou Early Adopter"** |
-| "Estou sozinho" | **"Tenho squad. Sou Awakened"** |
+| "Estou sozinho" | **"Tenho squad. Sou Orquestrador"** |
 | "Não sei se consigo" | **"Já lancei. A prova é o produto"** |
 
 Em 1 frase: **De "eu tenho ideias" para "eu lanço ideias."**

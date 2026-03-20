@@ -214,7 +214,7 @@ Estética: terminal verde sobre preto. Sem cara. Texto sobre fundo escuro.
 > 99% está a ver vídeos sobre IA.
 > 1% está a construir COM IA.
 >
-> Esse 1% tem um nome: **Awakened.**
+> Esse 1% tem um nome: **Orquestradores.**
 >
 > Tem um método: **NOW.**
 > Tem uma equipa: **NOW OX.**

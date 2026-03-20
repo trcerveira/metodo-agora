@@ -85,7 +85,7 @@ Aprender a programar. Comprar mais um curso. Contratar freelancer. 6 meses e $5.
 
 **OPÇÃO 3 — A pílula vermelha. Método NOW.**
 
-$29 para começar. 45 minutos para ter o PRD. 48 horas para lançar. A tua equipa de IA pronta. Um lugar entre os primeiros 100 Awakened. O preço mais baixo que alguma vez existirá.
+$29 para começar. 45 minutos para ter o PRD. 48 horas para lançar. A tua equipa de IA pronta. Um lugar entre os primeiros 100 Orquestradores. O preço mais baixo que alguma vez existirá.
 
 A opção 1 custa-te a ideia.
 A opção 2 custa-te tempo e dinheiro.
@@ -99,7 +99,7 @@ Não estás a comprar um produto. Estás a decidir quem és.
 
 A pessoa que tem ideias? Ou a pessoa que LANÇA ideias?
 
-Os primeiros 100 Awakened pagam $29. Depois, sobe.
+Os primeiros 100 Orquestradores pagam $29. Depois, sobe.
 
 Quantos já entraram? Não vou dizer.
 Mas se ainda estás a ler isto, a janela ainda está aberta.
@@ -123,9 +123,9 @@ Mas se ainda estás a ler isto, a janela ainda está aberta.
 ### CTA Principal
 
 > # **Entra NOW — $29**
-> *Primeiros 100 Awakened. Preço sobe sem aviso.*
+> *Primeiros 100 Orquestradores. Preço sobe sem aviso.*
 >
-> Welcome, Awakened. Your mission starts NOW.
+> Bem-vindo, Orquestrador. Your mission starts NOW.
 >
 > *Stay awake.*
 
@@ -137,11 +137,11 @@ Existem dois tipos de pessoas a ler isto agora:
 
 **Os Sonhadores** — Acham interessante. Guardam nos favoritos. "Depois vejo." Voltam ao doom-scrolling. A ideia morre. A Espera vence.
 
-**Os Awakened** — Percebem que é real. Que a janela está aberta. Que $29 e 48h é tudo o que separa "eu tenho ideias" de "eu lanço ideias." E agem. NOW.
+**Os Orquestradores** — Percebem que é real. Que a janela está aberta. Que $29 e 48h é tudo o que separa "eu tenho ideias" de "eu lanço ideias." E agem. NOW.
 
 **De que lado estás?**
 
-**[SOU AWAKENED — ENTRA NOW — $29]**
+**[SOU ORQUESTRADOR — ENTRA NOW — $29]**
 
 ---
 

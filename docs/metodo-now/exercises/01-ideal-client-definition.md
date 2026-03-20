@@ -5,7 +5,7 @@
 
 ## Avatar Principal
 
-**Codename:** The Awakened
+**Codename:** O Orquestrador
 
 > "99% das pessoas estão a dormir enquanto a maior revolução da história acontece. Tu acordaste."
 

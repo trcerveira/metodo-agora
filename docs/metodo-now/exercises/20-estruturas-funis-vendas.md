@@ -32,11 +32,11 @@ V2.0 UPGRADE ($500)
         │
         ▼
 COMUNIDADE TELEGRAM
-(Awakened — só compradores)
+(Orquestradores — só compradores)
         │
         ▼ (futuro)
 MARKETPLACE
-(Awakened vendem squads próprios)
+(Orquestradores vendem squads próprios)
 ```
 
 ---
@@ -50,12 +50,12 @@ MARKETPLACE
 | Email sequence (7 emails, 14 dias) | Nutre. Derruba crenças. Empurra para $29 |
 | Landing page + VSL | Converte. 11 blocos + vídeo 11 min |
 | Checkout | Vende. $29 → upsell $99 → upsell $999 |
-| Onboarding | Retém. "Welcome, Awakened. Mission briefing starts NOW" |
+| Onboarding | Retém. "Bem-vindo, Orquestrador. Mission briefing starts NOW" |
 | Comunidade | Fideliza. Telegram. Muros altos. Só compradores |
 
 ---
 
-## SEQUÊNCIA — Do Estranho ao Awakened
+## SEQUÊNCIA — Do Estranho ao Orquestrador
 
 | Passo | Canal | O que acontece | Conversão |
 |-------|-------|---------------|-----------|
@@ -68,7 +68,7 @@ MARKETPLACE
 | 7 | Checkout Blueprint | Paga $29 | Compra (30%) |
 | 8 | Upsell imediato | "Squad completo? $99" | 30% aceitam |
 | 9 | Upsell 2 | "Tudo? Full Bundle $999" | 10% aceitam |
-| 10 | Onboarding | "Welcome, Awakened. Instala. Activa. Cria PRD" | Activa |
+| 10 | Onboarding | "Bem-vindo, Orquestrador. Instala. Activa. Cria PRD" | Activa |
 | 11 | 48h Launch | Constrói e lança com squad | Lança |
 | 12 | Comunidade Telegram | Entra. Partilha. "Built in 48h" | Fica |
 | 13 | Add-ons | Marketing/vendas → squads extra | $99 cada |

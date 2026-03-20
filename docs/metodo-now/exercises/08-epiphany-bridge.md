@@ -157,7 +157,7 @@ O método chama-se NOW. Porque é a única palavra que importa.
 
 | Exercício | Presente na Epiphany Bridge? |
 |-----------|------------------------------|
-| 01 — Avatar (The Awakened) | ✅ "Eu era como tu" — identifica-se |
+| 01 — Avatar (O Orquestrador) | ✅ "Eu era como tu" — identifica-se |
 | 02 — Personagem Faceless | ✅ 1ª pessoa mas sem nome/identidade |
 | 03 — Jornada do Herói | ✅ 12 estágios condensados |
 | 04 — Concorrentes | ✅ Veículos antigos (cursos, no-code, freelancers) |

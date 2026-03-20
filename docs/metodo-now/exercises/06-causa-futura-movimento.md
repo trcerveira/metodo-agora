@@ -39,16 +39,16 @@ A Espera é mais poderosa que o líder porque é o mundo inteiro — universidad
 
 > **"A Espera não é inércia. A Espera é roubo. Rouba-te o tempo. Rouba-te a ideia. Rouba-te o lugar na história."**
 
-## Pilar 4: A COMUNIDADE — THE AWAKENED
+## Pilar 4: A COMUNIDADE — OS ORQUESTRADORES
 
 Com-unidade = Comunicação + Unidade.
 
 - Não são audiência (audiência assiste)
 - Não são seguidores (seguidores seguem)
-- São **Awakened** (os Awakened MOVEM-SE)
+- São **Orquestradores** (os Orquestradores MOVEM-SE)
 - "Eu sou" (identidade) + "Eu pertenço" (pertença)
 
-> *"Enquanto o mundo dorme, os Awakened constroem."*
+> *"Enquanto o mundo dorme, os Orquestradores constroem."*
 
 ### Plano de Comunidade
 
@@ -56,7 +56,7 @@ Com-unidade = Comunicação + Unidade.
 |------|--------|-------|
 | Agora | 0 vendas | NADA. Vende primeiro |
 | Fase 1 | 20 compradores | Grupo Telegram. Comprou → entra |
-| Fase 2 | 50-100 compradores | Awakened ajudam-se. Tu moderas, 15 min/dia |
+| Fase 2 | 50-100 compradores | Orquestradores ajudam-se. Tu moderas, 15 min/dia |
 | Fase 3 | 200+ compradores | Comunidade auto-sustentável |
 
 Regra: **Só entra quem comprou. Muros altos.**
@@ -104,7 +104,7 @@ Regra: **Só entra quem comprou. Muros altos.**
 | **"NOW" em bold** | Três letras. Uma ordem. Um movimento |
 | **Cursor a piscar** | O terminal está pronto. E tu? |
 
-**O "fone branco":** Quando um Awakened partilha um lançamento, usa a estética NOW — terminal, verde sobre preto, tag "Built in 48h with NOW OX". Outros Awakened reconhecem. Quem está fora pergunta: "O que é isto?"
+**O "fone branco":** Quando um Orquestrador partilha um lançamento, usa a estética NOW — terminal, verde sobre preto, tag "Built in 48h with NOW OX". Outros Orquestradores reconhecem. Quem está fora pergunta: "O que é isto?"
 
 ## Pilar 4: RITUAIS
 
@@ -120,7 +120,7 @@ Regra: **Só entra quem comprou. Muros altos.**
 
 | Palavra/Expressão | Significado | Quando usar |
 |-------------------|-------------|-------------|
-| **"Awakened"** | Membro do movimento | "Sou Awakened" |
+| **"Orquestrador"** | Membro do movimento | "Sou Orquestrador" |
 | **"NOW, not how"** | Para de perguntar como. Começa | Quando alguém hesita |
 | **"Stay awake"** | Despedida tribal | Fim de conversa |
 | **"The window is open"** | Urgência | Oportunidade de agir |
@@ -187,7 +187,7 @@ Autoritas — do latim: "autor de um acto." Quem FAZ é autoridade.
 > Se escolheres acordar, tens um lugar connosco.
 > Não somos muitos. Mas somos os primeiros.
 >
-> **Welcome, Awakened. The window is open. Your mission starts NOW.**
+> **Bem-vindo, Orquestrador. The window is open. Your mission starts NOW.**
 
 ---
 
@@ -209,15 +209,15 @@ Autoritas — do latim: "autor de um acto." Quem FAZ é autoridade.
 
 | Marco | Trigger | Badge |
 |-------|---------|-------|
-| **Awakened** | Faz o teste Zona de Genialidade | "Acordaste" |
+| **Orquestrador** | Faz o teste Zona de Genialidade | "Acordaste" |
 | **Operator** | Instala Claude Code + activa primeiro agente | "Estás dentro" |
 | **Builder** | Cria o PRD com o PM | "O plano existe" |
 | **Launcher** | Lança o projecto em 48h | "Está no ar" |
 | **First Revenue** | Primeiro cliente paga | "Alguém pagou" |
-| **Awakener** | Traz outro Awakened | "Agora acordas os outros" |
+| **Mentor** | Traz outro Orquestrador | "Agora acordas os outros" |
 
 ```
-Dormindo → Awakened → Operator → Builder → Launcher → First Revenue → Awakener
+Dormindo → Orquestrador → Operator → Builder → Launcher → First Revenue → Mentor
 ```
 
 ---

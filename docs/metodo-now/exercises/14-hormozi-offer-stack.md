@@ -34,7 +34,7 @@ VALUE = ────────────────────────
 │  ✅ Squad Content — $99                          │
 │  ✅ Workflows avançados + Setup completo         │
 │  ✅ V2.0 incluída quando lançar                  │
-│  ✅ Acesso prioritário comunidade Awakened       │
+│  ✅ Acesso prioritário comunidade Orquestradores  │
 │                                                  │
 │  Valor real: $3.500+                             │
 │  Preço: $999 (72% off)                          │

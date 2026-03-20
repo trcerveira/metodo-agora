@@ -242,7 +242,7 @@ Valor real: $1.500+
 FULL BUNDLE — $999
 ✅ TUDO + Conselheiros + Marketing + Vendas + Design + Content
 ✅ V2.0 incluída
-✅ Comunidade Awakened
+✅ Comunidade Orquestradores
 Valor real: $3.500+
 
 **[9:50 — Preço grande]**
@@ -257,7 +257,7 @@ Quanto menos pessoas souberem disto, melhor — para ti.
 
 Vantagens funcionam enquanto são raras. Quando toda a gente tiver um squad, lançar em 48h é o normal. Hoje, é um superpoder.
 
-Por isso, o preço de $29 só existe para os primeiros 100 Awakened. Depois do centésimo, sobe. Sem aviso.
+Por isso, o preço de $29 só existe para os primeiros 100 Orquestradores. Depois do centésimo, sobe. Sem aviso.
 
 Quantos já entraram? Não vou dizer. Mas se ainda estás a ver isto, a janela ainda está aberta.
 
@@ -269,7 +269,7 @@ Opção 1 — Não fazer nada. Fechar este vídeo. Voltar ao scroll. A ideia fic
 
 Opção 2 — O caminho longo. Aprender a programar. Mais um curso. 6 meses e $5.000. Para talvez chegar onde podias ter chegado num fim-de-semana.
 
-Opção 3 — Método NOW. $29. 45 minutos para o PRD. 48 horas para lançar. Equipa pronta. Um lugar entre os primeiros 100 Awakened.
+Opção 3 — Método NOW. $29. 45 minutos para o PRD. 48 horas para lançar. Equipa pronta. Um lugar entre os primeiros 100 Orquestradores.
 
 **[10:50]**
 
@@ -283,7 +283,7 @@ Existem dois tipos de pessoas a ver este vídeo agora:
 
 Os Sonhadores — Acham interessante. Guardam nos favoritos. "Depois vejo." A Espera vence.
 
-Os Awakened — Percebem que é real. Que $29 e 48h é tudo. E agem. NOW.
+Os Orquestradores — Percebem que é real. Que $29 e 48h é tudo. E agem. NOW.
 
 De que lado estás?
 
@@ -291,7 +291,7 @@ De que lado estás?
 
 **metodo-now.com**
 
-Welcome, Awakened. Your mission starts NOW.
+Bem-vindo, Orquestrador. Your mission starts NOW.
 
 **[11:30 — Cursor a piscar. 3 segundos. Preto. Fim]**
 

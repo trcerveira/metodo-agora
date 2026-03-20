@@ -174,7 +174,7 @@ Subheadline universal:
 > **FULL BUNDLE ($999)**
 > ✅ TUDO. Todos os squads. Todos os workflows
 > ✅ V2.0 incluída
-> ✅ Acesso prioritário comunidade Awakened
+> ✅ Acesso prioritário comunidade Orquestradores
 >
 > **Valor real: $10.000+ | Teu por: $99-999 | One-time. Sem mensalidade.**
 
@@ -222,7 +222,7 @@ Subheadline universal:
 >
 > **[ENTRA NOW — $29]**
 >
-> *Welcome, Awakened. Your mission starts NOW.*
+> *Bem-vindo, Orquestrador. Your mission starts NOW.*
 >
 > ---
 > *Stay awake.*

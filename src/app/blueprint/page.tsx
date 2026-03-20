@@ -29,7 +29,7 @@ const modules = [
     number: 1,
     title: "Entra na Máquina",
     subtitle: "Instalar Claude Code",
-    badge: "Awakened",
+    badge: "Orquestrador",
     duration: "15 min",
     output: "Claude Code instalado e a funcionar",
   },
@@ -38,7 +38,7 @@ const modules = [
     number: 2,
     title: 'Efeito "Eh Lá"',
     subtitle: "3 coisas em 10 minutos",
-    badge: "Awakened",
+    badge: "Orquestrador",
     duration: "10 min",
     output: "README + Landing Page + Análise de mercado",
   },
@@ -111,7 +111,7 @@ const modules = [
 const guideMessages: Record<number, { step: number; messages: string[] }[]> = {
   0: [ // M1 — Instalar
     { step: 0, messages: [
-      "Olá, Awakened. Sou o teu guia. Não vou mostrar a cara — mas vou mostrar-te o caminho.",
+      "Olá, Orquestrador. Sou o teu guia. Não vou mostrar a cara — mas vou mostrar-te o caminho.",
       "Primeiro passo: abrir o terminal no teu computador.",
       "No Mac: procura 'Terminal' no Spotlight (Cmd + Espaço).",
       "No Windows: procura 'PowerShell' ou 'Command Prompt' no menu iniciar.",
@@ -228,7 +228,7 @@ function ProgressBar({ completed, total }: { completed: number; total: number })
 
   const getBadge = () => {
     if (percentage === 0) return "—";
-    if (percentage < 25) return "Awakened";
+    if (percentage < 25) return "Orquestrador";
     if (percentage < 50) return "Operator";
     if (percentage < 75) return "Pilot";
     if (percentage < 90) return "Commander";
@@ -1005,16 +1005,211 @@ function Module1Content({ onComplete, onStepChange }: { onComplete: () => void; 
   );
 }
 
-// --- Conteúdo Placeholder para outros módulos ---
+// --- Componente: Card de Prompt (M2) ---
+function PromptCard({ title, description, prompt, icon }: { title: string; description: string; prompt: string; icon: string }) {
+  const [copied, setCopied] = useState(false);
+  const handleCopy = () => { navigator.clipboard.writeText(prompt); setCopied(true); setTimeout(() => setCopied(false), 2000); };
+  return (
+    <div className="rounded-lg border border-now-green/20 bg-now-terminal p-5 space-y-3">
+      <div className="flex items-center gap-3">
+        <span className="text-2xl">{icon}</span>
+        <div><h4 className="text-now-green font-mono font-bold text-sm">{title}</h4><p className="text-now-ivory/50 text-xs">{description}</p></div>
+      </div>
+      <div className="bg-now-obsidian rounded-lg p-3 text-now-ivory/70 text-xs font-mono leading-relaxed whitespace-pre-wrap">{prompt}</div>
+      <button onClick={handleCopy} className={`w-full py-2.5 rounded-md font-mono text-sm font-bold transition ${copied ? 'bg-now-green/20 text-now-green' : 'bg-now-green text-black hover:bg-now-green/90'}`}>
+        {copied ? '✓ Copiado!' : 'Copiar prompt'}
+      </button>
+    </div>
+  );
+}
+
+// --- M2 — 5 coisas em 10 minutos ---
+function Module2Content({ onComplete }: { onComplete: () => void }) {
+  const [done, setDone] = useState<boolean[]>([false, false, false, false, false]);
+  const toggle = (i: number) => { const u = [...done]; u[i] = !u[i]; setDone(u); };
+  const allDone = done.every(Boolean);
+  const prompts = [
+    { icon: '🌐', title: 'Landing Page', description: 'Uma página profissional em segundos', prompt: 'Cria uma landing page moderna para o meu projecto. Nome: [o teu projecto]. É um [descreve em 1 frase]. Usa design escuro com acentos verdes. Inclui: hero section com headline forte, 3 benefícios, secção de preço, e um botão de CTA. Tudo num só ficheiro HTML com CSS inline.' },
+    { icon: '📊', title: 'Análise de Mercado', description: 'Percebe o terreno antes de construir', prompt: 'Analisa o mercado para: [descreve o teu produto/serviço]. Quero saber: 1) Quem é o público-alvo (perfil demográfico e psicográfico), 2) Quem são os 5 principais concorrentes e o que fazem bem/mal, 3) Qual o tamanho estimado do mercado, 4) Qual a oportunidade que ainda não está a ser explorada. Formato: relatório executivo com bullets.' },
+    { icon: '💳', title: 'Cartão Digital', description: 'O teu cartão de visita do futuro', prompt: 'Cria um cartão de visita digital em HTML. Nome: [o teu nome]. Título: [o que fazes]. Inclui: foto placeholder, links para LinkedIn, email e WhatsApp, uma frase de posicionamento, e um botão "Guardar Contacto". Design minimalista escuro. Deve funcionar como página web standalone.' },
+    { icon: '❓', title: 'Quiz Interactivo', description: 'Captura leads com inteligência', prompt: 'Cria um quiz interactivo em HTML + JavaScript. Tema: "[o teu nicho] — Qual é o teu nível?". 5 perguntas de escolha múltipla. No final mostra o resultado (Iniciante/Intermédio/Avançado) com uma descrição personalizada e um campo para capturar o email. Design atrativo com transições suaves.' },
+    { icon: '📈', title: 'Dashboard', description: 'Visualiza dados como um pro', prompt: 'Cria um dashboard HTML com dados fictícios para um negócio de [o teu nicho]. Inclui: 4 cards de métricas no topo (receita, clientes, conversão, crescimento), 1 gráfico de barras de receita mensal (usa CSS puro, sem bibliotecas), e uma tabela com os últimos 5 clientes. Design escuro profissional.' },
+  ];
+  return (
+    <div className="space-y-6">
+      <div className="border-l-2 border-now-green pl-4">
+        <p className="text-now-green/60 text-xs font-mono uppercase tracking-wider mb-1">O MOMENTO &quot;EH LÁ&quot;</p>
+        <p className="text-now-ivory text-base">5 coisas que normalmente levam horas ou dias — tu vais fazê-las em 10 minutos. Copia o prompt, cola no Claude Code, e vê a magia acontecer.</p>
+      </div>
+      <div className="bg-now-green/5 border border-now-green/10 rounded-lg p-4">
+        <p className="text-now-green text-sm font-mono font-bold mb-1">COMO FUNCIONA</p>
+        <p className="text-now-ivory/70 text-sm">1. Clica em <strong className="text-now-green">Copiar prompt</strong> · 2. Cola no Claude Code · 3. Carrega Enter · 4. Marca como feito</p>
+      </div>
+      <div className="space-y-4">
+        {prompts.map((p, i) => (
+          <div key={i}><PromptCard {...p} /><div className="mt-2"><Checkpoint text={`${p.title} — feito`} checked={done[i]} onToggle={() => toggle(i)} /></div></div>
+        ))}
+      </div>
+      <div className="bg-now-green/5 border border-now-green/20 rounded-lg p-4">
+        <p className="text-now-green font-mono font-bold text-sm mb-2">🔥 O TEU OUTPUT</p>
+        <p className="text-now-ivory text-sm">5 projectos reais, criados em minutos. Um freelancer cobraria <span className="text-now-green font-bold">€500+</span> por isto. Tu fizeste enquanto bebes o café.</p>
+      </div>
+      {allDone && <button onClick={onComplete} className="w-full py-4 bg-now-green text-now-obsidian font-mono font-bold text-lg rounded-lg hover:bg-now-green/90 transition-all animate-pulse">Próximo Módulo →</button>}
+      {!allDone && <p className="text-center text-now-green/30 text-xs font-mono py-4">Completa os 5 para desbloquear o próximo módulo</p>}
+    </div>
+  );
+}
+
+// --- M3 — O Terreno ---
+function Module3Content({ onComplete }: { onComplete: () => void }) {
+  const [checks, setChecks] = useState([false, false, false, false]);
+  const toggle = (i: number) => { const u = [...checks]; u[i] = !u[i]; setChecks(u); };
+  const allDone = checks.every(Boolean);
+  return (
+    <div className="space-y-6">
+      <div className="border-l-2 border-now-green pl-4">
+        <p className="text-now-green/60 text-xs font-mono uppercase tracking-wider mb-1">O CICLO DE VIDA DE UMA PASTA</p>
+        <p className="text-now-ivory text-base">4 comandos. Nascimento, vida, exploração e morte. Quando dominares estes, o terminal deixa de ser um ecrã preto assustador e passa a ser a tua ferramenta mais poderosa.</p>
+      </div>
+      <div><h3 className="text-now-green font-mono font-bold text-sm mb-2">1. NASCIMENTO — mkdir</h3><p className="text-now-ivory/70 text-sm mb-3">Criar uma pasta é dar vida a um projecto. Cada pasta é um universo.</p><TerminalBlock command="mkdir o-meu-projecto" description="Cria uma nova pasta — o nascimento" /><p className="text-now-ivory/40 text-xs mt-2 font-mono">mkdir = &quot;make directory&quot; = criar directório.</p></div>
+      <div><h3 className="text-now-green font-mono font-bold text-sm mb-2">2. VIDA — cd</h3><p className="text-now-ivory/70 text-sm mb-3">Entrar numa pasta é como abrir uma porta. Sair é subir um andar.</p><TerminalBlock command="cd o-meu-projecto" description="Entra na pasta — estás dentro" /><TerminalBlock command="cd .." description="Sobe um nível — volta para trás" /><p className="text-now-ivory/40 text-xs mt-2 font-mono">cd = &quot;change directory&quot;. Os dois pontos (..) significam &quot;a pasta acima&quot;.</p></div>
+      <div><h3 className="text-now-green font-mono font-bold text-sm mb-2">3. EXPLORAÇÃO — ls</h3><p className="text-now-ivory/70 text-sm mb-3">Ver o que está dentro. Olhar à volta. Saber onde estás.</p><TerminalBlock command="ls" description="Lista tudo o que está na pasta actual" /><TerminalBlock command="ls -la" description="Lista TUDO — incluindo ficheiros escondidos" /><p className="text-now-ivory/40 text-xs mt-2 font-mono">ls = &quot;list&quot;. A flag -la mostra ficheiros ocultos e detalhes.</p></div>
+      <div><h3 className="text-now-green font-mono font-bold text-sm mb-2">4. MORTE — rm</h3><p className="text-now-ivory/70 text-sm mb-3">Apagar. Sem caixote do lixo. Poder absoluto requer responsabilidade absoluta.</p><TerminalBlock command="rm ficheiro.txt" description="Apaga um ficheiro — sem volta" /><TerminalBlock command="rm -r pasta-teste" description="Apaga uma pasta e tudo dentro dela" /><div className="mt-2 bg-red-500/5 border border-red-500/20 rounded-lg p-3"><p className="text-red-400 text-xs font-mono">⚠️ Cuidado: rm não tem &quot;undo&quot;. Verifica sempre o que estás a apagar.</p></div></div>
+      <div className="bg-now-green/5 border border-now-green/10 rounded-lg p-4"><p className="text-now-green text-sm font-mono font-bold mb-2">EXERCÍCIO PRÁTICO</p><p className="text-now-ivory/70 text-sm mb-3">Executa estes comandos pela ordem. O ciclo completo.</p><TerminalBlock command="mkdir teste-agora && cd teste-agora && ls" description="1. Nasce + entra + explora" /><TerminalBlock command="mkdir sub-pasta && ls" description="2. Cria algo dentro + verifica" /><TerminalBlock command="cd .. && rm -r teste-agora && ls" description="3. Sai + destrói + confirma" /></div>
+      <div className="border border-now-green/20 rounded-lg p-4 bg-now-terminal"><p className="text-now-green font-mono font-bold text-sm mb-3">✅ CHECKPOINT</p><div className="space-y-1"><Checkpoint text="Criei uma pasta com mkdir" checked={checks[0]} onToggle={() => toggle(0)} /><Checkpoint text="Entrei e saí com cd e cd .." checked={checks[1]} onToggle={() => toggle(1)} /><Checkpoint text="Listei conteúdo com ls" checked={checks[2]} onToggle={() => toggle(2)} /><Checkpoint text="Apaguei a pasta de teste com rm -r" checked={checks[3]} onToggle={() => toggle(3)} /></div></div>
+      {allDone && <button onClick={onComplete} className="w-full py-4 bg-now-green text-now-obsidian font-mono font-bold text-lg rounded-lg hover:bg-now-green/90 transition-all animate-pulse">Próximo Módulo →</button>}
+      {!allDone && <p className="text-center text-now-green/30 text-xs font-mono py-4">Completa o checkpoint para desbloquear o próximo módulo</p>}
+    </div>
+  );
+}
+
+// --- M4 — A Cabine do Piloto ---
+function Module4Content({ onComplete }: { onComplete: () => void }) {
+  const [checks, setChecks] = useState([false, false, false]);
+  const toggle = (i: number) => { const u = [...checks]; u[i] = !u[i]; setChecks(u); };
+  const allDone = checks.every(Boolean);
+  return (
+    <div className="space-y-6">
+      <div className="border-l-2 border-now-green pl-4"><p className="text-now-green/60 text-xs font-mono uppercase tracking-wider mb-1">TU ÉS O PILOTO</p><p className="text-now-ivory text-base">O Claude Code tem 3 zonas. Quando as dominares, o terminal transforma-se na tua cabine de comando.</p></div>
+      <div className="rounded-lg border-2 border-now-green/30 bg-now-terminal p-5 space-y-3"><div className="flex items-center gap-3"><span className="flex h-8 w-8 items-center justify-center rounded-full bg-now-green text-black font-mono font-bold text-sm">1</span><h3 className="text-now-green font-mono font-bold">ZONA DE PROMPT</h3></div><p className="text-now-ivory/70 text-sm">É aqui que tu falas. O cursor a piscar no fundo do ecrã. Escreves o que queres e carregas Enter.</p><div className="bg-now-obsidian rounded-lg p-3 font-mono text-sm"><span className="text-now-green/40">❯ </span><span className="text-now-ivory">cria uma landing page para o meu projecto<span className="animate-pulse text-now-green">|</span></span></div><p className="text-now-ivory/40 text-xs font-mono">Tu dás a ordem. A máquina executa.</p></div>
+      <div className="rounded-lg border-2 border-now-green/30 bg-now-terminal p-5 space-y-3"><div className="flex items-center gap-3"><span className="flex h-8 w-8 items-center justify-center rounded-full bg-now-green text-black font-mono font-bold text-sm">2</span><h3 className="text-now-green font-mono font-bold">ZONA DE RESPOSTA</h3></div><p className="text-now-ivory/70 text-sm">O centro do ecrã. Onde o Claude mostra o que está a fazer em tempo real.</p><div className="bg-now-obsidian rounded-lg p-3 font-mono text-xs space-y-1"><p className="text-now-green/60">A criar src/index.html...</p><p className="text-now-green/60">A adicionar estilos CSS...</p><p className="text-now-green">✓ Landing page criada com sucesso</p></div><p className="text-now-ivory/40 text-xs font-mono">Lê sempre o que ele diz. É aqui que aprendes.</p></div>
+      <div className="rounded-lg border-2 border-now-green/30 bg-now-terminal p-5 space-y-3"><div className="flex items-center gap-3"><span className="flex h-8 w-8 items-center justify-center rounded-full bg-now-green text-black font-mono font-bold text-sm">3</span><h3 className="text-now-green font-mono font-bold">ZONA DE PERMISSÕES</h3></div><p className="text-now-ivory/70 text-sm">Quando o Claude quer fazer algo sensível, pede-te autorização. Tu decides. Sempre.</p><div className="bg-now-obsidian rounded-lg p-3 font-mono text-xs space-y-1"><p className="text-yellow-400/80">Posso criar o ficheiro src/index.html?</p><p className="text-now-ivory/50">[Y] Sim · [N] Não · [A] Sim para todos</p></div><p className="text-now-ivory/40 text-xs font-mono">Nada acontece sem a tua permissão. Controlo total.</p></div>
+      <div className="bg-now-green/5 border border-now-green/10 rounded-lg p-4"><p className="text-now-green text-xs font-mono">💡 <strong>Resumo:</strong> Tu escreves (Zona 1) → Claude executa (Zona 2) → Tu autorizas (Zona 3). Como pilotar um avião: tu dás as ordens, o co-piloto executa, e tu confirmas cada manobra.</p></div>
+      <div className="border border-now-green/20 rounded-lg p-4 bg-now-terminal"><p className="text-now-green font-mono font-bold text-sm mb-3">✅ CHECKPOINT</p><div className="space-y-1"><Checkpoint text="Sei onde escrevo os meus prompts (Zona 1)" checked={checks[0]} onToggle={() => toggle(0)} /><Checkpoint text="Sei ler as respostas do Claude (Zona 2)" checked={checks[1]} onToggle={() => toggle(1)} /><Checkpoint text="Sei aceitar/recusar permissões (Zona 3)" checked={checks[2]} onToggle={() => toggle(2)} /></div></div>
+      {allDone && <button onClick={onComplete} className="w-full py-4 bg-now-green text-now-obsidian font-mono font-bold text-lg rounded-lg hover:bg-now-green/90 transition-all animate-pulse">Próximo Módulo →</button>}
+      {!allDone && <p className="text-center text-now-green/30 text-xs font-mono py-4">Completa o checkpoint para desbloquear o próximo módulo</p>}
+    </div>
+  );
+}
+
+// --- M5 — Comandos de Combate ---
+function Module5Content({ onComplete }: { onComplete: () => void }) {
+  const [checks, setChecks] = useState([false, false, false, false, false, false]);
+  const toggle = (i: number) => { const u = [...checks]; u[i] = !u[i]; setChecks(u); };
+  const allDone = checks.every(Boolean);
+  const commands = [
+    { cmd: '/help', title: 'O Manual', desc: 'Mostra todos os comandos disponíveis. Quando não souberes o que fazer, começa por aqui.' },
+    { cmd: '/init', title: 'O Reconhecimento', desc: 'Analisa o projecto inteiro e cria um CLAUDE.md. Usa no início de cada projecto novo.' },
+    { cmd: '/status', title: 'O Radar', desc: 'Mostra o estado actual: contexto, ferramentas activas. O painel de instrumentos do piloto.' },
+    { cmd: '/clear', title: 'O Reset', desc: 'Limpa o ecrã e recomeça a conversa. Quando ficar confusa, faz reset. Mente fresca, respostas melhores.' },
+    { cmd: '/exit', title: 'A Saída', desc: 'Fecha o Claude Code. Podes também usar Ctrl+C. O teu código está guardado nos ficheiros.' },
+    { cmd: '!comando', title: 'O Atalho', desc: 'Corre comandos do terminal directamente. !ls, !git status — fica dentro da cabine.' },
+  ];
+  return (
+    <div className="space-y-6">
+      <div className="border-l-2 border-now-green pl-4"><p className="text-now-green/60 text-xs font-mono uppercase tracking-wider mb-1">O TEU ARSENAL</p><p className="text-now-ivory text-base">6 comandos que transformam o Claude Code de &quot;ferramenta que uso&quot; em &quot;extensão do meu cérebro&quot;.</p></div>
+      <div className="space-y-4">{commands.map((c, i) => (<div key={i} className="rounded-lg border border-now-green/20 bg-now-terminal p-4"><div className="flex items-center gap-3 mb-2"><code className="bg-now-green text-black font-mono font-bold text-sm px-3 py-1 rounded">{c.cmd}</code><span className="text-now-green font-mono font-bold text-sm">{c.title}</span></div><p className="text-now-ivory/70 text-sm">{c.desc}</p><div className="mt-2"><Checkpoint text={`Testei ${c.cmd}`} checked={checks[i]} onToggle={() => toggle(i)} /></div></div>))}</div>
+      <div className="bg-now-green/5 border border-now-green/10 rounded-lg p-4"><p className="text-now-green text-sm font-mono font-bold mb-2">EXERCÍCIO PRÁTICO</p><p className="text-now-ivory/70 text-sm">Abre o Claude Code e corre cada comando. Vê o que acontece. Não se parte nada.</p><TerminalBlock command="/help" description="Vê o mapa completo" /><TerminalBlock command="/status" description="Verifica o radar" /><TerminalBlock command="!ls" description="Corre um comando sem sair do Claude" /></div>
+      {allDone && <button onClick={onComplete} className="w-full py-4 bg-now-green text-now-obsidian font-mono font-bold text-lg rounded-lg hover:bg-now-green/90 transition-all animate-pulse">Próximo Módulo →</button>}
+      {!allDone && <p className="text-center text-now-green/30 text-xs font-mono py-4">Testa os 6 comandos para desbloquear o próximo módulo</p>}
+    </div>
+  );
+}
+
+// --- M6 — A Caixa Negra ---
+function Module6Content({ onComplete }: { onComplete: () => void }) {
+  const [checks, setChecks] = useState([false, false, false]);
+  const toggle = (i: number) => { const u = [...checks]; u[i] = !u[i]; setChecks(u); };
+  const allDone = checks.every(Boolean);
+  return (
+    <div className="space-y-6">
+      <div className="border-l-2 border-now-green pl-4"><p className="text-now-green/60 text-xs font-mono uppercase tracking-wider mb-1">MEMÓRIA PERMANENTE</p><p className="text-now-ivory text-base">Cada vez que abres o Claude Code, ele esquece-se de tudo. A não ser que lhe deixes uma nota — o CLAUDE.md.</p></div>
+      <div className="rounded-lg border-2 border-now-green/30 bg-now-terminal p-5 space-y-3"><h3 className="text-now-green font-mono font-bold">O QUE É O CLAUDE.md?</h3><p className="text-now-ivory/70 text-sm">Um ficheiro na raiz do projecto. O Claude lê-o SEMPRE que arranca. É a sua caixa negra — tudo o que precisa de saber sobre ti e o projecto.</p><div className="bg-now-obsidian rounded-lg p-3 font-mono text-xs space-y-1"><p className="text-now-green/60">📁 o-meu-projecto/</p><p className="text-now-green/60">├── src/</p><p className="text-now-green/60">├── package.json</p><p className="text-now-green font-bold">└── CLAUDE.md ← a caixa negra</p></div></div>
+      <div><h3 className="text-now-green font-mono font-bold text-sm mb-2">PASSO 1 — Criar o CLAUDE.md</h3><p className="text-now-ivory/70 text-sm mb-3">No Claude Code, dentro do projecto:</p><TerminalBlock command="/init" description="O Claude analisa o projecto e cria o CLAUDE.md por ti" /><p className="text-now-ivory/50 text-xs mt-2">Ou manualmente:</p><TerminalBlock command="Cria um ficheiro CLAUDE.md com informação sobre mim e o meu projecto. O meu nome é [nome], estou a construir [projecto], e o meu nível técnico é iniciante." description="Prompt para CLAUDE.md personalizado" /></div>
+      <div><h3 className="text-now-green font-mono font-bold text-sm mb-2">PASSO 2 — Testar a memória</h3><p className="text-now-ivory/70 text-sm mb-3">Fecha o Claude Code, abre-o de novo, e pergunta:</p><TerminalBlock command="Qual é o meu nome e o que estou a construir?" description="Se responder correctamente, a caixa negra funciona" /></div>
+      <div className="bg-now-green/5 border border-now-green/10 rounded-lg p-4"><p className="text-now-green text-sm font-mono font-bold mb-2">O QUE METER NO CLAUDE.md</p><ul className="space-y-1 text-sm text-now-ivory/70"><li>• O teu nome e nível técnico</li><li>• O que é o projecto (1-2 frases)</li><li>• Tecnologias usadas</li><li>• Regras especiais (ex: &quot;responde sempre em português&quot;)</li><li>• O que já foi feito vs o que falta</li></ul></div>
+      <div className="border border-now-green/20 rounded-lg p-4 bg-now-terminal"><p className="text-now-green font-mono font-bold text-sm mb-3">✅ CHECKPOINT</p><div className="space-y-1"><Checkpoint text="CLAUDE.md criado na raiz do projecto" checked={checks[0]} onToggle={() => toggle(0)} /><Checkpoint text="Fechei e abri o Claude Code" checked={checks[1]} onToggle={() => toggle(1)} /><Checkpoint text="O Claude lembrou-se de mim" checked={checks[2]} onToggle={() => toggle(2)} /></div></div>
+      {allDone && <button onClick={onComplete} className="w-full py-4 bg-now-green text-now-obsidian font-mono font-bold text-lg rounded-lg hover:bg-now-green/90 transition-all animate-pulse">Próximo Módulo →</button>}
+      {!allDone && <p className="text-center text-now-green/30 text-xs font-mono py-4">Completa o checkpoint para desbloquear o próximo módulo</p>}
+    </div>
+  );
+}
+
+// --- M7 — Activa o Squad ---
+function Module7Content({ onComplete }: { onComplete: () => void }) {
+  const [checks, setChecks] = useState([false, false, false]);
+  const toggle = (i: number) => { const u = [...checks]; u[i] = !u[i]; setChecks(u); };
+  const allDone = checks.every(Boolean);
+  return (
+    <div className="space-y-6">
+      <div className="border-l-2 border-now-green pl-4"><p className="text-now-green/60 text-xs font-mono uppercase tracking-wider mb-1">O TEU SQUAD DE AI</p><p className="text-now-ivory text-base">Até agora usaste o Claude Code sozinho. Agora vais instalar o Agora OX — um squad de agentes especializados. Tu és o CEO — eles são a equipa.</p></div>
+      <div className="rounded-lg border-2 border-now-green/30 bg-now-terminal p-5 space-y-3"><h3 className="text-now-green font-mono font-bold">O QUE É O AGORA OX?</h3><p className="text-now-ivory/70 text-sm">Agentes AI que trabalham dentro do Claude Code. O PM cria o plano do produto. O Analyst analisa o mercado. Tu dás as ordens.</p></div>
+      <div><h3 className="text-now-green font-mono font-bold text-sm mb-2">PASSO 1 — Instalar os agentes</h3><p className="text-now-ivory/70 text-sm mb-3">No Claude Code, dentro do projecto:</p><TerminalBlock command="Instala os agentes PM e Analyst do Agora OX. Cria as pastas necessárias em .claude/commands/ com os ficheiros de configuração de cada agente." description="Instala os 2 agentes fundamentais" /></div>
+      <div><h3 className="text-now-green font-mono font-bold text-sm mb-2">PASSO 2 — Verificar</h3><p className="text-now-ivory/70 text-sm mb-3">Confirma que estão operacionais:</p><TerminalBlock command="/pm" description="Activa o PM — deve responder-te" /><TerminalBlock command="/analyst" description="Activa o Analyst — deve responder-te" /></div>
+      <div className="bg-now-green/5 border border-now-green/10 rounded-lg p-4"><p className="text-now-green text-xs font-mono">💡 Se os comandos não funcionarem, verifica que os ficheiros estão em .claude/commands/. O Claude Code detecta-os automaticamente.</p></div>
+      <div className="border border-now-green/20 rounded-lg p-4 bg-now-terminal"><p className="text-now-green font-mono font-bold text-sm mb-3">✅ CHECKPOINT</p><div className="space-y-1"><Checkpoint text="Agentes instalados em .claude/commands/" checked={checks[0]} onToggle={() => toggle(0)} /><Checkpoint text="/pm activado e a responder" checked={checks[1]} onToggle={() => toggle(1)} /><Checkpoint text="/analyst activado e a responder" checked={checks[2]} onToggle={() => toggle(2)} /></div></div>
+      {allDone && <button onClick={onComplete} className="w-full py-4 bg-now-green text-now-obsidian font-mono font-bold text-lg rounded-lg hover:bg-now-green/90 transition-all animate-pulse">Próximo Módulo →</button>}
+      {!allDone && <p className="text-center text-now-green/30 text-xs font-mono py-4">Completa o checkpoint para desbloquear o próximo módulo</p>}
+    </div>
+  );
+}
+
+// --- M8 — Conhece a Equipa ---
+function Module8Content({ onComplete }: { onComplete: () => void }) {
+  const [checks, setChecks] = useState([false, false]);
+  const toggle = (i: number) => { const u = [...checks]; u[i] = !u[i]; setChecks(u); };
+  const allDone = checks.every(Boolean);
+  return (
+    <div className="space-y-6">
+      <div className="border-l-2 border-now-green pl-4"><p className="text-now-green/60 text-xs font-mono uppercase tracking-wider mb-1">QUEM FAZ O QUÊ</p><p className="text-now-ivory text-base">Dois agentes operacionais. Cada um com uma missão clara. Conhece-os antes de lhes dar ordens.</p></div>
+      <div className="rounded-lg border-2 border-now-green/30 bg-now-terminal p-5 space-y-3"><div className="flex items-center gap-3"><span className="flex h-10 w-10 items-center justify-center rounded-full bg-now-green text-black font-mono font-bold text-lg">PM</span><div><h3 className="text-now-green font-mono font-bold">Product Manager</h3><p className="text-now-ivory/40 text-xs font-mono">O estratega do produto</p></div></div><p className="text-now-ivory/70 text-sm">Faz-te as perguntas certas para transformar a tua ideia vaga num plano concreto. Cria o PRD — o documento que diz exactamente O QUE vais construir.</p><div className="space-y-1 text-sm text-now-ivory/60"><p>• Faz perguntas sobre o problema que resolves</p><p>• Define o público-alvo com detalhe</p><p>• Lista funcionalidades por prioridade</p><p>• Cria o PRD completo e profissional</p></div><TerminalBlock command="/pm" description="Activa o PM" /></div>
+      <div className="rounded-lg border-2 border-now-green/30 bg-now-terminal p-5 space-y-3"><div className="flex items-center gap-3"><span className="flex h-10 w-10 items-center justify-center rounded-full bg-now-green text-black font-mono font-bold text-lg">AN</span><div><h3 className="text-now-green font-mono font-bold">Analyst</h3><p className="text-now-ivory/40 text-xs font-mono">O investigador do mercado</p></div></div><p className="text-now-ivory/70 text-sm">Os teus olhos no mercado. Analisa concorrentes, identifica oportunidades, e diz-te se a tua ideia tem pernas para andar.</p><div className="space-y-1 text-sm text-now-ivory/60"><p>• Pesquisa concorrentes e alternativas</p><p>• Identifica lacunas no mercado</p><p>• Valida se há procura real</p><p>• Sugere ângulos de diferenciação</p></div><TerminalBlock command="/analyst" description="Activa o Analyst" /></div>
+      <div className="bg-now-green/5 border border-now-green/10 rounded-lg p-4"><p className="text-now-green text-xs font-mono">💡 Usa o Analyst ANTES do PM. Primeiro percebe o mercado, depois cria o plano. Informação antes de decisão.</p></div>
+      <div className="border border-now-green/20 rounded-lg p-4 bg-now-terminal"><p className="text-now-green font-mono font-bold text-sm mb-3">✅ CHECKPOINT</p><div className="space-y-1"><Checkpoint text="Percebo o que o PM faz (cria o PRD)" checked={checks[0]} onToggle={() => toggle(0)} /><Checkpoint text="Percebo o que o Analyst faz (investiga o mercado)" checked={checks[1]} onToggle={() => toggle(1)} /></div></div>
+      {allDone && <button onClick={onComplete} className="w-full py-4 bg-now-green text-now-obsidian font-mono font-bold text-lg rounded-lg hover:bg-now-green/90 transition-all animate-pulse">Próximo Módulo →</button>}
+      {!allDone && <p className="text-center text-now-green/30 text-xs font-mono py-4">Completa o checkpoint para desbloquear o próximo módulo</p>}
+    </div>
+  );
+}
+
+// --- M9 — Mission Briefing ---
+function Module9Content({ onComplete }: { onComplete: () => void }) {
+  const [checks, setChecks] = useState([false, false, false]);
+  const toggle = (i: number) => { const u = [...checks]; u[i] = !u[i]; setChecks(u); };
+  const allDone = checks.every(Boolean);
+  return (
+    <div className="space-y-6">
+      <div className="border-l-2 border-now-green pl-4"><p className="text-now-green/60 text-xs font-mono uppercase tracking-wider mb-1">A MISSÃO FINAL</p><p className="text-now-ivory text-base">Tudo converge aqui. Activa o PM, dá-lhe a missão, e sai com um PRD completo — o plano do teu produto.</p></div>
+      <div className="bg-now-green/5 border border-now-green/10 rounded-lg p-4"><p className="text-now-green text-sm font-mono font-bold mb-2">ANTES DE COMEÇAR</p><p className="text-now-ivory/70 text-sm">Abre o teu Blueprint da Zona de Genialidade (Tab ZG). Lê a secção 9 — o teu mini-PRD. Essa é a base. Agora o PM vai transformá-la num documento profissional.</p></div>
+      <div><h3 className="text-now-green font-mono font-bold text-sm mb-2">PASSO 1 — Activar o PM</h3><TerminalBlock command="/pm" description="Activa o Product Manager" /></div>
+      <div><h3 className="text-now-green font-mono font-bold text-sm mb-2">PASSO 2 — Dar a missão</h3><p className="text-now-ivory/70 text-sm mb-3">Cola este prompt e adapta com os dados do teu Blueprint:</p><PromptCard icon="🎯" title="Mission Briefing" description="O prompt que activa a criação do PRD" prompt={`Quero criar um PRD para o meu produto. Aqui está o contexto:\n\n- O meu perfil: [cola o teu arquétipo do Blueprint, ex: "O Arquiteto · Criador"]\n- A minha oferta ideal: [cola o resumo da secção 6 do Blueprint]\n- O problema que resolvo: [descreve em 1-2 frases]\n- Para quem: [o teu público-alvo]\n\nFaz-me as perguntas que precisares para criar um PRD completo e profissional. Pergunta uma de cada vez.`} /></div>
+      <div><h3 className="text-now-green font-mono font-bold text-sm mb-2">PASSO 3 — Responder e receber o PRD</h3><p className="text-now-ivory/70 text-sm">O PM vai fazer-te 5-10 perguntas. Responde com honestidade. Quando tiver informação suficiente, gera o PRD completo.</p></div>
+      <div className="border border-now-green/20 rounded-lg p-4 bg-now-terminal"><p className="text-now-green font-mono font-bold text-sm mb-3">✅ CHECKPOINT</p><div className="space-y-1"><Checkpoint text="PM activado e a fazer perguntas" checked={checks[0]} onToggle={() => toggle(0)} /><Checkpoint text="Respondi a todas as perguntas do PM" checked={checks[1]} onToggle={() => toggle(1)} /><Checkpoint text="PRD completo gerado e guardado" checked={checks[2]} onToggle={() => toggle(2)} /></div></div>
+      <div className="bg-now-green/5 border border-now-green/20 rounded-lg p-4"><p className="text-now-green font-mono font-bold text-sm mb-2">🔥 O TEU OUTPUT</p><p className="text-now-ivory text-sm">Um PRD completo. O documento que uma startup pagaria <span className="text-now-green font-bold">€2.000-5.000</span> a um consultor para criar. Tu fizeste em 45 minutos com o teu squad.</p></div>
+      {allDone && (<div className="space-y-6"><button onClick={onComplete} className="w-full py-4 bg-now-green text-now-obsidian font-mono font-bold text-lg rounded-lg hover:bg-now-green/90 transition-all animate-pulse">Completar Blueprint ✓</button><div className="my-6 border-t border-now-green/10" /><div className="rounded-xl border-2 border-now-green/30 bg-now-terminal p-8 text-center space-y-4"><p className="text-now-green font-mono text-sm tracking-wider">E AGORA?</p><h3 className="text-now-ivory text-2xl font-bold">Tens o plano.<br />Agora precisas da equipa.</h3><p className="text-now-ivory/60 text-sm max-w-md mx-auto">Sabes quem és. Tens o PRD. Mas construir sozinho com 2 agentes é como jogar futebol a dois. O Agora OX é o squad completo — arquiteto, developer, QA, designer, devops — 10+ agentes que transformam o teu PRD num produto real.</p><a href="https://buy.stripe.com/PLACEHOLDER_AGORA_OX" className="inline-block mt-4 rounded-lg bg-now-green px-10 py-4 text-lg font-bold text-black font-mono transition hover:shadow-[0_0_30px_rgba(191,214,75,0.4)]">AGORA OX — €99</a><p className="text-now-green/30 text-xs font-mono">Squad completo de agentes AI · Do PRD ao produto</p></div></div>)}
+      {!allDone && <p className="text-center text-now-green/30 text-xs font-mono py-4">Completa o checkpoint para terminar</p>}
+    </div>
+  );
+}
+
+// --- Conteúdo Placeholder ---
 function ModulePlaceholder({ mod }: { mod: (typeof modules)[0] }) {
   return (
     <div className="flex flex-col items-center justify-center py-16 text-center">
       <p className="text-now-green/30 text-6xl mb-4">🔒</p>
       <h3 className="text-now-green/50 font-mono text-lg mb-2">{mod.title}</h3>
       <p className="text-now-green/20 font-mono text-sm">{mod.subtitle}</p>
-      <p className="text-now-green/10 font-mono text-xs mt-4">
-        Completa o módulo anterior para desbloquear
-      </p>
+      <p className="text-now-green/10 font-mono text-xs mt-4">Completa o módulo anterior para desbloquear</p>
     </div>
   );
 }

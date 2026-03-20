@@ -192,7 +192,7 @@ Vamos aplicar os 4 Pilares:
 
 **3. Inimigo Comum** — O teu inimigo tem de ser MAIS PODEROSO que tu. Não é outro curso. Não é outro guru. É a ESPERA. É o sistema que diz que precisas de 6 meses, uma equipa de 20 pessoas e 500 mil euros para lançar algo. ESSE é o inimigo. E é poderoso.
 
-**4. Comunidade** — Não tens audiência. Tens seguidores. Audiência assiste. Seguidores seguem. Comunidade MOVE-SE JUNTA. Precisas de LDT — linguagem que só os teus entendem. Palavras sagradas. Rituais. Quando alguém disser 'sou Awakened', toda a gente lá dentro sabe o que isso significa. Quem está fora sente FOMO.
+**4. Comunidade** — Não tens audiência. Tens seguidores. Audiência assiste. Seguidores seguem. Comunidade MOVE-SE JUNTA. Precisas de LDT — linguagem que só os teus entendem. Palavras sagradas. Rituais. Quando alguém disser 'sou Orquestrador', toda a gente lá dentro sabe o que isso significa. Quem está fora sente FOMO.
 
 Para de pensar como vendedor de curso. Pensa como líder de revolução.
 

@@ -28,7 +28,7 @@
 **Identidade:**
 13. "99% vê vídeos sobre IA. 1% constrói COM IA. De que lado estás?"
 14. "Tens ideias ou lanças ideias? A diferença custa $29."
-15. "O mundo divide-se em dois: os que esperam e os Awakened."
+15. "O mundo divide-se em dois: os que esperam e os Orquestradores."
 
 ---
 
@@ -55,7 +55,7 @@
 27. "A Amazon nasceu em 1994. O TikTok em 2016. 22 anos depois, ainda a tempo. A IA tem 3."
 
 **Identidade:**
-28. "Sonhadores guardam a página nos favoritos. Awakened clicam NOW."
+28. "Sonhadores guardam a página nos favoritos. Orquestradores clicam NOW."
 29. "Compraste 3 cursos e não acabaste nenhum. E se o problema nunca foste tu?"
 30. "Não és preguiçoso. Não és burro. Tinhas era o veículo errado."
 
@@ -70,11 +70,11 @@
 
 **Curiosidade:**
 34. "O que muda quando activas o squad? Vê o terminal em acção."
-35. "Os primeiros Awakened já estão a lançar. O que estão a construir vai surpreender-te."
+35. "Os primeiros Orquestradores já estão a lançar. O que estão a construir vai surpreender-te."
 36. "V2.0: aprende a criar os teus próprios squads. O jogo muda por completo."
 
 **Urgência:**
-37. "Primeiros 100 Awakened: $29. Quantos faltam? Não vou dizer. Mas a janela não espera."
+37. "Primeiros 100 Orquestradores: $29. Quantos faltam? Não vou dizer. Mas a janela não espera."
 38. "Este fim-de-semana podes ter uma startup no ar. Ou podes ter mais um fim-de-semana perdido."
 39. "Domingo à noite: ou tens um produto no ar, ou tens arrependimento. Tu decides."
 
@@ -84,9 +84,9 @@
 42. "O PRD que o PM cria em 45 minutos custaria $5.000 a um consultor. Tu pagas $29."
 
 **Identidade:**
-43. "Sou Awakened. Tenho squad. Lanço em 48h. E tu?"
+43. "Sou Orquestrador. Tenho squad. Lanço em 48h. E tu?"
 44. "A última pergunta: tens ideias ou lanças ideias?"
-45. "Welcome, Awakened. Your mission starts NOW."
+45. "Bem-vindo, Orquestrador. Your mission starts NOW."
 
 ---
 
@@ -103,7 +103,7 @@
 | 7 | 9 | "Enquanto lês isto, alguém está a lançar a tua ideia." | Medo + urgência |
 | 8 | 39 | "Domingo à noite: ou tens produto no ar, ou tens arrependimento." | Visual concreto |
 | 9 | 5 | "O método que a indústria dos cursos não quer que descubras." | Conspiração + curiosidade |
-| 10 | 45 | "Welcome, Awakened. Your mission starts NOW." | Identidade tribal |
+| 10 | 45 | "Bem-vindo, Orquestrador. Your mission starts NOW." | Identidade tribal |
 
 ---
 

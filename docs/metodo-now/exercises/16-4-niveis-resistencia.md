@@ -94,7 +94,7 @@ Acredita. Confia. Sabe que funciona. Mas... "depois." O nível mais perigoso.
 
 | Fase | Preço | Condição |
 |------|-------|----------|
-| **Primeiros 100 Awakened** | $29 | Preço mais baixo que alguma vez existirá |
+| **Primeiros 100 Orquestradores** | $29 | Preço mais baixo que alguma vez existirá |
 | **Após 100 vendas** | Sobe (para $49 ou $67) | Sem aviso. Sem desculpas |
 | **Razão real** | Quanto menos pessoas souberem, maior a tua vantagem | Não é escassez falsa. É matemática |
 
@@ -105,7 +105,7 @@ Acredita. Confia. Sabe que funciona. Mas... "depois." O nível mais perigoso.
 >
 > Porquê? Porque o Método NOW dá-te uma vantagem. E vantagens funcionam enquanto são RARAS. Quando toda a gente tiver um squad de IA, lançar em 48 horas é o normal. Hoje, é um superpoder.
 >
-> Por isso, o preço de $29 só existe para os primeiros 100 Awakened.
+> Por isso, o preço de $29 só existe para os primeiros 100 Orquestradores.
 >
 > Depois do centésimo, sobe. Sem aviso. Sem desculpas.
 >

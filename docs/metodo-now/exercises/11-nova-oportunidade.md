@@ -61,11 +61,11 @@ NOW:     Fazer → Aprender ao fazer → Melhorar → Fazer mais
 
 ### Camada 2: Comunidade Identitária
 
-> "Não estás sozinho. Há uma tribo de Awakened que constrói enquanto o mundo dorme."
+> "Não estás sozinho. Há uma tribo de Orquestradores que constrói enquanto o mundo dorme."
 
-- The Awakened (identidade) — "Eu sou Awakened"
+- Os Orquestradores (identidade) — "Eu sou Orquestrador"
 - LDT (linguagem tribal) — "NOW, not how" / "Stay awake" / "Ship it"
-- Badges: Awakened → Operator → Builder → Launcher → First Revenue → Awakener
+- Badges: Orquestrador → Operator → Builder → Launcher → First Revenue → Mentor
 - Comunidade Telegram (futura) — só entra quem comprou. Muros altos
 
 ### Camada 3: Método Progressivo
@@ -103,7 +103,7 @@ Cada passo cria a NECESSIDADE do próximo.
 | **Método** | Passo a passo. Não é caótico |
 | **NOW** | Urgência. Acção imediata |
 | **NOW OX** | Operate (X)mission — o sistema que executa |
-| **Awakened** | Identidade. "Eu acordei. Eu pertenço. Eu construo" |
+| **Orquestrador** | Identidade. "Eu acordei. Eu pertenço. Eu construo" |
 
 ---
 
@@ -115,7 +115,7 @@ Cada passo cria a NECESSIDADE do próximo.
 | 2 | Substitui veículos antigos? | ✅ Cursos, no-code, freelancers, ChatGPT, planeamento solo |
 | 3 | É desejável por si só? | ✅ "Equipa de IA por $99" |
 | 4 | Tem prova pessoal? | ✅ Fundador fez o que promete |
-| 5 | Tem comunidade? | ✅ The Awakened |
+| 5 | Tem comunidade? | ✅ Os Orquestradores |
 | 6 | Tem método progressivo? | ✅ 6 passos do zero ao ar |
 | 7 | Tem urgência real? | ✅ Curva de adopção. Janela real |
 | 8 | Funciona para target expandido? | ✅ Solo + Micro + Pequena empresa |
