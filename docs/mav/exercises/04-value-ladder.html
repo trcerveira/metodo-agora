@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Escada de Valor — 25 Method</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Fraunces:wght@700;900&display=swap');
+    :root {
+      --bg: #0A0E1A; --surface: #0F1428; --card: rgba(15,20,40,0.9);
+      --stroke: rgba(240,236,228,0.08); --text: #F0ECE4;
+      --muted: rgba(240,236,228,0.52); --lime: #BFD64B;
+      --lime-dim: rgba(191,214,75,0.10); --lime-glow: rgba(191,214,75,0.20);
+      --red: #FF4D4D; --radius: 12px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: "Space Grotesk", sans-serif; background: var(--bg); color: var(--text); line-height: 1.65; }
+    .container { max-width: 900px; margin: 0 auto; padding: 0 24px 80px; }
+
+    /* HEADER */
+    .page-header { padding: 48px 0 32px; border-bottom: 1px solid var(--stroke); margin-bottom: 48px; }
+    .page-tag { font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--lime); margin-bottom: 10px; }
+    .page-title { font-family: "Fraunces", serif; font-size: clamp(2rem,4vw,3rem); font-weight: 900; line-height: 1.1; margin-bottom: 10px; }
+    .page-meta { font-size: 13px; color: var(--muted); }
+
+    /* DMEV */
+    .dmev-box {
+      background: var(--lime-dim); border: 1px solid rgba(191,214,75,.22);
+      border-radius: var(--radius); padding: 28px 32px; margin-bottom: 48px;
+    }
+    .dmev-box .label { font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--lime); margin-bottom: 10px; }
+    .dmev-box .quote { font-family: "Fraunces", serif; font-size: clamp(1.1rem,2vw,1.4rem); font-weight: 700; line-height: 1.4; }
+    .dmev-pills { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
+    .dmev-pill { background: rgba(191,214,75,.15); border: 1px solid rgba(191,214,75,.3); color: var(--lime); font-size: 12px; font-weight: 600; padding: 5px 14px; border-radius: 999px; }
+
+    /* LADDER VISUAL */
+    .ladder-section { margin-bottom: 48px; }
+    .section-title { font-family: "Fraunces", serif; font-size: 1.5rem; font-weight: 900; margin-bottom: 24px; }
+    .ladder { display: flex; flex-direction: column; gap: 10px; }
+
+    .rung {
+      border-radius: var(--radius); padding: 20px 24px;
+      display: grid; grid-template-columns: 1fr auto;
+      align-items: center; gap: 16px;
+      border: 1px solid var(--stroke);
+      transition: transform .2s, border-color .2s;
+    }
+    .rung:hover { transform: translateX(4px); border-color: rgba(191,214,75,.25); }
+
+    .rung-l4 { background: linear-gradient(90deg, rgba(191,214,75,.12), rgba(191,214,75,.04)); border-color: rgba(191,214,75,.3); }
+    .rung-l3 { background: linear-gradient(90deg, rgba(191,214,75,.08), rgba(10,14,26,.6)); }
+    .rung-l2 { background: linear-gradient(90deg, rgba(191,214,75,.06), rgba(10,14,26,.6)); }
+    .rung-l1 { background: linear-gradient(90deg, rgba(191,214,75,.04), rgba(10,14,26,.6)); }
+    .rung-l0 { background: var(--card); }
+    .rung-lm1 { background: rgba(255,255,255,.02); }
+
+    .rung-num { font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--lime); margin-bottom: 4px; }
+    .rung-name { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
+    .rung-desc { font-size: 13px; color: var(--muted); }
+    .rung-deferred { font-size: 11px; color: var(--red); font-weight: 700; letter-spacing: .06em; text-transform: uppercase; margin-top: 4px; }
+    .rung-price { text-align: right; flex-shrink: 0; }
+    .rung-price .price { font-family: "Fraunces", serif; font-size: 1.5rem; font-weight: 900; color: var(--lime); line-height: 1; }
+    .rung-price .period { font-size: 12px; color: var(--muted); margin-top: 2px; }
+    .rung-price .free { font-family: "Fraunces", serif; font-size: 1.5rem; font-weight: 900; color: var(--muted); }
+
+    .arrow { text-align: center; color: var(--lime); font-size: 22px; line-height: 1; margin: 2px 0; opacity: .6; }
+
+    /* LEVELS DETAIL */
+    .levels { display: flex; flex-direction: column; gap: 40px; margin-bottom: 48px; }
+    .level-card {
+      background: var(--card); border: 1px solid var(--stroke);
+      border-radius: calc(var(--radius)+4px); overflow: hidden;
+    }
+    .level-header {
+      padding: 22px 28px; border-bottom: 1px solid var(--stroke);
+      display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;
+    }
+    .level-header-left .lh-tag { font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--lime); margin-bottom: 4px; }
+    .level-header-left .lh-name { font-size: 18px; font-weight: 700; }
+    .level-header-right .lh-price { font-family: "Fraunces", serif; font-size: 1.8rem; font-weight: 900; color: var(--lime); line-height: 1; }
+    .level-header-right .lh-sub { font-size: 12px; color: var(--muted); text-align: right; margin-top: 2px; }
+    .level-body { padding: 28px; }
+    .level-body p { color: var(--muted); font-size: 14px; line-height: 1.75; margin-bottom: 16px; }
+    .level-table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+    .level-table td { padding: 10px 14px; font-size: 13px; border-bottom: 1px solid var(--stroke); vertical-align: top; }
+    .level-table tr:last-child td { border-bottom: none; }
+    .level-table td:first-child { color: var(--muted); font-weight: 600; white-space: nowrap; width: 140px; }
+    .level-table td:last-child { color: var(--text); }
+    .includes-list { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+    .includes-list li { display: flex; align-items: flex-start; gap: 10px; font-size: 13px; color: var(--muted); }
+    .includes-list li::before { content: '→'; color: var(--lime); font-weight: 700; flex-shrink: 0; }
+    .phase-list { display: flex; flex-direction: column; gap: 6px; }
+    .phase-item { display: flex; align-items: flex-start; gap: 10px; font-size: 13px; }
+    .phase-badge { background: var(--lime-dim); border: 1px solid rgba(191,214,75,.2); color: var(--lime); font-size: 10px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; padding: 3px 10px; border-radius: 999px; white-space: nowrap; flex-shrink: 0; margin-top: 1px; }
+    .phase-item span { color: var(--muted); }
+
+    /* JOURNEY */
+    .journey-box {
+      background: var(--card); border: 1px solid var(--stroke);
+      border-radius: var(--radius); padding: 28px 32px; margin-bottom: 48px;
+    }
+    .journey-title { font-size: 15px; font-weight: 700; margin-bottom: 20px; }
+    .journey-steps { display: flex; align-items: center; gap: 0; flex-wrap: wrap; }
+    .journey-step { text-align: center; padding: 12px 16px; flex: 1; min-width: 90px; }
+    .js-label { font-size: 12px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+    .js-level { font-size: 11px; color: var(--lime); font-weight: 700; }
+    .journey-arrow { color: var(--lime); font-size: 18px; flex-shrink: 0; opacity: .5; }
+
+    /* LAUNCH */
+    .launch-section { margin-bottom: 48px; }
+    .phases-grid { display: flex; flex-direction: column; gap: 12px; }
+    .phase-card {
+      background: var(--card); border: 1px solid var(--stroke);
+      border-radius: var(--radius); padding: 20px 24px;
+      display: grid; grid-template-columns: auto 1fr; gap: 20px; align-items: start;
+    }
+    .pc-num { font-family: "Fraunces", serif; font-size: 2.5rem; font-weight: 900; color: var(--lime); line-height: 1; }
+    .pc-title { font-size: 15px; font-weight: 700; margin-bottom: 4px; }
+    .pc-period { font-size: 12px; color: var(--lime); font-weight: 600; margin-bottom: 8px; }
+    .pc-items { list-style: none; display: flex; flex-direction: column; gap: 5px; }
+    .pc-items li { font-size: 13px; color: var(--muted); display: flex; gap: 8px; }
+    .pc-items li::before { content: '·'; color: var(--lime); }
+
+    /* VALIDATION */
+    .valid-grid { display: grid; grid-template-columns: repeat(5,1fr); gap: 10px; margin-top: 0; }
+    .valid-card {
+      background: var(--card); border: 1px solid rgba(191,214,75,.2);
+      border-radius: var(--radius); padding: 16px; text-align: center;
+    }
+    .valid-check { font-size: 22px; margin-bottom: 8px; }
+    .valid-text { font-size: 12px; color: var(--muted); line-height: 1.5; }
+
+    /* DIVIDER */
+    hr { border: none; border-top: 1px solid var(--stroke); margin: 40px 0; }
+
+    @media (max-width: 640px) {
+      .rung { grid-template-columns: 1fr; }
+      .rung-price { text-align: left; }
+      .level-header { flex-direction: column; align-items: flex-start; }
+      .valid-grid { grid-template-columns: 1fr 1fr; }
+      .journey-steps { flex-direction: column; }
+      .journey-arrow { transform: rotate(90deg); }
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <!-- HEADER -->
+  <div class="page-header">
+    <div class="page-tag">MAV Exercise 4 · 25 Method</div>
+    <h1 class="page-title">Escada de Valor</h1>
+    <p class="page-meta">Coach Teo · Actualizado 18 Fev 2026 · Novo funil: Quiz → Free Trial → $67/mês</p>
+  </div>
+
+  <!-- DMEV -->
+  <div class="dmev-box">
+    <div class="label">Declaração de Missão da Escada de Valor (DMEV)</div>
+    <div class="quote">"We help desk-bound professionals get fit, pain-free, and energized through a 25-minute daily system that requires no gym and no equipment."</div>
+    <div class="dmev-pills">
+      <span class="dmev-pill">Quem: Homens 30–50 sedentários</span>
+      <span class="dmev-pill">Resultado: Fit, sem dor, com energia</span>
+      <span class="dmev-pill">Mecanismo: Sistema de 25 min/dia</span>
+      <span class="dmev-pill">Diferença: Sem ginásio, sem equipamento</span>
+    </div>
+  </div>
+
+  <!-- LADDER VISUAL -->
+  <div class="ladder-section">
+    <h2 class="section-title">A Escada</h2>
+    <div class="ladder">
+
+      <div class="rung rung-l4">
+        <div>
+          <div class="rung-num">Level 4</div>
+          <div class="rung-name">Inner Circle — Mastermind</div>
+          <div class="rung-deferred">⏸ Adiado — só lançar quando houver procura orgânica</div>
+        </div>
+        <div class="rung-price">
+          <div class="price">$997</div>
+          <div class="period">/ano</div>
+        </div>
+      </div>
+
+      <div class="arrow">↑</div>
+
+      <div class="rung rung-l3">
+        <div>
+          <div class="rung-num">Level 3</div>
+          <div class="rung-name">The 25-Minute Protocol</div>
+          <div class="rung-desc">Programa de 8 semanas — transformação completa</div>
+        </div>
+        <div class="rung-price">
+          <div class="price">$197</div>
+          <div class="period">one-time</div>
+        </div>
+      </div>
+
+      <div class="arrow">↑</div>
+
+      <div class="rung rung-l2">
+        <div>
+          <div class="rung-num">Level 2</div>
+          <div class="rung-name">The 25 Club (Full Access)</div>
+          <div class="rung-desc">Comunidade + treinos semanais + coach + affiliate 50%</div>
+        </div>
+        <div class="rung-price">
+          <div class="price">$67</div>
+          <div class="period">/mês · ou $497/ano</div>
+        </div>
+      </div>
+
+      <div class="arrow">↑</div>
+
+      <div class="rung rung-l1">
+        <div>
+          <div class="rung-num">Level 1</div>
+          <div class="rung-name">The 25 Club — 7 Dias Free Trial (The Ignition)</div>
+          <div class="rung-desc">Acesso completo · cartão obrigatório · auto-converte ao dia 8</div>
+        </div>
+        <div class="rung-price">
+          <div class="free">$0</div>
+          <div class="period">depois $67/mês</div>
+        </div>
+      </div>
+
+      <div class="arrow">↑</div>
+
+      <div class="rung rung-l0">
+        <div>
+          <div class="rung-num">Level 0</div>
+          <div class="rung-name">Quiz + Sequência de 3 Emails</div>
+          <div class="rung-desc">Captura de lead · Segmentação · Quick wins · CTA para trial</div>
+        </div>
+        <div class="rung-price">
+          <div class="free">$0</div>
+          <div class="period">lead capture</div>
+        </div>
+      </div>
+
+      <div class="arrow">↑</div>
+
+      <div class="rung rung-lm1">
+        <div>
+          <div class="rung-num">Level -1</div>
+          <div class="rung-name">Free Content (YouTube · Reels · TikTok)</div>
+          <div class="rung-desc">Atracção + Autoridade · CTA para o quiz</div>
+        </div>
+        <div class="rung-price">
+          <div class="free">$0</div>
+          <div class="period">organic</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <hr>
+
+  <!-- LEVELS DETAIL -->
+  <div class="ladder-section">
+    <h2 class="section-title">Detalhe por Nível</h2>
+    <div class="levels">
+
+      <!-- Level -1 -->
+      <div class="level-card">
+        <div class="level-header">
+          <div class="level-header-left">
+            <div class="lh-tag">Level -1</div>
+            <div class="lh-name">Free Content — Atracção &amp; Autoridade</div>
+          </div>
+          <div class="level-header-right">
+            <div class="lh-price" style="color:var(--muted)">$0</div>
+            <div class="lh-sub">YouTube · Reels · TikTok</div>
+          </div>
+        </div>
+        <div class="level-body">
+          <table class="level-table">
+            <tr><td>Cadência</td><td>1 YouTube/semana + 3 Reels/TikTok + 3 Stories</td></tr>
+            <tr><td>Valor</td><td>Tips accionáveis para desk workers: postura, mobilidade, mindset</td></tr>
+            <tr><td>Objectivo</td><td>Atrair o cliente ideal. Construir autoridade. Levar ao Quiz (Level 0).</td></tr>
+            <tr><td>Hooks chave</td><td>"You're not getting old. You're getting still." · "Sitting is the new smoking."</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <!-- Level 0 -->
+      <div class="level-card">
+        <div class="level-header">
+          <div class="level-header-left">
+            <div class="lh-tag">Level 0</div>
+            <div class="lh-name">Quiz + Sequência de 3 Emails</div>
+          </div>
+          <div class="level-header-right">
+            <div class="lh-price" style="color:var(--muted)">$0</div>
+            <div class="lh-sub">Lead capture</div>
+          </div>
+        </div>
+        <div class="level-body">
+          <table class="level-table">
+            <tr><td>Nome</td><td>"What's Your Ideal Training Style Based on Your Lifestyle?"</td></tr>
+            <tr><td>Objectivo</td><td>Capturar email + segmentar + construir relação + aquecer para o free trial</td></tr>
+          </table>
+          <ul class="includes-list" style="margin-top:12px">
+            <li><strong>Email 1:</strong> Resultados do quiz + "Here's what your body is telling you"</li>
+            <li><strong>Email 2:</strong> História de origem do Coach Teo + exercício de quick win</li>
+            <li><strong>Email 3:</strong> Convite para free trial + dual hook: resultados fitness + ganhar como affiliate (50%)</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Level 1 -->
+      <div class="level-card">
+        <div class="level-header">
+          <div class="level-header-left">
+            <div class="lh-tag">Level 1</div>
+            <div class="lh-name">The 25 Club — 7-Day Free Trial (The Ignition)</div>
+          </div>
+          <div class="level-header-right">
+            <div class="lh-price" style="color:var(--muted)">$0 → $67</div>
+            <div class="lh-sub">7 dias grátis · depois $67/mês</div>
+          </div>
+        </div>
+        <div class="level-body">
+          <table class="level-table">
+            <tr><td>Acesso</td><td>Comunidade completa Skool + 7 treinos diários + emails de onboarding</td></tr>
+            <tr><td>Cartão</td><td>Obrigatório upfront. Auto-converte ao dia 8.</td></tr>
+            <tr><td>Oferta Day 7</td><td>$497/ano (38% desconto) — só disponível durante o trial</td></tr>
+            <tr><td>Lifetime</td><td>$997 (one-time) — apenas primeiros 50 membros</td></tr>
+          </table>
+          <div class="phase-list" style="margin-top:16px">
+            <div class="phase-item"><span class="phase-badge">Day 1</span><span>Full-body assessment + primeiro treino 25 min (bodyweight basics)</span></div>
+            <div class="phase-item"><span class="phase-badge">Day 2</span><span>Posture reset + desk mobility routine</span></div>
+            <div class="phase-item"><span class="phase-badge">Day 3</span><span>Lower body + hip flexor release (específico para desk workers)</span></div>
+            <div class="phase-item"><span class="phase-badge">Day 4</span><span>Upper body + shoulder/neck decompression</span></div>
+            <div class="phase-item"><span class="phase-badge">Day 5</span><span>Core + back strengthening (anti-sitting protocol)</span></div>
+            <div class="phase-item"><span class="phase-badge">Day 6</span><span>Full-body flow + mobilidade</span></div>
+            <div class="phase-item"><span class="phase-badge">Day 7</span><span>Finale + review de resultados + oferta anual ($497/year — só aqui)</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Level 2 -->
+      <div class="level-card">
+        <div class="level-header">
+          <div class="level-header-left">
+            <div class="lh-tag">Level 2</div>
+            <div class="lh-name">The 25 Club — Full Access</div>
+          </div>
+          <div class="level-header-right">
+            <div class="lh-price">$67<span style="font-size:1rem;font-family:inherit;font-weight:400;color:var(--muted)">/mês</span></div>
+            <div class="lh-sub">ou $497/ano (38% off — só durante trial)</div>
+          </div>
+        </div>
+        <div class="level-body">
+          <ul class="includes-list">
+            <li>Programas de treino semanais (seguindo o 25 Method)</li>
+            <li>Sistema de accountability ("25 DONE" check-in diário)</li>
+            <li>Fórum da comunidade (perguntas, vitórias, suporte)</li>
+            <li>Q&amp;A mensal / live session com Coach Teo</li>
+            <li>Níveis de progressão: Recruit → Soldier → Commander</li>
+            <li>Programa affiliate: 50% comissão recorrente por referência ($33.50/mês por membro referido)</li>
+          </ul>
+          <div style="margin-top:20px;background:var(--lime-dim);border:1px solid rgba(191,214,75,.2);border-radius:10px;padding:16px 18px">
+            <div style="font-size:12px;font-weight:700;color:var(--lime);margin-bottom:8px;letter-spacing:.06em;text-transform:uppercase">Affiliate Hook</div>
+            <div style="font-size:13px;color:var(--muted)">"Refer 2 amigos = a tua subscrição de $67/mês está coberta. Refer 10 = estás a ganhar $335/mês passive income."</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Level 3 -->
+      <div class="level-card">
+        <div class="level-header">
+          <div class="level-header-left">
+            <div class="lh-tag">Level 3</div>
+            <div class="lh-name">The 25-Minute Protocol — 8-Week Program</div>
+          </div>
+          <div class="level-header-right">
+            <div class="lh-price">$197</div>
+            <div class="lh-sub">one-time · transformação completa</div>
+          </div>
+        </div>
+        <div class="level-body">
+          <div class="phase-list" style="margin-bottom:16px">
+            <div class="phase-item"><span class="phase-badge">Semanas 1-2</span><span>FOUNDATION — Padrões de movimento, mobilidade, criação de hábito</span></div>
+            <div class="phase-item"><span class="phase-badge">Semanas 3-4</span><span>BUILD — Resistência progressiva, bases de força</span></div>
+            <div class="phase-item"><span class="phase-badge">Semanas 5-6</span><span>INTENSITY — Carga aumentada, circuitos de condicionamento</span></div>
+            <div class="phase-item"><span class="phase-badge">Semanas 7-8</span><span>INTEGRATION — Protocolo completo, teste, planeamento futuro</span></div>
+          </div>
+          <ul class="includes-list">
+            <li>5 treinos/semana · 25 min cada · progressão de bodyweight → bands → halteres</li>
+            <li>Protocolos específicos para desk workers (hip flexor, coluna torácica, ombros)</li>
+            <li>Vídeo-aulas semanais explicando o "porquê" de cada fase</li>
+            <li>Guidelines nutricionais simples (sem contar calorias)</li>
+            <li>Templates de acompanhamento de progresso</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <hr>
+
+  <!-- EMOTIONAL JOURNEY -->
+  <div class="journey-box">
+    <div class="journey-title">Jornada Emocional do Cliente</div>
+    <div class="journey-steps">
+      <div class="journey-step"><div class="js-label">Invisível</div><div class="js-level">Level -1</div></div>
+      <div class="journey-arrow">→</div>
+      <div class="journey-step"><div class="js-label">Curioso</div><div class="js-level">Level 0</div></div>
+      <div class="journey-arrow">→</div>
+      <div class="journey-step"><div class="js-label">Esperançoso</div><div class="js-level">Level 1</div></div>
+      <div class="journey-arrow">→</div>
+      <div class="journey-step"><div class="js-label">Comprometido</div><div class="js-level">Level 2</div></div>
+      <div class="journey-arrow">→</div>
+      <div class="journey-step"><div class="js-label">Pertença</div><div class="js-level">Level 2</div></div>
+      <div class="journey-arrow">→</div>
+      <div class="journey-step"><div class="js-label">Transformado</div><div class="js-level">Level 3</div></div>
+      <div class="journey-arrow">→</div>
+      <div class="journey-step"><div class="js-label">Líder</div><div class="js-level">Level 3+</div></div>
+    </div>
+  </div>
+
+  <hr>
+
+  <!-- LAUNCH PHASES -->
+  <div class="launch-section">
+    <h2 class="section-title">Sequência de Lançamento</h2>
+    <div class="phases-grid">
+      <div class="phase-card">
+        <div class="pc-num">1</div>
+        <div>
+          <div class="pc-title">Content + Lead Capture</div>
+          <div class="pc-period">Semanas 1–4</div>
+          <ul class="pc-items">
+            <li>Publicar free content (YouTube + Reels)</li>
+            <li>Construir quiz + sequência de email</li>
+            <li>Meta: 200–500 leads por email</li>
+          </ul>
+        </div>
+      </div>
+      <div class="phase-card">
+        <div class="pc-num">2</div>
+        <div>
+          <div class="pc-title">Abrir The 25 Club com Free Trial</div>
+          <div class="pc-period">Semana 5</div>
+          <ul class="pc-items">
+            <li>Lançar The 25 Club no Skool</li>
+            <li>The Ignition = onboarding de 7 dias (cartão obrigatório)</li>
+            <li>Oferta anual $497/ano (38% off) só durante trial</li>
+            <li>Meta: 50–100 signups free trial + testemunhos</li>
+          </ul>
+        </div>
+      </div>
+      <div class="phase-card">
+        <div class="pc-num">3</div>
+        <div>
+          <div class="pc-title">Scale + Affiliate Engine</div>
+          <div class="pc-period">Semanas 6–8</div>
+          <ul class="pc-items">
+            <li>Activar programa affiliate (50% comissão recorrente)</li>
+            <li>Membros começam a referir → crescimento orgânico</li>
+            <li>Meta: 100–200 membros pagantes</li>
+          </ul>
+        </div>
+      </div>
+      <div class="phase-card">
+        <div class="pc-num">4</div>
+        <div>
+          <div class="pc-title">Lançar The 25-Minute Protocol</div>
+          <div class="pc-period">Semanas 10–12</div>
+          <ul class="pc-items">
+            <li>Após primeiros membros atingirem 4–8 semanas</li>
+            <li>Lançar Protocol ($197) para audiência quente</li>
+            <li>Usar testemunhos da comunidade como prova</li>
+          </ul>
+        </div>
+      </div>
+      <div class="phase-card">
+        <div class="pc-num">5</div>
+        <div>
+          <div class="pc-title">Scale</div>
+          <div class="pc-period">Mês 4+</div>
+          <ul class="pc-items">
+            <li>Protocol gera vendas consistentes via upsell da comunidade</li>
+            <li>Flywheel de affiliate acelera crescimento</li>
+            <li>Inner Circle considerado com base na procura</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr>
+
+  <!-- VALIDATION -->
+  <div class="launch-section">
+    <h2 class="section-title">Checklist de Validação</h2>
+    <div class="valid-grid">
+      <div class="valid-card"><div class="valid-check">✅</div><div class="valid-text">Resolve um problema real e relevante</div></div>
+      <div class="valid-card"><div class="valid-check">✅</div><div class="valid-text">Caminho progressivo claro para o cliente</div></div>
+      <div class="valid-card"><div class="valid-check">✅</div><div class="valid-text">Benefícios facilmente compreendidos em cada nível</div></div>
+      <div class="valid-card"><div class="valid-check">✅</div><div class="valid-text">Oferta premium justifica valor superior</div></div>
+      <div class="valid-card"><div class="valid-check">✅</div><div class="valid-text">Um funil de cada vez — Inner Circle adiado</div></div>
+    </div>
+  </div>
+
+  <div style="margin-top:48px;padding:20px 24px;background:var(--card);border:1px solid var(--stroke);border-radius:var(--radius);font-size:12px;color:var(--muted);text-align:center">
+    MAV Exercise 4 · 25 Method · Actualizado 18 Fev 2026 · Especialista: @icaro (Ícaro de Carvalho)
+  </div>
+
+</div>
+</body>
+</html>

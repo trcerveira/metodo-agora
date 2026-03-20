@@ -9,4 +9,14 @@
   --color-fyvr-gray-700: #2A2A2A;
   --color-fyvr-gray-400: #888888;
   --color-fyvr-white: #FFFFFF;
+
+  /* Method Lime — Método Agora */
+  --color-now-green: #BFD64B;
+  --color-now-green-dark: #7A8A32;
+  --color-now-green-dim: #1E2310;
+  --color-now-terminal: #111628;
+  --color-now-gray: #1a1e2e;
+  --color-now-white: #E8E4DC;
+  --color-now-obsidian: #0A0E1A;
+  --color-now-ivory: #F0ECE4;
 }

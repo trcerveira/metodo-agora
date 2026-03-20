@@ -8,18 +8,18 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "FYVR — Hybrid Training",
-  description: "Personalized hybrid training powered by your DISC profile",
+  title: "Método Agora — Descobre a Tua Zona de Genialidade",
+  description: "Descobre o que deverias estar a construir. Teste gratuito baseado em 7 frameworks de elite.",
   manifest: "/manifest.json",
   appleWebApp: {
     capable: true,
     statusBarStyle: "black-translucent",
-    title: "FYVR",
+    title: "Método Agora",
   },
 };
 
 export const viewport: Viewport = {
-  themeColor: "#FF4500",
+  themeColor: "#0A0E1A",
   width: "device-width",
   initialScale: 1,
   maximumScale: 1,
@@ -32,11 +32,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="pt">
       <head>
         <link rel="apple-touch-icon" href="/icons/icon-192x192.png" />
       </head>
-      <body className={`${inter.variable} font-sans antialiased bg-fyvr-black text-fyvr-white`}>
+      <body className={`${inter.variable} font-sans antialiased bg-now-obsidian text-now-white`}>
         {children}
         <ServiceWorkerRegistrar />
       </body>

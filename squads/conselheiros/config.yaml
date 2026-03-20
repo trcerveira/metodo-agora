@@ -5,9 +5,9 @@ squad:
   created: "2026-03-18"
   author: "Telmo Cerveira"
   description: |
-    Squad de 11 conselheiros baseados em elite minds reais com frameworks
+    Squad de 12 conselheiros baseados em elite minds reais com frameworks
     documentados. Cobre decisão, gestão, estratégia, produto, monetização,
-    coaching, confiança, propósito e IA aplicada a negócios.
+    coaching, confiança, propósito, IA aplicada a negócios e criação de movimento.
 
   domain: "Advisory & Strategic Counseling"
   keywords:
@@ -49,6 +49,7 @@ squad:
         - brene-brown
         - simon-sinek
         - alan-nicolas
+      - davi-ribas
 
   routing:
     decision_making: charlie-munger
@@ -62,6 +63,7 @@ squad:
     trust_vulnerability: brene-brown
     purpose_vision: simon-sinek
     ai_business: alan-nicolas
+    movement_creation: davi-ribas
 
   activation:
     orchestrator: "@conselheiros"
