@@ -1253,9 +1253,8 @@ export default function BlueprintPage() {
     }
   };
 
-  const isModuleLocked = (index: number) => {
-    if (index === 0) return false;
-    return !completedModules.includes(index - 1);
+  const isModuleLocked = (_index: number) => {
+    return false; // Todos desbloqueados para teste
   };
 
   const renderModuleContent = (index: number) => {
