@@ -107,120 +107,6 @@ const modules = [
   },
 ];
 
-// --- Mensagens do Guia por Módulo ---
-const guideMessages: Record<number, { step: number; messages: string[] }[]> = {
-  0: [ // M1 — Instalar
-    { step: 0, messages: [
-      "Olá, Orquestrador. Sou o teu guia. Não vou mostrar a cara — mas vou mostrar-te o caminho.",
-      "Primeiro passo: abrir o terminal no teu computador.",
-      "No Mac: procura 'Terminal' no Spotlight (Cmd + Espaço).",
-      "No Windows: procura 'PowerShell' ou 'Command Prompt' no menu iniciar.",
-      "Quando tiveres o terminal aberto, avisa-me. 👇",
-    ]},
-    { step: 1, messages: [
-      "Perfeito. Estás no terminal.",
-      "Vês aquele comando verde no Passo 1? Clica em 'copiar' e cola no teu terminal.",
-      "Carrega Enter e espera uns segundos. O instalador faz tudo sozinho.",
-      "Sem Node.js. Sem npm. Sem dependências. 1 comando e está feito.",
-    ]},
-    { step: 2, messages: [
-      "Agora vamos verificar se ficou bem instalado.",
-      "Copia o comando do Passo 2: claude doctor",
-      "Se vês a versão e zero problemas — está perfeito.",
-      "Se há erros, o doctor diz-te exactamente o que corrigir. Segue o que ele diz.",
-    ]},
-    { step: 3, messages: [
-      "Quase lá. Agora vamos abrir o Claude Code pela primeira vez.",
-      "Escreve 'claude' no terminal e carrega Enter.",
-      "Ele vai abrir o browser para fazeres login. Usa a tua conta Claude Pro, Max ou Teams.",
-      "Depois de login, volta ao terminal.",
-    ]},
-    { step: 4, messages: [
-      "Último passo. Cria a pasta do teu projecto.",
-      "Copia os dois comandos do Passo 4 — um cria a pasta, o outro abre o Claude Code dentro dela.",
-      "Vês o cursor a piscar? 🔥",
-      "ESTÁS DENTRO. A máquina está ligada. Tu és o piloto.",
-      "Agora marca todos os checkpoints abaixo e avança para o próximo módulo.",
-    ]},
-  ],
-  1: [ // M2 — Efeito Eh Lá
-    { step: 0, messages: [
-      "Pronto para o momento 'Eh Lá'?",
-      "Nos próximos 10 minutos vais construir 3 coisas reais. Sem saber programar.",
-      "Isto é o momento em que a descrença morre.",
-      "Vamos a isso. 👇",
-    ]},
-  ],
-};
-
-// --- Componente: Chat do Guia ---
-function ChatGuide({ moduleIndex, checkStep }: { moduleIndex: number; checkStep: number }) {
-  const [visibleMessages, setVisibleMessages] = useState<string[]>([]);
-
-  useEffect(() => {
-    const moduleMessages = guideMessages[moduleIndex];
-    if (!moduleMessages) {
-      setVisibleMessages(["Módulo em construção. Em breve o teu guia estará aqui."]);
-      return;
-    }
-
-    const allMessages: string[] = [];
-    for (const group of moduleMessages) {
-      if (group.step <= checkStep) {
-        allMessages.push(...group.messages);
-      }
-    }
-    setVisibleMessages(allMessages);
-  }, [moduleIndex, checkStep]);
-
-  return (
-    <div className="flex flex-col h-full">
-      {/* Header do Chat */}
-      <div className="border-b border-now-green/10 px-4 py-3 flex items-center gap-3">
-        <div className="w-8 h-8 rounded-full bg-now-green/10 border border-now-green/20 flex items-center justify-center">
-          <span className="text-now-green text-xs">?</span>
-        </div>
-        <div>
-          <p className="text-now-green font-mono text-sm font-bold">Guia NOW</p>
-          <p className="text-now-green/30 font-mono text-xs">online — a guiar-te</p>
-        </div>
-      </div>
-
-      {/* Mensagens */}
-      <div className="flex-1 overflow-y-auto px-4 py-4 space-y-3">
-        {visibleMessages.map((msg, i) => (
-          <div
-            key={i}
-            className="flex gap-2 animate-in fade-in slide-in-from-bottom-2"
-            style={{ animationDelay: `${i * 100}ms`, animationFillMode: "backwards" }}
-          >
-            <div className="w-1 bg-now-green/20 rounded-full flex-shrink-0 mt-1" />
-            <p className="text-now-ivory/80 text-sm font-mono leading-relaxed">
-              {msg}
-            </p>
-          </div>
-        ))}
-
-        {/* Indicador de escrita */}
-        <div className="flex gap-2 items-center pt-2">
-          <div className="w-1 bg-now-green/10 rounded-full h-4" />
-          <div className="flex gap-1">
-            <span className="w-1.5 h-1.5 rounded-full bg-now-green/20 animate-pulse" />
-            <span className="w-1.5 h-1.5 rounded-full bg-now-green/20 animate-pulse" style={{ animationDelay: "0.2s" }} />
-            <span className="w-1.5 h-1.5 rounded-full bg-now-green/20 animate-pulse" style={{ animationDelay: "0.4s" }} />
-          </div>
-        </div>
-      </div>
-
-      {/* Footer */}
-      <div className="border-t border-now-green/10 px-4 py-3">
-        <p className="text-now-green/20 font-mono text-xs text-center italic">
-          &quot;Em terra de cegos, quem tem um olho é rei.&quot;
-        </p>
-      </div>
-    </div>
-  );
-}
 
 // --- Componente: Barra de Progresso ---
 function ProgressBar({ completed, total }: { completed: number; total: number }) {
@@ -1573,8 +1459,6 @@ function ModulePlaceholder({ mod }: { mod: (typeof modules)[0] }) {
 export default function BlueprintPage() {
   const [activeModule, setActiveModule] = useState(0);
   const [completedModules, setCompletedModules] = useState<number[]>([]);
-  const [chatStep, setChatStep] = useState(0);
-  const [showChat, setShowChat] = useState(true);
 
   // Carregar progresso do localStorage
   useEffect(() => {
@@ -1594,10 +1478,6 @@ export default function BlueprintPage() {
     );
   }, [completedModules, activeModule]);
 
-  // Reset chat step quando muda de módulo
-  useEffect(() => {
-    setChatStep(0);
-  }, [activeModule]);
 
   const completeModule = (index: number) => {
     if (!completedModules.includes(index)) {
@@ -1621,7 +1501,7 @@ export default function BlueprintPage() {
 
     switch (index) {
       case 0: return <ZonaGenialidadeContent onComplete={() => completeModule(0)} />;
-      case 1: return <Module1Content onComplete={() => completeModule(1)} onStepChange={setChatStep} />;
+      case 1: return <Module1Content onComplete={() => completeModule(1)} onStepChange={() => {}} />;
       case 2: return <Module2Content onComplete={() => completeModule(2)} />;
       case 3: return <Module3Content onComplete={() => completeModule(3)} />;
       case 4: return <Module4Content onComplete={() => completeModule(4)} />;
@@ -1643,26 +1523,11 @@ export default function BlueprintPage() {
             <h1 className="text-now-green font-mono font-bold text-xl tracking-wider">
               MÉTODO<span className="text-now-green/40">_</span>AGORA
             </h1>
-            <p className="text-now-green/30 font-mono text-xs mt-1">
-              Pacote Completo — €9
-            </p>
           </div>
           <div className="flex items-center gap-4">
             <p className="text-now-green/40 font-mono text-xs hidden sm:block">
               {completedModules.length}/{modules.length} módulos
             </p>
-            <button
-              onClick={() => setShowChat(!showChat)}
-              className={`
-                px-3 py-1.5 text-xs font-mono rounded-lg transition-all border
-                ${showChat
-                  ? "bg-now-green/10 text-now-green border-now-green/30"
-                  : "bg-now-obsidian text-now-green/30 border-now-green/10"
-                }
-              `}
-            >
-              💬 {showChat ? "Guia ON" : "Guia OFF"}
-            </button>
           </div>
         </div>
       </header>
@@ -1692,10 +1557,10 @@ export default function BlueprintPage() {
 
       {/* Layout Principal: Conteúdo + Chat */}
       <div className="max-w-7xl mx-auto px-4 lg:px-6 pb-8">
-        <div className={`flex gap-6 ${showChat ? "" : ""}`}>
+        <div className="flex gap-6">
 
-          {/* Coluna Esquerda — Conteúdo do Módulo */}
-          <div className={`${showChat ? "flex-1 min-w-0" : "w-full max-w-4xl mx-auto"}`}>
+          {/* Conteúdo do Módulo */}
+          <div className="w-full max-w-4xl mx-auto">
             {/* Cabeçalho do Módulo */}
             <div className="mb-6 pb-4 border-b border-now-green/10">
               <div className="flex items-center gap-3 mb-2">
@@ -1726,14 +1591,6 @@ export default function BlueprintPage() {
             {renderModuleContent(activeModule)}
           </div>
 
-          {/* Coluna Direita — Chat do Guia */}
-          {showChat && (
-            <div className="hidden lg:block w-80 flex-shrink-0">
-              <div className="sticky top-6 h-[calc(100vh-12rem)] bg-now-terminal border border-now-green/10 rounded-xl overflow-hidden flex flex-col">
-                <ChatGuide moduleIndex={activeModule} checkStep={chatStep} />
-              </div>
-            </div>
-          )}
         </div>
       </div>
 
