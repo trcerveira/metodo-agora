@@ -476,14 +476,28 @@ function ZonaGenialidadeContent({ onComplete }: { onComplete: () => void }) {
         body: JSON.stringify({ name: zgName, formattedScores }),
       })
       if (!res.ok) throw new Error('Erro na API')
-      const data = await res.json()
-      setBlueprint(data.blueprint)
+
+      const reader = res.body?.getReader()
+      if (!reader) throw new Error('Stream indisponível')
+
+      const decoder = new TextDecoder()
+      let fullText = ''
+      setBlueprint('')
+      setZgStep('result')
+
+      while (true) {
+        const { done, value } = await reader.read()
+        if (done) break
+        const chunk = decoder.decode(value, { stream: true })
+        fullText += chunk
+        setBlueprint(fullText)
+      }
+
       localStorage.setItem('blueprint_data', JSON.stringify({
-        name: zgName, blueprint: data.blueprint,
+        name: zgName, blueprint: fullText,
         result: { zone: result.zone, zoneTitle: result.zoneTitle, archetype: result.archetype, consistency: result.consistency },
         timestamp: new Date().toISOString(),
       }))
-      setZgStep('result')
     } catch {
       setZgStep('error')
     }
@@ -706,59 +720,79 @@ function ZonaGenialidadeContent({ onComplete }: { onComplete: () => void }) {
   }
 
   // --- RESULT (Blueprint) ---
-  if (zgStep === 'result' && blueprint) {
+  if (zgStep === 'result' && blueprint !== null) {
+    const streamDone = blueprint.length > 0 && !!localStorage.getItem('blueprint_data')
     return (
       <div className="space-y-6">
         <div className="bg-now-green/5 border border-now-green/20 rounded-lg p-4 text-center">
-          <p className="text-now-green font-mono font-bold text-sm">BLUEPRINT GERADO</p>
-          <h3 className="text-now-ivory text-xl font-bold mt-1">{zgName}</h3>
-          <p className="text-now-green/40 text-xs font-mono mt-1">
-            Gerado em {new Date().toLocaleDateString('pt-PT')}
+          <p className="text-now-green font-mono font-bold text-sm">
+            {blueprint.length === 0 ? 'A INICIAR BLUEPRINT...' : 'O TEU BLUEPRINT'}
           </p>
+          <h3 className="text-now-ivory text-xl font-bold mt-1">{zgName}</h3>
+          {blueprint.length === 0 && (
+            <div className="mt-3 flex justify-center">
+              <div className="h-5 w-5 animate-spin rounded-full border-2 border-now-green/20 border-t-now-green" />
+            </div>
+          )}
         </div>
 
         {/* Blueprint Markdown */}
-        <div className="blueprint-md" dangerouslySetInnerHTML={{ __html: simpleMarkdown(blueprint) }} />
+        {blueprint.length > 0 && (
+          <div className="blueprint-md" dangerouslySetInnerHTML={{ __html: simpleMarkdown(blueprint) }} />
+        )}
 
-        {/* Divisor */}
-        <div className="my-10 border-t border-now-green/10" />
+        {/* Indicador de streaming */}
+        {!streamDone && blueprint.length > 0 && (
+          <div className="flex items-center gap-2 py-2">
+            <div className="h-3 w-3 animate-spin rounded-full border border-now-green/20 border-t-now-green" />
+            <p className="text-now-green/40 font-mono text-xs">a escrever...</p>
+          </div>
+        )}
 
-        {/* CTA — Agora OX */}
-        <div className="rounded-xl border-2 border-now-green/30 bg-now-terminal p-8 text-center space-y-4">
-          <p className="text-now-green font-mono text-sm tracking-wider">E AGORA?</p>
-          <h3 className="text-now-ivory text-2xl font-bold">
-            Tens o plano.<br />Agora precisas da equipa.
-          </h3>
-          <p className="text-now-ivory/60 text-sm max-w-md mx-auto">
-            Sabes quem és. Sabes o que construir. Mas construir sozinho é o caminho mais lento.
-            O Agora OX é o teu squad de agentes AI — arquiteto, developer, QA, product owner —
-            todos alinhados com o TEU perfil de genialidade.
-          </p>
-          <a
-            href="https://buy.stripe.com/PLACEHOLDER_AGORA_OX"
-            className="inline-block mt-4 rounded-lg bg-now-green px-10 py-4 text-lg font-bold text-black font-mono transition hover:shadow-[0_0_30px_rgba(191,214,75,0.4)]"
-          >
-            AGORA OX — €99
-          </a>
-          <p className="text-now-green/30 text-xs font-mono">
-            Squad completo de agentes AI · Construído para o teu perfil
-          </p>
-        </div>
+        {/* CTA e botões só aparecem quando o stream acabou */}
+        {streamDone && (
+          <>
+            {/* Divisor */}
+            <div className="my-10 border-t border-now-green/10" />
 
-        <div className="mt-8 flex gap-3">
-          <button
-            onClick={() => window.print()}
-            className="flex-1 py-3 border border-now-green/30 text-now-green font-mono text-sm rounded-lg hover:bg-now-green/10 transition"
-          >
-            GUARDAR / IMPRIMIR
-          </button>
-          <button
-            onClick={onComplete}
-            className="flex-1 py-3 bg-now-green/20 text-now-green font-mono font-bold text-sm rounded-lg hover:bg-now-green/30 transition"
-          >
-            PRÓXIMO MÓDULO →
-          </button>
-        </div>
+            {/* CTA — Agora OX */}
+            <div className="rounded-xl border-2 border-now-green/30 bg-now-terminal p-8 text-center space-y-4">
+              <p className="text-now-green font-mono text-sm tracking-wider">E AGORA?</p>
+              <h3 className="text-now-ivory text-2xl font-bold">
+                Tens o plano.<br />Agora precisas da equipa.
+              </h3>
+              <p className="text-now-ivory/60 text-sm max-w-md mx-auto">
+                Sabes quem és. Sabes o que construir. Mas construir sozinho é o caminho mais lento.
+                O Agora OX é o teu squad de agentes AI — arquiteto, developer, QA, product owner —
+                todos alinhados com o TEU perfil de genialidade.
+              </p>
+              <a
+                href="https://buy.stripe.com/PLACEHOLDER_AGORA_OX"
+                className="inline-block mt-4 rounded-lg bg-now-green px-10 py-4 text-lg font-bold text-black font-mono transition hover:shadow-[0_0_30px_rgba(191,214,75,0.4)]"
+              >
+                AGORA OX — €99
+              </a>
+              <p className="text-now-green/30 text-xs font-mono">
+                Squad completo de agentes AI · Construído para o teu perfil
+              </p>
+            </div>
+
+            <div className="mt-8 flex gap-3">
+              <button
+                onClick={() => window.print()}
+                className="flex-1 py-3 border border-now-green/30 text-now-green font-mono text-sm rounded-lg hover:bg-now-green/10 transition"
+              >
+                GUARDAR / IMPRIMIR
+              </button>
+              <button
+                onClick={onComplete}
+                className="flex-1 py-3 bg-now-green/20 text-now-green font-mono font-bold text-sm rounded-lg hover:bg-now-green/30 transition"
+              >
+                PRÓXIMO MÓDULO →
+              </button>
+            </div>
+          </>
+        )}
       </div>
     )
   }
