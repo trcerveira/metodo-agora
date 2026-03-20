@@ -711,7 +711,32 @@ function ZonaGenialidadeContent({ onComplete }: { onComplete: () => void }) {
         {/* Blueprint Markdown */}
         <div className="blueprint-md" dangerouslySetInnerHTML={{ __html: simpleMarkdown(blueprint) }} />
 
-        <div className="flex gap-3">
+        {/* Divisor */}
+        <div className="my-10 border-t border-now-green/10" />
+
+        {/* CTA — Agora OX */}
+        <div className="rounded-xl border-2 border-now-green/30 bg-now-terminal p-8 text-center space-y-4">
+          <p className="text-now-green font-mono text-sm tracking-wider">E AGORA?</p>
+          <h3 className="text-now-ivory text-2xl font-bold">
+            Tens o plano.<br />Agora precisas da equipa.
+          </h3>
+          <p className="text-now-ivory/60 text-sm max-w-md mx-auto">
+            Sabes quem és. Sabes o que construir. Mas construir sozinho é o caminho mais lento.
+            O Agora OX é o teu squad de agentes AI — arquiteto, developer, QA, product owner —
+            todos alinhados com o TEU perfil de genialidade.
+          </p>
+          <a
+            href="https://buy.stripe.com/PLACEHOLDER_AGORA_OX"
+            className="inline-block mt-4 rounded-lg bg-now-green px-10 py-4 text-lg font-bold text-black font-mono transition hover:shadow-[0_0_30px_rgba(191,214,75,0.4)]"
+          >
+            AGORA OX — €99
+          </a>
+          <p className="text-now-green/30 text-xs font-mono">
+            Squad completo de agentes AI · Construído para o teu perfil
+          </p>
+        </div>
+
+        <div className="mt-8 flex gap-3">
           <button
             onClick={() => window.print()}
             className="flex-1 py-3 border border-now-green/30 text-now-green font-mono text-sm rounded-lg hover:bg-now-green/10 transition"
@@ -720,7 +745,7 @@ function ZonaGenialidadeContent({ onComplete }: { onComplete: () => void }) {
           </button>
           <button
             onClick={onComplete}
-            className="flex-1 py-3 bg-now-green text-now-obsidian font-mono font-bold text-sm rounded-lg hover:bg-now-green/90 transition"
+            className="flex-1 py-3 bg-now-green/20 text-now-green font-mono font-bold text-sm rounded-lg hover:bg-now-green/30 transition"
           >
             PRÓXIMO MÓDULO →
           </button>

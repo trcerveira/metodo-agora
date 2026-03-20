@@ -97,21 +97,37 @@ export default function ResultadoPage() {
           <MarkdownRenderer content={data.blueprint} />
         </div>
 
-        {/* Footer */}
-        <div className="mt-12 border-t border-now-green-dim pt-8 text-center">
-          <p className="text-sm text-now-white/60">
-            Blueprint gerado por AI baseado nas tuas respostas a 43 perguntas
-            cruzadas com 7 frameworks comportamentais.
+        {/* CTA — Agora OX */}
+        <div className="mt-12 rounded-xl border-2 border-now-green-dim/50 bg-[#111628] p-8 text-center space-y-4">
+          <p className="text-now-green text-sm tracking-wider">E AGORA?</p>
+          <h3 className="text-now-ivory text-2xl font-bold">
+            Tens o plano.<br />Agora precisas da equipa.
+          </h3>
+          <p className="text-now-white/50 text-sm max-w-md mx-auto">
+            Sabes quem és. Sabes o que construir. Mas construir sozinho é o caminho mais lento.
+            O Agora OX é o teu squad de agentes AI — arquiteto, developer, QA, product owner —
+            todos alinhados com o TEU perfil de genialidade.
           </p>
+          <a
+            href="https://buy.stripe.com/PLACEHOLDER_AGORA_OX"
+            className="inline-block mt-4 rounded-lg bg-now-green px-10 py-4 text-lg font-bold text-black transition hover:shadow-[0_0_30px_rgba(191,214,75,0.4)]"
+          >
+            AGORA OX — €99
+          </a>
+          <p className="text-now-green-dark text-xs">
+            Squad completo de agentes AI · Construído para o teu perfil
+          </p>
+        </div>
+
+        {/* Footer */}
+        <div className="mt-8 border-t border-now-green-dim pt-8 text-center">
+          <button
+            onClick={() => window.print()}
+            className="rounded-md border border-now-green px-6 py-2.5 text-sm font-bold text-now-green transition hover:bg-now-green hover:text-black"
+          >
+            GUARDAR / IMPRIMIR
+          </button>
           <div className="mt-6">
-            <button
-              onClick={() => window.print()}
-              className="rounded-md border border-now-green px-6 py-2.5 text-sm font-bold text-now-green transition hover:bg-now-green hover:text-black"
-            >
-              GUARDAR / IMPRIMIR
-            </button>
-          </div>
-          <div className="mt-8">
             <span className="text-xs tracking-[4px] text-now-green-dark">MÉTODO</span>
             <p className="text-lg font-bold text-now-green">AGORA</p>
             <p className="mt-1 text-xs text-now-green-dark">A revolução não espera.</p>
