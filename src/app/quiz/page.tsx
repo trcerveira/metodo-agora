@@ -470,24 +470,27 @@ function ResultScreen({
           </div>
           <div className="flex items-start gap-2">
             <span className="mt-0.5 text-now-green">3.</span>
-            <span><strong className="text-now-white/90">Agente Analyst</strong> — analisa o teu mercado e encontra oportunidades reais</span>
+            <span><strong className="text-now-white/90">Fernando Pessoa (Analyst)</strong> — analisa o teu mercado e encontra oportunidades reais</span>
           </div>
           <div className="flex items-start gap-2">
             <span className="mt-0.5 text-now-green">4.</span>
-            <span><strong className="text-now-white/90">Agente PO</strong> — transforma a tua ideia num produto concreto</span>
+            <span><strong className="text-now-white/90">Marquês de Pombal (PM)</strong> — transforma a tua ideia num produto concreto</span>
           </div>
         </div>
       </div>
 
       {/* CTA principal */}
-      <div className="mb-12">
+      <div className="mb-4">
         <a
-          href="/comprar"
+          href="https://buy.stripe.com/eVqdRb9SvcsMbda6Dwa3u00"
           className="block w-full rounded-lg bg-now-green py-4 text-center text-base font-bold text-black transition hover:shadow-[0_0_20px_rgba(191,214,75,0.4)]"
         >
-          QUERO O PACOTE COMPLETO
+          QUERO O PACOTE COMPLETO — €9
         </a>
       </div>
+      <p className="mb-12 text-center text-xs text-now-white/40">
+        Pagamento único · Acesso imediato · Garantia 7 dias
+      </p>
 
       {/* Rodapé */}
       <div className="border-t border-now-green-dim pt-8 text-center">

@@ -5,7 +5,7 @@
 // O botão redireciona para checkout externo (Gumroad/LemonSqueezy)
 // ============================================================
 
-// TODO: Substituir pelo link real do Gumroad ou LemonSqueezy
+// Stripe Payment Link — após pagamento redireciona para /blueprint
 const CHECKOUT_URL = 'https://buy.stripe.com/eVqdRb9SvcsMbda6Dwa3u00'
 
 export default function ComprarPage() {
@@ -53,14 +53,14 @@ export default function ComprarPage() {
             <li className="flex gap-3">
               <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-now-green text-xs font-bold text-black">3</span>
               <div>
-                <p className="font-bold text-now-white/90">Agente Analyst</p>
+                <p className="font-bold text-now-white/90">Fernando Pessoa (Analyst)</p>
                 <p className="text-now-white/50">Analisa o teu mercado e encontra oportunidades reais para o teu perfil</p>
               </div>
             </li>
             <li className="flex gap-3">
               <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-now-green text-xs font-bold text-black">4</span>
               <div>
-                <p className="font-bold text-now-white/90">Agente PO (Product Owner)</p>
+                <p className="font-bold text-now-white/90">Marquês de Pombal (PM)</p>
                 <p className="text-now-white/50">Transforma a tua ideia num produto concreto, pronto a construir</p>
               </div>
             </li>
