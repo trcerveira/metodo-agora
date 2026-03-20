@@ -55,7 +55,7 @@ const modules = [
     id: "m4",
     number: 4,
     title: "A Cabine do Piloto",
-    subtitle: "Interface do Claude Code",
+    subtitle: "3 zonas. Tu és o piloto. Conhece os controlos.",
     badge: "Operator",
     duration: "10 min",
     output: "Dominas as 3 zonas do terminal",
@@ -1256,15 +1256,93 @@ function Module4Content({ onComplete }: { onComplete: () => void }) {
   const allDone = checks.every(Boolean);
   return (
     <div className="space-y-6">
-      <div className="border-l-2 border-now-green pl-4"><p className="text-now-green/60 text-xs font-mono uppercase tracking-wider mb-1">TU ÉS O PILOTO</p><p className="text-now-ivory text-base">O Claude Code tem 3 zonas. Quando as dominares, o terminal transforma-se na tua cabine de comando.</p></div>
+      {/* Título e subtítulo */}
+      <div className="border-l-2 border-now-green pl-4">
+        <p className="text-now-green/60 text-xs font-mono uppercase tracking-wider mb-1">A CABINE DO PILOTO</p>
+        <p className="text-now-ivory text-base">3 zonas. Tu és o piloto. Conhece os controlos.</p>
+      </div>
+
+      {/* Nota inicial */}
       <BeginnerNote>
-        <strong className="text-now-green">O Claude Code é um programa que corre dentro do terminal.</strong> Imagina o terminal como uma sala escura. O Claude Code é o assistente que vive nessa sala e faz o que lhe pedires — criar sites, escrever código, analisar dados. Tu escreves em português normal, ele percebe e faz.
+        O Claude Code não tem janelas, menus nem botões. É texto. E isso é o teu superpoder — porque texto é a forma mais rápida de comunicar com IA.
       </BeginnerNote>
-      <div className="rounded-lg border-2 border-now-green/30 bg-now-terminal p-5 space-y-3"><div className="flex items-center gap-3"><span className="flex h-8 w-8 items-center justify-center rounded-full bg-now-green text-black font-mono font-bold text-sm">1</span><h3 className="text-now-green font-mono font-bold">ZONA DE PROMPT</h3></div><p className="text-now-ivory/70 text-sm">É aqui que tu falas. O cursor a piscar no fundo do ecrã. Escreves o que queres em português normal e carregas Enter. Não precisas de saber programar — escreves como se estivesses a enviar uma mensagem.</p><div className="bg-now-obsidian rounded-lg p-3 font-mono text-sm"><span className="text-now-green/40">❯ </span><span className="text-now-ivory">cria uma landing page para o meu projecto<span className="animate-pulse text-now-green">|</span></span></div><p className="text-now-ivory/40 text-xs font-mono">Tu dás a ordem. A máquina executa.</p></div>
-      <div className="rounded-lg border-2 border-now-green/30 bg-now-terminal p-5 space-y-3"><div className="flex items-center gap-3"><span className="flex h-8 w-8 items-center justify-center rounded-full bg-now-green text-black font-mono font-bold text-sm">2</span><h3 className="text-now-green font-mono font-bold">ZONA DE RESPOSTA</h3></div><p className="text-now-ivory/70 text-sm">O centro do ecrã. Onde o Claude mostra o que está a fazer em tempo real.</p><div className="bg-now-obsidian rounded-lg p-3 font-mono text-xs space-y-1"><p className="text-now-green/60">A criar src/index.html...</p><p className="text-now-green/60">A adicionar estilos CSS...</p><p className="text-now-green">✓ Landing page criada com sucesso</p></div><p className="text-now-ivory/40 text-xs font-mono">Lê sempre o que ele diz. É aqui que aprendes.</p></div>
-      <div className="rounded-lg border-2 border-now-green/30 bg-now-terminal p-5 space-y-3"><div className="flex items-center gap-3"><span className="flex h-8 w-8 items-center justify-center rounded-full bg-now-green text-black font-mono font-bold text-sm">3</span><h3 className="text-now-green font-mono font-bold">ZONA DE PERMISSÕES</h3></div><p className="text-now-ivory/70 text-sm">Quando o Claude quer fazer algo sensível, pede-te autorização. Tu decides. Sempre.</p><div className="bg-now-obsidian rounded-lg p-3 font-mono text-xs space-y-1"><p className="text-yellow-400/80">Posso criar o ficheiro src/index.html?</p><p className="text-now-ivory/50">[Y] Sim · [N] Não · [A] Sim para todos</p></div><p className="text-now-ivory/40 text-xs font-mono">Nada acontece sem a tua permissão. Controlo total.</p></div>
-      <div className="bg-now-green/5 border border-now-green/10 rounded-lg p-4"><p className="text-now-green text-xs font-mono">💡 <strong>Resumo:</strong> Tu escreves (Zona 1) → Claude executa (Zona 2) → Tu autorizas (Zona 3). Como pilotar um avião: tu dás as ordens, o co-piloto executa, e tu confirmas cada manobra.</p></div>
-      <div className="border border-now-green/20 rounded-lg p-4 bg-now-terminal"><p className="text-now-green font-mono font-bold text-sm mb-3">✅ CHECKPOINT</p><div className="space-y-1"><Checkpoint text="Sei onde escrevo os meus prompts (Zona 1)" checked={checks[0]} onToggle={() => toggle(0)} /><Checkpoint text="Sei ler as respostas do Claude (Zona 2)" checked={checks[1]} onToggle={() => toggle(1)} /><Checkpoint text="Sei aceitar/recusar permissões (Zona 3)" checked={checks[2]} onToggle={() => toggle(2)} /></div></div>
+
+      {/* Zona 1 — Prompt */}
+      <div className="rounded-lg border-2 border-now-green/30 bg-now-terminal p-5 space-y-3">
+        <div className="flex items-center gap-3">
+          <span className="flex h-8 w-8 items-center justify-center rounded-full bg-now-green text-black font-mono font-bold text-sm">1</span>
+          <h3 className="text-now-green font-mono font-bold">ZONA DE PROMPT — onde escreves</h3>
+        </div>
+        <p className="text-now-ivory/70 text-sm">
+          O cursor a piscar no fundo do ecrã. Escreves em linguagem natural — como uma mensagem de WhatsApp. &quot;Cria um ficheiro README&quot; funciona. Não precisas de saber programar.
+        </p>
+        <div className="bg-now-obsidian rounded-lg p-3 font-mono text-sm">
+          <span className="text-now-green/40">❯ </span>
+          <span className="text-now-ivory">cria um ficheiro README para o meu projecto<span className="animate-pulse text-now-green">|</span></span>
+        </div>
+        <p className="text-now-ivory/40 text-xs font-mono">Tu dás a ordem. A máquina executa.</p>
+      </div>
+
+      {/* Zona 2 — Resposta */}
+      <div className="rounded-lg border-2 border-now-green/30 bg-now-terminal p-5 space-y-3">
+        <div className="flex items-center gap-3">
+          <span className="flex h-8 w-8 items-center justify-center rounded-full bg-now-green text-black font-mono font-bold text-sm">2</span>
+          <h3 className="text-now-green font-mono font-bold">ZONA DE RESPOSTA — o que o Claude diz</h3>
+        </div>
+        <p className="text-now-ivory/70 text-sm">
+          O Claude responde directamente no terminal. Texto, código, explicações — tudo rola para cima. Vês cada ficheiro lido, editado ou criado em tempo real.
+        </p>
+        <div className="bg-now-obsidian rounded-lg p-3 font-mono text-xs space-y-1">
+          <p className="text-now-green/60">A ler a estrutura do projecto...</p>
+          <p className="text-now-green/60">A criar README.md...</p>
+          <p className="text-now-green">✓ README.md criado com sucesso</p>
+        </div>
+        <p className="text-now-ivory/40 text-xs font-mono">Lê sempre o que ele diz. É aqui que aprendes.</p>
+      </div>
+
+      {/* Zona 3 — Permissões */}
+      <div className="rounded-lg border-2 border-now-green/30 bg-now-terminal p-5 space-y-3">
+        <div className="flex items-center gap-3">
+          <span className="flex h-8 w-8 items-center justify-center rounded-full bg-now-green text-black font-mono font-bold text-sm">3</span>
+          <h3 className="text-now-green font-mono font-bold">ZONA DE PERMISSÕES — tu decides</h3>
+        </div>
+        <p className="text-now-ivory/70 text-sm">
+          Quando o Claude quer executar um comando ou editar um ficheiro, pára e pergunta. Tu aprovas com <strong className="text-now-green">y</strong> ou rejeitas com <strong className="text-red-400">n</strong>. Ele não faz nada sem a tua aprovação. Tu és o piloto.
+        </p>
+        <div className="bg-now-obsidian rounded-lg p-3 font-mono text-xs space-y-1">
+          <p className="text-yellow-400/80">Posso criar o ficheiro README.md?</p>
+          <p className="text-now-ivory/50">[Y] Sim · [N] Não · [A] Sim para todos</p>
+        </div>
+        <p className="text-now-ivory/40 text-xs font-mono">Nada acontece sem a tua permissão. Controlo total.</p>
+      </div>
+
+      {/* Extra — Modo YOLO */}
+      <div className="bg-now-green/5 border border-now-green/10 rounded-lg p-4 space-y-3">
+        <p className="text-now-green text-sm font-mono font-bold">EXTRA: MODO YOLO</p>
+        <p className="text-now-ivory/70 text-sm">
+          Quando confias no que pediste e não queres aprovar cada passo, podes lançar o Claude sem permissões:
+        </p>
+        <TerminalBlock command="claude --dangerously-skip-permissions" description="Modo YOLO — Claude executa tudo sozinho, sem perguntar" />
+        <p className="text-now-ivory/40 text-xs font-mono">Usa quando já sabes o que vai acontecer. O Claude executa tudo de uma vez, sem parar para perguntar.</p>
+      </div>
+
+      {/* Resumo visual */}
+      <div className="bg-now-green/5 border border-now-green/10 rounded-lg p-4">
+        <p className="text-now-green text-xs font-mono">
+          Tu escreves (Zona 1) → Claude executa (Zona 2) → Tu autorizas (Zona 3). Como pilotar um avião: tu dás as ordens, o co-piloto executa, e tu confirmas cada manobra.
+        </p>
+      </div>
+
+      {/* Checkpoint */}
+      <div className="border border-now-green/20 rounded-lg p-4 bg-now-terminal">
+        <p className="text-now-green font-mono font-bold text-sm mb-3">✅ CHECKPOINT</p>
+        <div className="space-y-1">
+          <Checkpoint text="Sei onde escrever ✅" checked={checks[0]} onToggle={() => toggle(0)} />
+          <Checkpoint text="Sei onde ler ✅" checked={checks[1]} onToggle={() => toggle(1)} />
+          <Checkpoint text="Sei onde aprovar ✅" checked={checks[2]} onToggle={() => toggle(2)} />
+        </div>
+      </div>
+
       {allDone && <button onClick={onComplete} className="w-full py-4 bg-now-green text-now-obsidian font-mono font-bold text-lg rounded-lg hover:bg-now-green/90 transition-all animate-pulse">Próximo Módulo →</button>}
       {!allDone && <p className="text-center text-now-green/30 text-xs font-mono py-4">Completa o checkpoint para desbloquear o próximo módulo</p>}
     </div>
