@@ -541,7 +541,10 @@ function ZonaGenialidadeContent({ onComplete }: { onComplete: () => void }) {
       setStreamComplete(true)
       saveBlueprint(fullText)
     } catch (err) {
-      if (err instanceof Error && err.name === 'AbortError') return
+      if (err instanceof Error && err.name === 'AbortError') {
+        if (controller.signal.aborted) setZgStep('error')
+        return
+      }
       setZgStep('error')
     } finally {
       clearTimeout(timeoutId)
