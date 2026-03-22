@@ -1,0 +1,105 @@
+squad:
+  name: closer
+  title: "Squad Closer — Elite Sales Closing & Buyer Profiling"
+  version: "1.0.0"
+  created: "2026-03-21"
+  author: "Telmo Cerveira"
+  description: |
+    Squad de 7 agentes especializados em sales closing, perfil comportamental
+    do comprador (DISC), identificacao de dor, combate a objecoes e persuasao.
+    Baseado em elite minds reais com frameworks documentados.
+
+  domain: "Sales Closing & Buyer Profiling"
+  keywords:
+    - sales closing
+    - buyer profiling
+    - DISC
+    - objection handling
+    - pain identification
+    - persuasion
+    - negotiation
+    - gap selling
+    - NEPQ
+    - tactical empathy
+
+  orchestrator: closer-chief
+
+  tiers:
+    tier_0:
+      name: "Diagnostico"
+      description: "Perfilam o comprador e quantificam a dor ANTES de qualquer abordagem"
+      agents:
+        - tony-alessandra
+        - keenan
+
+    tier_1:
+      name: "Masters"
+      description: "Execucao principal — desarmar objecoes, escavar dor, fechar"
+      agents:
+        - chris-voss
+        - david-sandler
+        - jeremy-miner
+
+    tier_2:
+      name: "Sistematizadores"
+      description: "Frameworks estruturados de objecoes e persuasao"
+      agents:
+        - jeb-blount
+        - robert-cialdini
+
+  pipeline:
+    step_1:
+      name: "PERFIL"
+      agent: tony-alessandra
+      action: "Perfila o buyer (DISC: Dominante, Influente, Estavel, Consciente)"
+    step_2:
+      name: "GAP"
+      agent: keenan
+      action: "Identifica e quantifica o gap entre estado actual e desejado"
+    step_3:
+      name: "DOR"
+      agent: david-sandler
+      action: "Escava a dor profunda com Pain Funnel"
+    step_4:
+      name: "OBJECOES"
+      agents:
+        - chris-voss
+        - jeb-blount
+      action: "Voss desarma emocionalmente + Blount sistematiza resposta (LAER)"
+    step_5:
+      name: "CLOSE"
+      agent: jeremy-miner
+      action: "Fecha com perguntas NEPQ — o prospect fecha-se a si mesmo"
+    step_6:
+      name: "BASE"
+      agent: robert-cialdini
+      action: "Sustenta toda a comunicacao com 7 principios de influencia"
+
+  routing:
+    buyer_profiling: tony-alessandra
+    disc_assessment: tony-alessandra
+    gap_analysis: keenan
+    pain_quantification: keenan
+    objection_handling: chris-voss
+    negotiation: chris-voss
+    pain_identification: david-sandler
+    discovery_questions: david-sandler
+    closing: jeremy-miner
+    nepq_questions: jeremy-miner
+    objection_system: jeb-blount
+    emotional_intelligence: jeb-blount
+    persuasion: robert-cialdini
+    influence_principles: robert-cialdini
+
+  activation:
+    orchestrator: "@closer"
+    agents: "@closer:{agent-id}"
+    examples:
+      - "@closer — activa o chief (orchestrator)"
+      - "@closer:tony-alessandra — perfil DISC do comprador"
+      - "@closer:keenan — analise de gap"
+      - "@closer:chris-voss — desarmar objecoes"
+      - "@closer:david-sandler — escavar dor profunda"
+      - "@closer:jeremy-miner — fechar com NEPQ"
+      - "@closer:jeb-blount — sistema de objecoes LAER"
+      - "@closer:robert-cialdini — principios de persuasao"
