@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MÉTODO Z — Sistema de Transformação Física</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: #0a0a0a;
+            color: #e5e5e5;
+            line-height: 1.7;
+        }
+
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 40px 20px;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #0a0a0a 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%; left: -50%;
+            width: 200%; height: 200%;
+            background: radial-gradient(circle at 30% 50%, rgba(255,107,53,0.08) 0%, transparent 50%),
+                        radial-gradient(circle at 70% 50%, rgba(59,130,246,0.08) 0%, transparent 50%);
+            animation: pulse 8s ease-in-out infinite;
+        }
+        @keyframes pulse { 0%,100%{opacity:.5} 50%{opacity:1} }
+        .hero-content { position: relative; z-index: 1; }
+        .badge {
+            display: inline-block; padding: 8px 24px;
+            border: 1px solid rgba(255,107,53,0.4); border-radius: 50px;
+            font-size: 14px; color: #ff6b35; letter-spacing: 3px; text-transform: uppercase;
+            margin-bottom: 40px;
+        }
+        .hero h1 {
+            font-size: clamp(48px,8vw,96px); font-weight: 800; letter-spacing: -2px; margin-bottom: 16px;
+            background: linear-gradient(135deg,#fff 0%,#ff6b35 100%);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        .hero .subtitle { font-size: clamp(18px,3vw,28px); color: #888; margin-bottom: 60px; font-weight: 300; }
+        .scroll-hint { font-size: 14px; color: #555; letter-spacing: 2px; text-transform: uppercase; animation: bounce 2s infinite; }
+        @keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(8px)} }
+
+        section { max-width: 900px; margin: 0 auto; padding: 80px 24px; }
+        .section-divider { width: 60px; height: 3px; background: #ff6b35; margin-bottom: 32px; }
+        h2 { font-size: 36px; font-weight: 700; margin-bottom: 24px; color: #fff; }
+        h3 { font-size: 22px; font-weight: 600; margin-bottom: 16px; color: #ff6b35; }
+        p { margin-bottom: 16px; color: #bbb; font-size: 17px; }
+
+        .stats-bar {
+            display: grid; grid-template-columns: repeat(auto-fit,minmax(200px,1fr));
+            gap: 24px; padding: 60px 24px; max-width: 900px; margin: 0 auto;
+        }
+        .stat { text-align: center; padding: 32px 16px; border: 1px solid #222; border-radius: 12px; background: #111; }
+        .stat .number { font-size: 42px; font-weight: 800; color: #ff6b35; }
+        .stat .label { font-size: 14px; color: #777; text-transform: uppercase; letter-spacing: 1px; margin-top: 8px; }
+
+        .problem-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 32px; }
+        .problem-card { padding: 24px; background: #111; border-radius: 12px; border-left: 3px solid #ff4444; }
+        .problem-card .icon { font-size: 28px; margin-bottom: 12px; }
+        .problem-card p { margin: 0; font-size: 15px; color: #999; }
+
+        .flow { display: flex; flex-direction: column; gap: 0; margin: 40px 0; align-items: center; }
+        .flow-step { background: #111; border: 1px solid #222; border-radius: 12px; padding: 20px 32px; text-align: center; width: 100%; max-width: 500px; }
+        .flow-step.highlight { border-color: #ff6b35; background: rgba(255,107,53,0.08); }
+        .flow-arrow { font-size: 24px; color: #ff6b35; padding: 8px 0; }
+
+        .category-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 24px; }
+        .category-card { padding: 24px; background: #111; border-radius: 12px; border-left: 3px solid #ff6b35; }
+        .category-card .cat-name { font-size: 18px; font-weight: 700; color: #fff; margin-bottom: 8px; }
+        .category-card .cat-desc { font-size: 15px; color: #888; }
+
+        .retention-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-top: 24px; }
+        .retention-card { padding: 24px; background: #111; border-radius: 12px; border: 1px solid #222; text-align: center; }
+        .retention-card .ret-icon { font-size: 32px; margin-bottom: 12px; }
+        .retention-card .ret-title { font-size: 16px; font-weight: 700; color: #fff; margin-bottom: 8px; }
+        .retention-card .ret-desc { font-size: 14px; color: #888; }
+
+        .levels-visual { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-top: 24px; }
+        .level-card { padding: 24px; border-radius: 12px; text-align: center; border: 1px solid #222; background: #111; }
+        .level-card .level-num { font-size: 48px; font-weight: 800; color: #ff6b35; }
+        .level-card .level-name { font-size: 14px; color: #888; text-transform: uppercase; letter-spacing: 1px; margin-top: 8px; }
+        .level-card:nth-child(2) { border-color: #f59e0b; }
+        .level-card:nth-child(2) .level-num { color: #f59e0b; }
+        .level-card:nth-child(3) { border-color: #22c55e; }
+        .level-card:nth-child(3) .level-num { color: #22c55e; }
+
+        .ladder { display: flex; flex-direction: column; gap: 16px; margin-top: 32px; }
+        .ladder-step {
+            display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 20px;
+            padding: 24px; border-radius: 12px; border: 1px solid #222; background: #111; transition: transform 0.2s;
+        }
+        .ladder-step:hover { transform: translateX(8px); }
+        .ladder-step .step-icon { font-size: 36px; }
+        .ladder-step .step-name { font-size: 18px; font-weight: 700; color: #fff; }
+        .ladder-step .step-desc { font-size: 14px; color: #888; margin-top: 4px; }
+        .ladder-step .step-price { font-size: 24px; font-weight: 800; color: #ff6b35; text-align: right; white-space: nowrap; }
+        .ladder-step .step-price small { font-size: 12px; color: #666; font-weight: 400; display: block; }
+        .ladder-step:nth-child(1) { border-left: 3px solid #666; }
+        .ladder-step:nth-child(2) { border-left: 3px solid #ff6b35; }
+        .ladder-step:nth-child(3) { border-left: 3px solid #f59e0b; }
+        .ladder-step:nth-child(4) { border-left: 3px solid #3b82f6; }
+        .ladder-step:nth-child(5) { border-left: 3px solid #a855f7; }
+
+        .comparison { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 40px; }
+        .comp-card { padding: 32px; border-radius: 16px; border: 1px solid #222; }
+        .comp-card.path-a { background: #111; border-color: #333; opacity: 0.7; }
+        .comp-card.metodo-z { background: rgba(255,107,53,0.05); border-color: #ff6b35; }
+        .comp-card h3 { text-align: center; margin-bottom: 24px; }
+        .comp-card.path-a h3 { color: #666; }
+        .comp-row { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #1a1a1a; font-size: 15px; }
+        .comp-row .label { color: #888; }
+        .comp-row .value { font-weight: 600; color: #fff; }
+        .comp-card.path-a .comp-row .value { color: #888; }
+        .comp-card.metodo-z .comp-row .value { color: #ff6b35; }
+
+        .big-number {
+            text-align: center; padding: 40px; margin: 40px 0; border-radius: 16px;
+            background: linear-gradient(135deg,rgba(255,107,53,0.1),rgba(255,107,53,0.02));
+            border: 1px solid rgba(255,107,53,0.2);
+        }
+        .big-number .number { font-size: 72px; font-weight: 800; color: #ff6b35; }
+        .big-number .label { font-size: 18px; color: #888; margin-top: 8px; }
+
+        .note-box {
+            margin-top: 32px; padding: 24px 32px; border-radius: 12px;
+            background: rgba(59,130,246,0.08); border: 1px solid rgba(59,130,246,0.3);
+        }
+        .note-box p { color: #93c5fd; margin: 0; font-size: 16px; }
+        .note-box strong { color: #60a5fa; }
+
+        .affiliate-table { width: 100%; border-collapse: collapse; margin-top: 24px; }
+        .affiliate-table th {
+            text-align: left; padding: 14px 16px; background: #1a1a1a;
+            color: #ff6b35; font-size: 14px; text-transform: uppercase; letter-spacing: 1px;
+            border-bottom: 2px solid #ff6b35;
+        }
+        .affiliate-table td {
+            padding: 14px 16px; border-bottom: 1px solid #1a1a1a; font-size: 15px; color: #bbb;
+        }
+        .affiliate-table tr:hover td { background: #111; }
+        .affiliate-table .highlight-row td { color: #ff6b35; font-weight: 700; font-size: 17px; }
+
+        .vs-table { width: 100%; border-collapse: collapse; margin-top: 24px; }
+        .vs-table th {
+            text-align: left; padding: 14px 16px; background: #1a1a1a;
+            color: #888; font-size: 14px; text-transform: uppercase; letter-spacing: 1px;
+        }
+        .vs-table th:last-child { color: #ff6b35; }
+        .vs-table td { padding: 14px 16px; border-bottom: 1px solid #1a1a1a; font-size: 15px; color: #888; }
+        .vs-table td:last-child { color: #ff6b35; font-weight: 600; }
+
+        .growth-timeline { display: grid; grid-template-columns: repeat(4,1fr); gap: 16px; margin-top: 32px; }
+        .growth-card { padding: 24px; background: #111; border-radius: 12px; text-align: center; border: 1px solid #222; }
+        .growth-card .period { font-size: 13px; color: #666; text-transform: uppercase; letter-spacing: 1px; }
+        .growth-card .pts { font-size: 32px; font-weight: 800; color: #fff; margin: 8px 0; }
+        .growth-card .revenue { font-size: 16px; color: #ff6b35; font-weight: 600; }
+        .growth-card:last-child { border-color: #ff6b35; }
+        .growth-card:last-child .pts { color: #ff6b35; }
+
+        .cta-section { text-align: center; padding: 100px 24px; max-width: 700px; margin: 0 auto; }
+        .cta-section h2 { font-size: 42px; margin-bottom: 24px; line-height: 1.3; }
+        .cta-section p { font-size: 18px; color: #bbb; line-height: 1.8; }
+        .final-line { font-size: 24px; font-weight: 700; color: #fff; margin-top: 48px; line-height: 1.5; }
+        .final-line em { color: #ff6b35; font-style: normal; }
+
+        .footer { text-align: center; padding: 40px; color: #444; font-size: 14px; }
+
+        @media (max-width:768px) {
+            .problem-grid,.comparison,.category-grid { grid-template-columns:1fr; }
+            .retention-grid,.levels-visual { grid-template-columns:1fr; }
+            .growth-timeline { grid-template-columns:1fr 1fr; }
+            .ladder-step { grid-template-columns:auto 1fr; }
+            .ladder-step .step-price { grid-column:1/-1; text-align:left; }
+            .affiliate-table, .vs-table { font-size: 13px; }
+            .affiliate-table th, .affiliate-table td,
+            .vs-table th, .vs-table td { padding: 10px 8px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="hero">
+        <div class="hero-content">
+            <div class="badge">Sistema de Transformação Física</div>
+            <h1>MÉTODO Z</h1>
+            <p class="subtitle">Testes objectivos. 3 Níveis. Resultados mensuráveis.</p>
+            <p class="scroll-hint">↓ Scroll ↓</p>
+        </div>
+    </div>
+
+    <section>
+        <div class="section-divider"></div>
+        <h2>O Problema que Resolvemos</h2>
+        <div class="problem-grid">
+            <div class="problem-card"><div class="icon">😴</div><p><strong>73%</strong> dos portugueses são sedentários</p></div>
+            <div class="problem-card"><div class="icon">🤕</div><p><strong>36,6%</strong> têm dor lombar</p></div>
+            <div class="problem-card"><div class="icon">🚪</div><p>As pessoas <strong>desistem em 3 meses</strong> porque não vêem resultados mensuráveis</p></div>
+            <div class="problem-card"><div class="icon">⏰</div><p>Os PTs vendem sessões avulsas sem sistema — <strong>trocam tempo por dinheiro</strong></p></div>
+        </div>
+    </section>
+
+    <div class="stats-bar">
+        <div class="stat"><div class="number">4</div><div class="label">Categorias de Testes</div></div>
+        <div class="stat"><div class="number">3</div><div class="label">Níveis de Progressão</div></div>
+        <div class="stat"><div class="number">0€</div><div class="label">Equipamento Necessário</div></div>
+        <div class="stat"><div class="number">Mensal</div><div class="label">Re-Avaliação</div></div>
+    </div>
+
+    <section>
+        <div class="section-divider"></div>
+        <h2>O Método Z — Como Funciona</h2>
+        <p>Um sistema completo de transformação física com avaliação objectiva, 3 níveis de progressão, e prova mensurável de resultados.</p>
+        <div class="flow">
+            <div class="flow-step highlight"><strong>AVALIAÇÃO</strong><br>Testes objectivos — o cliente descobre o seu nível real</div>
+            <div class="flow-arrow">↓</div>
+            <div class="flow-step"><strong>TREINO POR NÍVEL</strong><br>Programa personalizado — progressão estruturada</div>
+            <div class="flow-arrow">↓</div>
+            <div class="flow-step"><strong>RE-AVALIAÇÃO MENSAL</strong><br>Repetir os testes todos os meses</div>
+            <div class="flow-arrow">↓</div>
+            <div class="flow-step highlight"><strong>PROVA DE EVOLUÇÃO</strong><br>O cliente vê a evolução com números concretos → FICA</div>
+        </div>
+    </section>
+
+    <section>
+        <div class="section-divider"></div>
+        <h2>Categorias de Avaliação</h2>
+        <p>Vários testes distribuídos por 4 categorias. Zero equipamento. Qualquer lugar.</p>
+        <div class="category-grid">
+            <div class="category-card">
+                <div class="cat-name">Mobilidade e Estabilidade</div>
+                <div class="cat-desc">Testes para avaliar a qualidade de movimento do corpo inteiro</div>
+            </div>
+            <div class="category-card">
+                <div class="cat-name">Força</div>
+                <div class="cat-desc">Capacidade muscular real — sem máquinas, sem truques</div>
+            </div>
+            <div class="category-card">
+                <div class="cat-name">Resistência</div>
+                <div class="cat-desc">Capacidade cardiovascular objectiva</div>
+            </div>
+            <div class="category-card">
+                <div class="cat-name">Flexibilidade</div>
+                <div class="cat-desc">Amplitude de movimento — a base da longevidade</div>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <div class="section-divider"></div>
+        <h2>3 Níveis de Progressão</h2>
+        <p>Cada nível tem critérios de passagem objectivos. O cliente sabe exactamente onde está e para onde vai.</p>
+        <div class="levels-visual">
+            <div class="level-card">
+                <div class="level-num">1</div>
+                <div class="level-name">Nível 1</div>
+            </div>
+            <div class="level-card">
+                <div class="level-num">2</div>
+                <div class="level-name">Nível 2</div>
+            </div>
+            <div class="level-card">
+                <div class="level-num">3</div>
+                <div class="level-name">Nível 3</div>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <div class="section-divider"></div>
+        <h2>Re-Avaliação Mensal — Anti-Churn</h2>
+        <p>Todos os meses, o cliente repete os testes. Isto cria um ciclo de retenção poderoso:</p>
+        <div class="retention-grid">
+            <div class="retention-card">
+                <div class="ret-icon">📊</div>
+                <div class="ret-title">Prova Objectiva</div>
+                <div class="ret-desc">O método funciona — e o cliente vê os números a provar</div>
+            </div>
+            <div class="retention-card">
+                <div class="ret-icon">🔥</div>
+                <div class="ret-title">Motivação Contínua</div>
+                <div class="ret-desc">Evolução visível mês a mês — não é "sinto-me melhor", é dados</div>
+            </div>
+            <div class="retention-card">
+                <div class="ret-icon">🔒</div>
+                <div class="ret-title">Retenção</div>
+                <div class="ret-desc">Quem vê resultados com números concretos não cancela</div>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <div class="section-divider"></div>
+        <h2>Escada de Valor</h2>
+        <p>Do gratuito ao premium — cada degrau leva ao próximo.</p>
+        <div class="ladder">
+            <div class="ladder-step">
+                <div class="step-icon">🎁</div>
+                <div><div class="step-name">ISCA</div><div class="step-desc">Ebook "Descobre o teu nível real" — a pessoa faz os testes em casa e descobre onde está</div></div>
+                <div class="step-price">Grátis</div>
+            </div>
+            <div class="ladder-step">
+                <div class="step-icon">🔥</div>
+                <div><div class="step-name">DESAFIO Z — 21 Dias</div><div class="step-desc">Desafio online em grupo. 21 dias de treino + comunidade + reavaliação no final</div></div>
+                <div class="step-price">27-47€<small>one-time</small></div>
+            </div>
+            <div class="ladder-step">
+                <div class="step-icon">📈</div>
+                <div><div class="step-name">MÉTODO Z ONLINE</div><div class="step-desc">Programa mensal online — planos por nível, check-ins semanais, comunidade</div></div>
+                <div class="step-price">59-99€<small>por mês</small></div>
+            </div>
+            <div class="ladder-step">
+                <div class="step-icon">💎</div>
+                <div><div class="step-name">MÉTODO Z PRESENCIAL</div><div class="step-desc">PT presencial 1x/semana + acesso a tudo online. Avaliação ao vivo, correcção de movimento</div></div>
+                <div class="step-price">120-150€<small>por mês</small></div>
+            </div>
+            <div class="ladder-step">
+                <div class="step-icon">👑</div>
+                <div><div class="step-name">MÉTODO Z VIP</div><div class="step-desc">PT presencial 2-3x/semana + nutrição + acompanhamento total. Transformação completa</div></div>
+                <div class="step-price">200-300€<small>por mês</small></div>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <div class="section-divider"></div>
+        <h2>Dois Caminhos — Os Mesmos 20 Clientes</h2>
+        <p>Dois modelos diferentes. Os mesmos 20 clientes. Resultados completamente diferentes.</p>
+        <div class="comparison">
+            <div class="comp-card path-a">
+                <h3>Comissões de Revenda</h3>
+                <div class="comp-row"><span class="label">Produto</span><span class="value">Suplementos (47€/mês)</span></div>
+                <div class="comp-row"><span class="label">Comissão</span><span class="value">~12€/cliente</span></div>
+                <div class="comp-row"><span class="label">20 clientes</span><span class="value">240€/mês</span></div>
+                <div class="comp-row"><span class="label">O que constróis</span><span class="value">A marca de outra empresa</span></div>
+            </div>
+            <div class="comp-card metodo-z">
+                <h3>MÉTODO Z</h3>
+                <div class="comp-row"><span class="label">Mix</span><span class="value">5 online + 10 presencial + 5 VIP</span></div>
+                <div class="comp-row"><span class="label">Receita mensal</span><span class="value">3.495€/mês</span></div>
+                <div class="comp-row"><span class="label">Divisão 50/50</span><span class="value">1.747€/mês cada</span></div>
+                <div class="comp-row"><span class="label">Donos do negócio</span><span class="value">Sim — 50/50</span></div>
+                <div class="comp-row"><span class="label">O que constróis</span><span class="value">Marca + sistema + activo vosso</span></div>
+            </div>
+        </div>
+        <div class="big-number">
+            <div class="number">7,3x</div>
+            <div class="label">mais receita para cada um no Método Z — com os mesmos 20 clientes</div>
+        </div>
+    </section>
+
+    <section>
+        <div class="section-divider"></div>
+        <h2>Modelo de Afiliado para PTs</h2>
+        <p>O verdadeiro escalamento. Em vez de treinar clientes directamente — <strong>recruta PTs para usar o Método Z</strong> com os clientes deles.</p>
+
+        <h3 style="margin-top:40px;">Como funciona</h3>
+        <p>1. O PT paga uma licença para usar o sistema Método Z (testes, níveis, marca, plataforma)</p>
+        <p>2. O PT usa o método com os seus clientes e cobra-lhes directamente</p>
+        <p>3. Tu recebes uma comissão de afiliado recorrente por cada PT que trouxeres</p>
+
+        <h3 style="margin-top:40px;">Os números por PT</h3>
+        <table class="affiliate-table">
+            <tr><th>Dado</th><th>Valor</th></tr>
+            <tr><td>Clientes por PT (média)</td><td>15</td></tr>
+            <tr><td>Receita média do PT</td><td>1.500€/mês</td></tr>
+            <tr><td>PT paga ao Método Z (20% revenue share)</td><td>300€/mês</td></tr>
+            <tr class="highlight-row"><td>Tua comissão de afiliado (30%)</td><td>90€/mês por PT</td></tr>
+        </table>
+
+        <h3 style="margin-top:40px;">Escala com PTs recrutados</h3>
+        <table class="affiliate-table">
+            <tr><th>PTs recrutados</th><th>Receita Método Z</th><th>Tua comissão mensal</th></tr>
+            <tr><td>5 PTs</td><td>1.500€/mês</td><td>450€/mês</td></tr>
+            <tr><td>10 PTs</td><td>3.000€/mês</td><td>900€/mês</td></tr>
+            <tr><td>20 PTs</td><td>6.000€/mês</td><td>1.800€/mês</td></tr>
+            <tr class="highlight-row"><td>50 PTs</td><td>15.000€/mês</td><td>4.500€/mês</td></tr>
+        </table>
+
+        <h3 style="margin-top:40px;">Comissões de suplementos vs. Afiliado Método Z</h3>
+        <table class="vs-table">
+            <tr><th></th><th>Comissões suplementos</th><th>Afiliado Método Z (10 PTs)</th></tr>
+            <tr><td>Receita mensal</td><td>240€</td><td>900€</td></tr>
+            <tr><td>Trabalho</td><td>Vender a cada cliente, todos os meses</td><td>Recrutar o PT 1 vez</td></tr>
+            <tr><td>Escalabilidade</td><td>Linear (tu vendes)</td><td>Exponencial (PTs vendem)</td></tr>
+            <tr><td>Rendimento passivo</td><td>Depende de recompra</td><td>Recorrente enquanto o PT usar o sistema</td></tr>
+        </table>
+
+    </section>
+
+
+    <div class="footer">Proposta criada em 26 de Março de 2026 — Método Z</div>
+
+</body>
+</html>

@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Method C — Logo Concepts by Draplin</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Arial', sans-serif; background: #f5f5f0; color: #1a1a1a; }
+
+  .header {
+    background: #1a1a1a;
+    color: #f5f5f0;
+    padding: 60px 40px;
+    text-align: center;
+  }
+  .header h1 { font-size: 14px; letter-spacing: 6px; text-transform: uppercase; margin-bottom: 8px; font-weight: 400; }
+  .header h2 { font-size: 48px; font-weight: 900; letter-spacing: -1px; }
+  .header p { font-size: 14px; letter-spacing: 3px; text-transform: uppercase; margin-top: 12px; opacity: 0.6; }
+
+  .concept {
+    max-width: 1000px;
+    margin: 60px auto;
+    padding: 0 40px;
+  }
+  .concept-label {
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: #999;
+    margin-bottom: 8px;
+  }
+  .concept-title {
+    font-size: 32px;
+    font-weight: 900;
+    margin-bottom: 6px;
+  }
+  .concept-desc {
+    font-size: 16px;
+    color: #666;
+    margin-bottom: 40px;
+    max-width: 600px;
+    line-height: 1.6;
+  }
+
+  .logo-row {
+    display: flex;
+    gap: 40px;
+    flex-wrap: wrap;
+    margin-bottom: 40px;
+  }
+  .logo-card {
+    flex: 1;
+    min-width: 280px;
+    border-radius: 12px;
+    padding: 60px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .logo-card.light { background: #ffffff; border: 1px solid #e0e0e0; }
+  .logo-card.dark { background: #1a1a1a; }
+  .logo-card.color { background: #0a0a0a; }
+
+  .notes {
+    background: #fff;
+    border-left: 4px solid #1a1a1a;
+    padding: 24px 32px;
+    margin-bottom: 20px;
+  }
+  .notes h4 { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 12px; color: #999; }
+  .notes ul { list-style: none; padding: 0; }
+  .notes li { padding: 4px 0; font-size: 14px; line-height: 1.5; }
+  .notes li:before { content: "→ "; color: #999; }
+
+  .divider {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 40px;
+  }
+  .divider hr { border: none; border-top: 2px solid #e0e0e0; }
+
+  .badge-rec {
+    background: #1a1a1a;
+    color: #f5f5f0;
+    display: inline-block;
+    padding: 4px 12px;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    border-radius: 2px;
+  }
+
+  .sizes-row {
+    display: flex;
+    gap: 30px;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    margin-top: 30px;
+    padding: 40px;
+    background: #fff;
+    border-radius: 12px;
+    border: 1px solid #e0e0e0;
+  }
+  .size-item { text-align: center; }
+  .size-label { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: #999; margin-top: 8px; }
+
+  .mockup-section {
+    max-width: 1000px;
+    margin: 60px auto;
+    padding: 0 40px;
+  }
+
+  .footer {
+    background: #1a1a1a;
+    color: #f5f5f0;
+    padding: 40px;
+    text-align: center;
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    opacity: 0.6;
+    margin-top: 80px;
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>Logo Concepts</h1>
+  <h2>METHOD C</h2>
+  <p>Draplin Design Co. Methodology</p>
+</div>
+
+<!-- ============================================ -->
+<!-- OPTION A — SAFE -->
+<!-- ============================================ -->
+<div class="concept">
+  <div class="concept-label">Option A — Safe</div>
+  <div class="concept-title">The Clean Wordmark</div>
+  <div class="concept-desc">
+    Tipografia bold e directa. O "C" ganha peso extra como elemento de destaque.
+    Sem ícone — a força está na tipografia. Profissional, escalável, limpo.
+  </div>
+
+  <div class="logo-row">
+    <!-- Light version -->
+    <div class="logo-card light">
+      <svg width="320" height="80" viewBox="0 0 320 80">
+        <text x="0" y="56" font-family="Arial Black, Arial, sans-serif" font-weight="900" font-size="52" fill="#1a1a1a" letter-spacing="3">METHOD</text>
+        <text x="258" y="56" font-family="Arial Black, Arial, sans-serif" font-weight="900" font-size="58" fill="#1a1a1a">C</text>
+        <rect x="0" y="68" width="300" height="4" fill="#1a1a1a"/>
+      </svg>
+    </div>
+    <!-- Dark version -->
+    <div class="logo-card dark">
+      <svg width="320" height="80" viewBox="0 0 320 80">
+        <text x="0" y="56" font-family="Arial Black, Arial, sans-serif" font-weight="900" font-size="52" fill="#f5f5f0" letter-spacing="3">METHOD</text>
+        <text x="258" y="56" font-family="Arial Black, Arial, sans-serif" font-weight="900" font-size="58" fill="#f5f5f0">C</text>
+        <rect x="0" y="68" width="300" height="4" fill="#f5f5f0"/>
+      </svg>
+    </div>
+  </div>
+
+  <div class="notes">
+    <h4>Notas Draplin</h4>
+    <ul>
+      <li>Wordmark puro — sem distracções</li>
+      <li>Linha inferior ancora o logo e cria estrutura</li>
+      <li>"C" ligeiramente maior — hierarquia visual</li>
+      <li>Funciona em qualquer tamanho como texto</li>
+      <li>Seguro, profissional, impossível de errar</li>
+    </ul>
+  </div>
+</div>
+
+<div class="divider"><hr></div>
+
+<!-- ============================================ -->
+<!-- OPTION B — RECOMMENDED -->
+<!-- ============================================ -->
+<div class="concept">
+  <span class="badge-rec">★ Recomendado</span>
+  <div class="concept-title">The 3-Level C</div>
+  <div class="concept-desc">
+    Um "C" bold construído a partir de 3 segmentos — cada um representa um nível
+    do método (Corrige, Constrói, Compete). A forma do C mantém-se, mas conta a
+    história da marca. O ícone funciona sozinho ou com o wordmark.
+  </div>
+
+  <div class="logo-row">
+    <!-- Light — Icon + Wordmark -->
+    <div class="logo-card light">
+      <svg width="360" height="120" viewBox="0 0 360 120">
+        <!-- The 3-Level C Icon -->
+        <g transform="translate(10, 10)">
+          <!-- Level 3 — Top segment (Compete) -->
+          <path d="M 50 8 A 42 42 0 0 0 8 30 L 8 22 A 50 50 0 0 1 50 0 L 80 0 L 80 8 Z" fill="#1a1a1a"/>
+          <!-- Level 2 — Middle segment (Constrói) -->
+          <rect x="8" y="38" width="18" height="24" rx="2" fill="#1a1a1a"/>
+          <!-- Level 1 — Bottom segment (Corrige) -->
+          <path d="M 8 70 A 42 42 0 0 0 50 92 L 80 92 L 80 100 L 50 100 A 50 50 0 0 1 8 78 Z" fill="#1a1a1a"/>
+          <!-- Right tips -->
+          <rect x="60" y="0" width="30" height="8" rx="2" fill="#1a1a1a"/>
+          <rect x="60" y="92" width="30" height="8" rx="2" fill="#1a1a1a"/>
+        </g>
+        <!-- Wordmark -->
+        <text x="120" y="52" font-family="Arial Black, Arial, sans-serif" font-weight="900" font-size="28" fill="#1a1a1a" letter-spacing="5">METHOD</text>
+        <text x="120" y="88" font-family="Arial Black, Arial, sans-serif" font-weight="900" font-size="48" fill="#1a1a1a">C</text>
+      </svg>
+    </div>
+    <!-- Dark -->
+    <div class="logo-card dark">
+      <svg width="360" height="120" viewBox="0 0 360 120">
+        <g transform="translate(10, 10)">
+          <path d="M 50 8 A 42 42 0 0 0 8 30 L 8 22 A 50 50 0 0 1 50 0 L 80 0 L 80 8 Z" fill="#f5f5f0"/>
+          <rect x="8" y="38" width="18" height="24" rx="2" fill="#f5f5f0"/>
+          <path d="M 8 70 A 42 42 0 0 0 50 92 L 80 92 L 80 100 L 50 100 A 50 50 0 0 1 8 78 Z" fill="#f5f5f0"/>
+          <rect x="60" y="0" width="30" height="8" rx="2" fill="#f5f5f0"/>
+          <rect x="60" y="92" width="30" height="8" rx="2" fill="#f5f5f0"/>
+        </g>
+        <text x="120" y="52" font-family="Arial Black, Arial, sans-serif" font-weight="900" font-size="28" fill="#f5f5f0" letter-spacing="5">METHOD</text>
+        <text x="120" y="88" font-family="Arial Black, Arial, sans-serif" font-weight="900" font-size="48" fill="#f5f5f0">C</text>
+      </svg>
+    </div>
+  </div>
+
+  <!-- Icon Only versions -->
+  <div class="logo-row">
+    <div class="logo-card light" style="max-width: 200px;">
+      <svg width="100" height="100" viewBox="0 0 100 100">
+        <g>
+          <path d="M 50 8 A 42 42 0 0 0 8 30 L 8 22 A 50 50 0 0 1 50 0 L 80 0 L 80 8 Z" fill="#1a1a1a"/>
+          <rect x="8" y="38" width="18" height="24" rx="2" fill="#1a1a1a"/>
+          <path d="M 8 70 A 42 42 0 0 0 50 92 L 80 92 L 80 100 L 50 100 A 50 50 0 0 1 8 78 Z" fill="#1a1a1a"/>
+          <rect x="60" y="0" width="30" height="8" rx="2" fill="#1a1a1a"/>
+          <rect x="60" y="92" width="30" height="8" rx="2" fill="#1a1a1a"/>
+        </g>
+      </svg>
+    </div>
+    <div class="logo-card dark" style="max-width: 200px;">
+      <svg width="100" height="100" viewBox="0 0 100 100">
+        <g>
+          <path d="M 50 8 A 42 42 0 0 0 8 30 L 8 22 A 50 50 0 0 1 50 0 L 80 0 L 80 8 Z" fill="#f5f5f0"/>
+          <rect x="8" y="38" width="18" height="24" rx="2" fill="#f5f5f0"/>
+          <path d="M 8 70 A 42 42 0 0 0 50 92 L 80 92 L 80 100 L 50 100 A 50 50 0 0 1 8 78 Z" fill="#f5f5f0"/>
+          <rect x="60" y="0" width="30" height="8" rx="2" fill="#f5f5f0"/>
+          <rect x="60" y="92" width="30" height="8" rx="2" fill="#f5f5f0"/>
+        </g>
+      </svg>
+    </div>
+    <div class="notes" style="flex: 2;">
+      <h4>Icon Standalone</h4>
+      <ul>
+        <li>O "C" funciona sozinho como app icon, favicon, avatar</li>
+        <li>3 segmentos = 3 níveis do método</li>
+        <li>Lê-se como "C" mesmo em tamanho pequeno</li>
+        <li>Os gaps entre segmentos criam ritmo visual</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="notes">
+    <h4>Porquê este é o recomendado</h4>
+    <ul>
+      <li><strong>Conta a história:</strong> 3 segmentos = Corrige, Constrói, Compete</li>
+      <li><strong>Ícone standalone:</strong> funciona como app icon, pin, favicon</li>
+      <li><strong>Thick lines:</strong> bold, confiante, funciona em qualquer tamanho</li>
+      <li><strong>Escalável:</strong> do tamanho de moeda a billboard</li>
+      <li><strong>Memorável:</strong> "aquele C partido em 3" — descritível em 3 segundos</li>
+      <li><strong>Único:</strong> ninguém tem um C assim</li>
+    </ul>
+  </div>
+</div>
+
+<div class="divider"><hr></div>
+
+<!-- ============================================ -->
+<!-- OPTION C — BOLD -->
+<!-- ============================================ -->
+<div class="concept">
+  <div class="concept-label">Option C — Bold</div>
+  <div class="concept-title">The Badge</div>
+  <div class="concept-desc">
+    Emblema completo estilo vintage-moderno. O "C" domina o centro, "METHOD"
+    em arco. Perfeito para merch, patches, t-shirts. Presença forte.
+  </div>
+
+  <div class="logo-row">
+    <!-- Light -->
+    <div class="logo-card light">
+      <svg width="200" height="200" viewBox="0 0 200 200">
+        <!-- Outer circle -->
+        <circle cx="100" cy="100" r="95" fill="none" stroke="#1a1a1a" stroke-width="5"/>
+        <circle cx="100" cy="100" r="85" fill="none" stroke="#1a1a1a" stroke-width="2"/>
+
+        <!-- METHOD text on arc top -->
+        <defs>
+          <path id="topArc" d="M 30 100 A 70 70 0 0 1 170 100"/>
+          <path id="bottomArc" d="M 170 115 A 70 70 0 0 1 30 115"/>
+        </defs>
+        <text font-family="Arial Black, Arial, sans-serif" font-weight="900" font-size="16" fill="#1a1a1a" letter-spacing="8">
+          <textPath href="#topArc" startOffset="50%" text-anchor="middle">METHOD</textPath>
+        </text>
+
+        <!-- Central C -->
+        <text x="100" y="118" font-family="Arial Black, Arial, sans-serif" font-weight="900" font-size="80" fill="#1a1a1a" text-anchor="middle">C</text>
+
+        <!-- Bottom text -->
+        <text font-family="Arial, sans-serif" font-weight="700" font-size="9" fill="#1a1a1a" letter-spacing="2">
+          <textPath href="#bottomArc" startOffset="50%" text-anchor="middle">CORRIGE · CONSTRÓI · COMPETE</textPath>
+        </text>
+
+        <!-- Accent dots -->
+        <circle cx="32" cy="100" r="3" fill="#1a1a1a"/>
+        <circle cx="168" cy="100" r="3" fill="#1a1a1a"/>
+      </svg>
+    </div>
+    <!-- Dark -->
+    <div class="logo-card dark">
+      <svg width="200" height="200" viewBox="0 0 200 200">
+        <circle cx="100" cy="100" r="95" fill="none" stroke="#f5f5f0" stroke-width="5"/>
+        <circle cx="100" cy="100" r="85" fill="none" stroke="#f5f5f0" stroke-width="2"/>
+
+        <defs>
+          <path id="topArc2" d="M 30 100 A 70 70 0 0 1 170 100"/>
+          <path id="bottomArc2" d="M 170 115 A 70 70 0 0 1 30 115"/>
+        </defs>
+        <text font-family="Arial Black, Arial, sans-serif" font-weight="900" font-size="16" fill="#f5f5f0" letter-spacing="8">
+          <textPath href="#topArc2" startOffset="50%" text-anchor="middle">METHOD</textPath>
+        </text>
+
+        <text x="100" y="118" font-family="Arial Black, Arial, sans-serif" font-weight="900" font-size="80" fill="#f5f5f0" text-anchor="middle">C</text>
+
+        <text font-family="Arial, sans-serif" font-weight="700" font-size="9" fill="#f5f5f0" letter-spacing="2">
+          <textPath href="#bottomArc2" startOffset="50%" text-anchor="middle">CORRIGE · CONSTRÓI · COMPETE</textPath>
+        </text>
+
+        <circle cx="32" cy="100" r="3" fill="#f5f5f0"/>
+        <circle cx="168" cy="100" r="3" fill="#f5f5f0"/>
+      </svg>
+    </div>
+  </div>
+
+  <div class="notes">
+    <h4>Notas Draplin</h4>
+    <ul>
+      <li>Badge style — funciona em patches, pins, t-shirts, stickers</li>
+      <li>Presença forte e autoritária</li>
+      <li>"CORRIGE · CONSTRÓI · COMPETE" integrado no logo</li>
+      <li>Double border = toque vintage-moderno</li>
+      <li>Dots laterais = separadores clássicos</li>
+      <li>Precisa de versão simplificada para tamanhos pequenos (usa só o C)</li>
+    </ul>
+  </div>
+</div>
+
+<div class="divider"><hr></div>
+
+<!-- ============================================ -->
+<!-- COIN TEST -->
+<!-- ============================================ -->
+<div class="concept">
+  <div class="concept-title">Coin Test — Tamanho Real</div>
+  <div class="concept-desc">
+    Se não funciona do tamanho de uma moeda, não funciona. Ponto.
+  </div>
+
+  <div class="sizes-row">
+    <!-- 16px favicon -->
+    <div class="size-item">
+      <svg width="16" height="16" viewBox="0 0 100 100">
+        <path d="M 50 8 A 42 42 0 0 0 8 30 L 8 22 A 50 50 0 0 1 50 0 L 80 0 L 80 8 Z" fill="#1a1a1a"/>
+        <rect x="8" y="38" width="18" height="24" rx="2" fill="#1a1a1a"/>
+        <path d="M 8 70 A 42 42 0 0 0 50 92 L 80 92 L 80 100 L 50 100 A 50 50 0 0 1 8 78 Z" fill="#1a1a1a"/>
+        <rect x="60" y="0" width="30" height="8" rx="2" fill="#1a1a1a"/>
+        <rect x="60" y="92" width="30" height="8" rx="2" fill="#1a1a1a"/>
+      </svg>
+      <div class="size-label">16px Favicon</div>
+    </div>
+    <!-- 32px -->
+    <div class="size-item">
+      <svg width="32" height="32" viewBox="0 0 100 100">
+        <path d="M 50 8 A 42 42 0 0 0 8 30 L 8 22 A 50 50 0 0 1 50 0 L 80 0 L 80 8 Z" fill="#1a1a1a"/>
+        <rect x="8" y="38" width="18" height="24" rx="2" fill="#1a1a1a"/>
+        <path d="M 8 70 A 42 42 0 0 0 50 92 L 80 92 L 80 100 L 50 100 A 50 50 0 0 1 8 78 Z" fill="#1a1a1a"/>
+        <rect x="60" y="0" width="30" height="8" rx="2" fill="#1a1a1a"/>
+        <rect x="60" y="92" width="30" height="8" rx="2" fill="#1a1a1a"/>
+      </svg>
+      <div class="size-label">32px App</div>
+    </div>
+    <!-- 48px -->
+    <div class="size-item">
+      <svg width="48" height="48" viewBox="0 0 100 100">
+        <path d="M 50 8 A 42 42 0 0 0 8 30 L 8 22 A 50 50 0 0 1 50 0 L 80 0 L 80 8 Z" fill="#1a1a1a"/>
+        <rect x="8" y="38" width="18" height="24" rx="2" fill="#1a1a1a"/>
+        <path d="M 8 70 A 42 42 0 0 0 50 92 L 80 92 L 80 100 L 50 100 A 50 50 0 0 1 8 78 Z" fill="#1a1a1a"/>
+        <rect x="60" y="0" width="30" height="8" rx="2" fill="#1a1a1a"/>
+        <rect x="60" y="92" width="30" height="8" rx="2" fill="#1a1a1a"/>
+      </svg>
+      <div class="size-label">48px Social</div>
+    </div>
+    <!-- 80px -->
+    <div class="size-item">
+      <svg width="80" height="80" viewBox="0 0 100 100">
+        <path d="M 50 8 A 42 42 0 0 0 8 30 L 8 22 A 50 50 0 0 1 50 0 L 80 0 L 80 8 Z" fill="#1a1a1a"/>
+        <rect x="8" y="38" width="18" height="24" rx="2" fill="#1a1a1a"/>
+        <path d="M 8 70 A 42 42 0 0 0 50 92 L 80 92 L 80 100 L 50 100 A 50 50 0 0 1 8 78 Z" fill="#1a1a1a"/>
+        <rect x="60" y="0" width="30" height="8" rx="2" fill="#1a1a1a"/>
+        <rect x="60" y="92" width="30" height="8" rx="2" fill="#1a1a1a"/>
+      </svg>
+      <div class="size-label">80px Header</div>
+    </div>
+    <!-- 120px -->
+    <div class="size-item">
+      <svg width="120" height="120" viewBox="0 0 100 100">
+        <path d="M 50 8 A 42 42 0 0 0 8 30 L 8 22 A 50 50 0 0 1 50 0 L 80 0 L 80 8 Z" fill="#1a1a1a"/>
+        <rect x="8" y="38" width="18" height="24" rx="2" fill="#1a1a1a"/>
+        <path d="M 8 70 A 42 42 0 0 0 50 92 L 80 92 L 80 100 L 50 100 A 50 50 0 0 1 8 78 Z" fill="#1a1a1a"/>
+        <rect x="60" y="0" width="30" height="8" rx="2" fill="#1a1a1a"/>
+        <rect x="60" y="92" width="30" height="8" rx="2" fill="#1a1a1a"/>
+      </svg>
+      <div class="size-label">120px Full</div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"><hr></div>
+
+<!-- ============================================ -->
+<!-- COMPARISON -->
+<!-- ============================================ -->
+<div class="concept">
+  <div class="concept-title">Comparação Final</div>
+
+  <div class="logo-row" style="align-items: center; justify-content: space-around;">
+    <!-- A -->
+    <div style="text-align: center;">
+      <div class="concept-label" style="margin-bottom: 20px;">A — Safe</div>
+      <svg width="200" height="60" viewBox="0 0 320 80">
+        <text x="0" y="56" font-family="Arial Black, Arial, sans-serif" font-weight="900" font-size="52" fill="#1a1a1a" letter-spacing="3">METHOD</text>
+        <text x="258" y="56" font-family="Arial Black, Arial, sans-serif" font-weight="900" font-size="58" fill="#1a1a1a">C</text>
+        <rect x="0" y="68" width="300" height="4" fill="#1a1a1a"/>
+      </svg>
+    </div>
+    <!-- B -->
+    <div style="text-align: center;">
+      <span class="badge-rec">★ Recomendado</span>
+      <div class="concept-label" style="margin-bottom: 20px;">B — The 3-Level C</div>
+      <svg width="100" height="100" viewBox="0 0 100 100">
+        <path d="M 50 8 A 42 42 0 0 0 8 30 L 8 22 A 50 50 0 0 1 50 0 L 80 0 L 80 8 Z" fill="#1a1a1a"/>
+        <rect x="8" y="38" width="18" height="24" rx="2" fill="#1a1a1a"/>
+        <path d="M 8 70 A 42 42 0 0 0 50 92 L 80 92 L 80 100 L 50 100 A 50 50 0 0 1 8 78 Z" fill="#1a1a1a"/>
+        <rect x="60" y="0" width="30" height="8" rx="2" fill="#1a1a1a"/>
+        <rect x="60" y="92" width="30" height="8" rx="2" fill="#1a1a1a"/>
+      </svg>
+    </div>
+    <!-- C -->
+    <div style="text-align: center;">
+      <div class="concept-label" style="margin-bottom: 20px;">C — Badge</div>
+      <svg width="120" height="120" viewBox="0 0 200 200">
+        <circle cx="100" cy="100" r="95" fill="none" stroke="#1a1a1a" stroke-width="5"/>
+        <circle cx="100" cy="100" r="85" fill="none" stroke="#1a1a1a" stroke-width="2"/>
+        <defs>
+          <path id="topArc3" d="M 30 100 A 70 70 0 0 1 170 100"/>
+        </defs>
+        <text font-family="Arial Black, Arial, sans-serif" font-weight="900" font-size="16" fill="#1a1a1a" letter-spacing="8">
+          <textPath href="#topArc3" startOffset="50%" text-anchor="middle">METHOD</textPath>
+        </text>
+        <text x="100" y="118" font-family="Arial Black, Arial, sans-serif" font-weight="900" font-size="80" fill="#1a1a1a" text-anchor="middle">C</text>
+        <circle cx="32" cy="100" r="3" fill="#1a1a1a"/>
+        <circle cx="168" cy="100" r="3" fill="#1a1a1a"/>
+      </svg>
+    </div>
+  </div>
+</div>
+
+<div class="footer">
+  Method C Logo Concepts — Draplin Methodology — 2026
+</div>
+
+</body>
+</html>

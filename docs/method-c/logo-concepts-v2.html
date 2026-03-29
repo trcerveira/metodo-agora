@@ -1,0 +1,848 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Method C — Logo Concepts V2</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@700&family=Anton&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Arial', sans-serif; background: #0d1117; color: #f0f0f0; }
+
+  .header {
+    padding: 60px 40px;
+    text-align: center;
+    border-bottom: 1px solid #1e2530;
+  }
+  .header h1 { font-size: 12px; letter-spacing: 6px; text-transform: uppercase; color: #555; margin-bottom: 8px; }
+  .header h2 { font-size: 42px; font-weight: 900; color: #c8e64a; font-family: 'Anton', sans-serif; letter-spacing: 2px; }
+  .header p { font-size: 13px; letter-spacing: 3px; text-transform: uppercase; margin-top: 10px; color: #444; }
+
+  .section {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 60px 40px;
+    border-bottom: 1px solid #1e2530;
+  }
+
+  .label {
+    font-size: 10px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: #555;
+    margin-bottom: 6px;
+  }
+  .badge-rec {
+    background: #c8e64a;
+    color: #0d1117;
+    display: inline-block;
+    padding: 4px 14px;
+    font-size: 10px;
+    font-weight: 900;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    border-radius: 2px;
+  }
+  .section-title {
+    font-size: 28px;
+    font-weight: 900;
+    margin-bottom: 6px;
+    color: #fff;
+  }
+  .section-desc {
+    font-size: 15px;
+    color: #666;
+    margin-bottom: 40px;
+    max-width: 600px;
+    line-height: 1.6;
+  }
+
+  .logo-grid {
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+    margin-bottom: 30px;
+  }
+  .logo-box {
+    flex: 1;
+    min-width: 300px;
+    background: #141a22;
+    border: 1px solid #1e2530;
+    border-radius: 12px;
+    padding: 50px 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .logo-box.hero {
+    min-height: 300px;
+  }
+  .logo-box-label {
+    font-size: 9px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #444;
+    margin-top: 10px;
+  }
+
+  .notes-box {
+    background: #141a22;
+    border-left: 3px solid #c8e64a;
+    padding: 20px 28px;
+    margin-top: 20px;
+  }
+  .notes-box h4 { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: #c8e64a; margin-bottom: 10px; }
+  .notes-box ul { list-style: none; padding: 0; }
+  .notes-box li { padding: 3px 0; font-size: 13px; color: #888; line-height: 1.5; }
+  .notes-box li:before { content: "→ "; color: #c8e64a; }
+
+  .icon-row {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-top: 20px;
+  }
+  .icon-card {
+    background: #141a22;
+    border: 1px solid #1e2530;
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+  }
+
+  .sizes-row {
+    display: flex;
+    gap: 30px;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    margin-top: 20px;
+  }
+  .size-item { text-align: center; }
+  .size-label { font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: #555; margin-top: 6px; }
+
+  .mockup-row {
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+    margin-top: 20px;
+  }
+  .mockup-card {
+    flex: 1;
+    min-width: 280px;
+    border-radius: 12px;
+    padding: 40px;
+    text-align: center;
+  }
+  .mockup-card.tshirt { background: #1a1a1a; }
+  .mockup-card.phone { background: #141a22; border: 1px solid #1e2530; }
+  .mockup-card.bottle { background: #0a0e14; }
+
+  .footer {
+    padding: 40px;
+    text-align: center;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #333;
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>Logo Concepts V2</h1>
+  <h2>METHOD C</h2>
+  <p>Corrige &middot; Constr&oacute;i &middot; Compete</p>
+</div>
+
+<!-- ============================================ -->
+<!-- CONCEPT 1 — GEOMETRIC CUT C -->
+<!-- ============================================ -->
+<div class="section">
+  <div class="label">Concept 1</div>
+  <div class="section-title">Geometric C — Diamond Cut</div>
+  <div class="section-desc">
+    O "C" tem cortes geom&eacute;tricos internos — mesmo approach do "O" na refer&ecirc;ncia.
+    O C funciona como &iacute;cone standalone. Angular, t&eacute;cnico, moderno.
+  </div>
+
+  <!-- Full wordmark -->
+  <div class="logo-grid">
+    <div class="logo-box hero">
+      <svg width="520" height="80" viewBox="0 0 520 80">
+        <!-- M -->
+        <text x="0" y="68" font-family="'Anton', 'Arial Black', sans-serif" font-weight="900" font-size="76" fill="#c8e64a" letter-spacing="4">METH</text>
+        <!-- Custom geometric C replacing O position concept — here after D -->
+        <text x="236" y="68" font-family="'Anton', 'Arial Black', sans-serif" font-weight="900" font-size="76" fill="#c8e64a" letter-spacing="4">D</text>
+
+        <!-- THE GEOMETRIC C -->
+        <g transform="translate(310, 6)">
+          <!-- Outer C shape -->
+          <path d="
+            M 56 0 L 18 0
+            Q 0 0, 0 18
+            L 0 50
+            Q 0 68, 18 68
+            L 56 68
+            L 56 54
+            L 22 54
+            Q 14 54, 14 46
+            L 14 22
+            Q 14 14, 22 14
+            L 56 14
+            Z
+          " fill="#c8e64a"/>
+          <!-- Inner geometric diamond/crystal cuts -->
+          <path d="M 22 22 L 34 34 L 22 46 Z" fill="#0d1117" opacity="0.95"/>
+          <path d="M 34 34 L 46 22 L 46 46 Z" fill="#0d1117" opacity="0.7"/>
+          <path d="M 26 18 L 34 28 L 42 18" fill="none" stroke="#0d1117" stroke-width="2"/>
+          <path d="M 26 50 L 34 40 L 42 50" fill="none" stroke="#0d1117" stroke-width="2"/>
+        </g>
+      </svg>
+      <div class="logo-box-label">Full Wordmark — Dark Background</div>
+    </div>
+  </div>
+
+  <!-- Icon standalone -->
+  <div class="icon-row">
+    <div class="icon-card">
+      <svg width="80" height="80" viewBox="0 0 68 68">
+        <path d="
+          M 56 0 L 18 0
+          Q 0 0, 0 18
+          L 0 50
+          Q 0 68, 18 68
+          L 56 68
+          L 56 54
+          L 22 54
+          Q 14 54, 14 46
+          L 14 22
+          Q 14 14, 22 14
+          L 56 14
+          Z
+        " fill="#c8e64a"/>
+        <path d="M 22 22 L 34 34 L 22 46 Z" fill="#0d1117"/>
+        <path d="M 34 34 L 46 22 L 46 46 Z" fill="#0d1117" opacity="0.7"/>
+        <path d="M 26 18 L 34 28 L 42 18" fill="none" stroke="#0d1117" stroke-width="2"/>
+        <path d="M 26 50 L 34 40 L 42 50" fill="none" stroke="#0d1117" stroke-width="2"/>
+      </svg>
+      <div class="logo-box-label">Icon — Lime</div>
+    </div>
+    <div class="icon-card" style="background: #c8e64a;">
+      <svg width="80" height="80" viewBox="0 0 68 68">
+        <path d="
+          M 56 0 L 18 0
+          Q 0 0, 0 18
+          L 0 50
+          Q 0 68, 18 68
+          L 56 68
+          L 56 54
+          L 22 54
+          Q 14 54, 14 46
+          L 14 22
+          Q 14 14, 22 14
+          L 56 14
+          Z
+        " fill="#0d1117"/>
+        <path d="M 22 22 L 34 34 L 22 46 Z" fill="#c8e64a"/>
+        <path d="M 34 34 L 46 22 L 46 46 Z" fill="#c8e64a" opacity="0.7"/>
+        <path d="M 26 18 L 34 28 L 42 18" fill="none" stroke="#c8e64a" stroke-width="2"/>
+        <path d="M 26 50 L 34 40 L 42 50" fill="none" stroke="#c8e64a" stroke-width="2"/>
+      </svg>
+      <div class="logo-box-label" style="color: #0d1117;">Icon — Reversed</div>
+    </div>
+    <div class="icon-card" style="background: #fff;">
+      <svg width="80" height="80" viewBox="0 0 68 68">
+        <path d="
+          M 56 0 L 18 0
+          Q 0 0, 0 18
+          L 0 50
+          Q 0 68, 18 68
+          L 56 68
+          L 56 54
+          L 22 54
+          Q 14 54, 14 46
+          L 14 22
+          Q 14 14, 22 14
+          L 56 14
+          Z
+        " fill="#1a1a1a"/>
+        <path d="M 22 22 L 34 34 L 22 46 Z" fill="#fff"/>
+        <path d="M 34 34 L 46 22 L 46 46 Z" fill="#fff" opacity="0.7"/>
+        <path d="M 26 18 L 34 28 L 42 18" fill="none" stroke="#fff" stroke-width="2"/>
+        <path d="M 26 50 L 34 40 L 42 50" fill="none" stroke="#fff" stroke-width="2"/>
+      </svg>
+      <div class="logo-box-label" style="color: #999;">Icon — P&amp;B</div>
+    </div>
+  </div>
+
+  <div class="notes-box">
+    <h4>Concept 1</h4>
+    <ul>
+      <li>Mesmo approach da refer&ecirc;ncia — letra com formas geom&eacute;tricas internas</li>
+      <li>Diamond/cristal dentro do C — sugere precis&atilde;o, transforma&ccedil;&atilde;o</li>
+      <li>O C funciona isolado numa camisola como &iacute;cone</li>
+      <li>Angular e t&eacute;cnico — est&eacute;tica desportiva</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ============================================ -->
+<!-- CONCEPT 2 — ARROW / PROGRESS C -->
+<!-- ============================================ -->
+<div class="section">
+  <span class="badge-rec">&#9733; Recomendado</span>
+  <div class="section-title">Progress C — 3 Levels Built In</div>
+  <div class="section-desc">
+    O "C" &eacute; constru&iacute;do por 3 barras horizontais que formam a letra —
+    cada barra = um n&iacute;vel (Corrige, Constr&oacute;i, Compete).
+    Progressivo, limpo, conta a hist&oacute;ria da marca.
+  </div>
+
+  <!-- Full wordmark -->
+  <div class="logo-grid">
+    <div class="logo-box hero">
+      <svg width="540" height="90" viewBox="0 0 540 90">
+        <!-- METHOD text -->
+        <text x="0" y="72" font-family="'Anton', 'Arial Black', sans-serif" font-weight="900" font-size="80" fill="#c8e64a" letter-spacing="3">METHOD</text>
+
+        <!-- THE 3-LEVEL C -->
+        <g transform="translate(380, 5)">
+          <!-- Top bar (Compete) — longest, reaching right -->
+          <path d="
+            M 30 0 L 10 0
+            Q 0 0, 0 10
+            L 0 16
+            L 30 16
+            L 60 16
+            L 60 0
+            Z
+          " fill="#c8e64a"/>
+
+          <!-- Middle bar (Constrói) — medium -->
+          <path d="
+            M 0 26 L 0 54
+            L 16 54
+            L 16 26
+            Z
+          " fill="#c8e64a"/>
+
+          <!-- Bottom bar (Corrige) — longest, reaching right -->
+          <path d="
+            M 0 64
+            Q 0 80, 10 80
+            L 30 80
+            L 60 80
+            L 60 64
+            L 30 64
+            Z
+          " fill="#c8e64a"/>
+
+          <!-- Level indicators — small notches on right side -->
+          <rect x="48" y="4" width="3" height="8" rx="1" fill="#0d1117" opacity="0.4"/>
+          <rect x="48" y="68" width="3" height="8" rx="1" fill="#0d1117" opacity="0.4"/>
+        </g>
+      </svg>
+      <div class="logo-box-label">Full Wordmark</div>
+    </div>
+  </div>
+
+  <!-- Icon standalone versions -->
+  <div class="icon-row">
+    <div class="icon-card">
+      <svg width="80" height="80" viewBox="0 0 60 80">
+        <path d="M 30 0 L 10 0 Q 0 0, 0 10 L 0 16 L 60 16 L 60 0 Z" fill="#c8e64a"/>
+        <rect x="0" y="26" width="16" height="28" fill="#c8e64a"/>
+        <path d="M 0 64 Q 0 80, 10 80 L 60 80 L 60 64 Z" fill="#c8e64a"/>
+      </svg>
+      <div class="logo-box-label">Icon — Clean</div>
+    </div>
+    <div class="icon-card" style="background: #c8e64a;">
+      <svg width="80" height="80" viewBox="0 0 60 80">
+        <path d="M 30 0 L 10 0 Q 0 0, 0 10 L 0 16 L 60 16 L 60 0 Z" fill="#0d1117"/>
+        <rect x="0" y="26" width="16" height="28" fill="#0d1117"/>
+        <path d="M 0 64 Q 0 80, 10 80 L 60 80 L 60 64 Z" fill="#0d1117"/>
+      </svg>
+      <div class="logo-box-label" style="color: #0d1117;">Icon — Reversed</div>
+    </div>
+    <div class="icon-card" style="background: #fff;">
+      <svg width="80" height="80" viewBox="0 0 60 80">
+        <path d="M 30 0 L 10 0 Q 0 0, 0 10 L 0 16 L 60 16 L 60 0 Z" fill="#1a1a1a"/>
+        <rect x="0" y="26" width="16" height="28" fill="#1a1a1a"/>
+        <path d="M 0 64 Q 0 80, 10 80 L 60 80 L 60 64 Z" fill="#1a1a1a"/>
+      </svg>
+      <div class="logo-box-label" style="color: #999;">Icon — P&amp;B</div>
+    </div>
+    <div class="icon-card">
+      <svg width="80" height="80" viewBox="0 0 60 80">
+        <!-- Colored version showing 3 levels -->
+        <path d="M 30 0 L 10 0 Q 0 0, 0 10 L 0 16 L 60 16 L 60 0 Z" fill="#ff6b35"/>
+        <rect x="0" y="26" width="16" height="28" fill="#c8e64a"/>
+        <path d="M 0 64 Q 0 80, 10 80 L 60 80 L 60 64 Z" fill="#4ecdc4"/>
+      </svg>
+      <div class="logo-box-label">3 Cores = 3 N&iacute;veis</div>
+    </div>
+  </div>
+
+  <div class="notes-box">
+    <h4>Porqu&ecirc; este &eacute; o recomendado</h4>
+    <ul>
+      <li><strong>Conta a hist&oacute;ria:</strong> 3 barras = Corrige (base), Constr&oacute;i (meio), Compete (topo)</li>
+      <li><strong>L&ecirc;-se como C:</strong> mesmo simplificado, l&ecirc;-se como a letra C</li>
+      <li><strong>Standalone:</strong> funciona numa camisola, bon&eacute;, app icon</li>
+      <li><strong>Mesma est&eacute;tica</strong> da refer&ecirc;ncia — bold, geom&eacute;trico, desportivo</li>
+      <li><strong>Vers&atilde;o multicolor:</strong> pode usar 3 cores para os 3 n&iacute;veis quando quiser</li>
+      <li><strong>Escal&aacute;vel:</strong> funciona de 16px a billboard</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ============================================ -->
+<!-- CONCEPT 3 — SLICED C -->
+<!-- ============================================ -->
+<div class="section">
+  <div class="label">Concept 3</div>
+  <div class="section-title">Sliced C — Speed Cuts</div>
+  <div class="section-desc">
+    Um "C" bold com cortes diagonais — velocidade, energia, progresso.
+    Inspirado em marcas desportivas. Clean e agressivo.
+  </div>
+
+  <div class="logo-grid">
+    <div class="logo-box hero">
+      <svg width="540" height="90" viewBox="0 0 540 90">
+        <!-- METHOD text -->
+        <text x="0" y="72" font-family="'Anton', 'Arial Black', sans-serif" font-weight="900" font-size="80" fill="#c8e64a" letter-spacing="3">METHOD</text>
+
+        <!-- SLICED C -->
+        <g transform="translate(385, 3)">
+          <defs>
+            <clipPath id="cShape">
+              <path d="
+                M 55 0 L 15 0
+                Q 0 0, 0 15
+                L 0 69
+                Q 0 84, 15 84
+                L 55 84
+                L 55 68
+                L 20 68
+                Q 14 68, 14 62
+                L 14 22
+                Q 14 16, 20 16
+                L 55 16
+                Z
+              "/>
+            </clipPath>
+          </defs>
+
+          <!-- Base C with clip -->
+          <g clip-path="url(#cShape)">
+            <!-- Solid C -->
+            <rect x="0" y="0" width="60" height="84" fill="#c8e64a"/>
+            <!-- Diagonal speed cuts -->
+            <line x1="-5" y1="30" x2="65" y2="22" stroke="#0d1117" stroke-width="4"/>
+            <line x1="-5" y1="58" x2="65" y2="50" stroke="#0d1117" stroke-width="4"/>
+          </g>
+        </g>
+      </svg>
+      <div class="logo-box-label">Full Wordmark</div>
+    </div>
+  </div>
+
+  <div class="icon-row">
+    <div class="icon-card">
+      <svg width="80" height="90" viewBox="0 0 55 84">
+        <defs>
+          <clipPath id="cShape2">
+            <path d="
+              M 55 0 L 15 0
+              Q 0 0, 0 15
+              L 0 69
+              Q 0 84, 15 84
+              L 55 84
+              L 55 68
+              L 20 68
+              Q 14 68, 14 62
+              L 14 22
+              Q 14 16, 20 16
+              L 55 16
+              Z
+            "/>
+          </clipPath>
+        </defs>
+        <g clip-path="url(#cShape2)">
+          <rect x="0" y="0" width="60" height="84" fill="#c8e64a"/>
+          <line x1="-5" y1="30" x2="65" y2="22" stroke="#0d1117" stroke-width="4"/>
+          <line x1="-5" y1="58" x2="65" y2="50" stroke="#0d1117" stroke-width="4"/>
+        </g>
+      </svg>
+      <div class="logo-box-label">Icon — Lime</div>
+    </div>
+    <div class="icon-card" style="background: #c8e64a;">
+      <svg width="80" height="90" viewBox="0 0 55 84">
+        <defs>
+          <clipPath id="cShape3">
+            <path d="
+              M 55 0 L 15 0
+              Q 0 0, 0 15
+              L 0 69
+              Q 0 84, 15 84
+              L 55 84
+              L 55 68
+              L 20 68
+              Q 14 68, 14 62
+              L 14 22
+              Q 14 16, 20 16
+              L 55 16
+              Z
+            "/>
+          </clipPath>
+        </defs>
+        <g clip-path="url(#cShape3)">
+          <rect x="0" y="0" width="60" height="84" fill="#0d1117"/>
+          <line x1="-5" y1="30" x2="65" y2="22" stroke="#c8e64a" stroke-width="4"/>
+          <line x1="-5" y1="58" x2="65" y2="50" stroke="#c8e64a" stroke-width="4"/>
+        </g>
+      </svg>
+      <div class="logo-box-label" style="color: #0d1117;">Icon — Reversed</div>
+    </div>
+    <div class="icon-card" style="background: #fff;">
+      <svg width="80" height="90" viewBox="0 0 55 84">
+        <defs>
+          <clipPath id="cShape4">
+            <path d="
+              M 55 0 L 15 0
+              Q 0 0, 0 15
+              L 0 69
+              Q 0 84, 15 84
+              L 55 84
+              L 55 68
+              L 20 68
+              Q 14 68, 14 62
+              L 14 22
+              Q 14 16, 20 16
+              L 55 16
+              Z
+            "/>
+          </clipPath>
+        </defs>
+        <g clip-path="url(#cShape4)">
+          <rect x="0" y="0" width="60" height="84" fill="#1a1a1a"/>
+          <line x1="-5" y1="30" x2="65" y2="22" stroke="#fff" stroke-width="4"/>
+          <line x1="-5" y1="58" x2="65" y2="50" stroke="#fff" stroke-width="4"/>
+        </g>
+      </svg>
+      <div class="logo-box-label" style="color: #999;">Icon — P&amp;B</div>
+    </div>
+  </div>
+
+  <div class="notes-box">
+    <h4>Concept 3</h4>
+    <ul>
+      <li>Cortes diagonais = velocidade, energia, progresso</li>
+      <li>3 fatias do C = 3 n&iacute;veis (subtil)</li>
+      <li>Est&eacute;tica racing/desportiva</li>
+      <li>Bold e agressivo — marca que n&atilde;o pede desculpa</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ============================================ -->
+<!-- CONCEPT 4 — MINIMAL TECH C -->
+<!-- ============================================ -->
+<div class="section">
+  <div class="label">Concept 4</div>
+  <div class="section-title">Tech C — Circuit / Data</div>
+  <div class="section-desc">
+    Um "C" com est&eacute;tica tech — linhas de circuito, dados, AI.
+    Reflecte o lado data-driven do Method C (rel&oacute;gio, app de sa&uacute;de, m&eacute;tricas).
+  </div>
+
+  <div class="logo-grid">
+    <div class="logo-box hero">
+      <svg width="540" height="90" viewBox="0 0 540 90">
+        <text x="0" y="72" font-family="'Anton', 'Arial Black', sans-serif" font-weight="900" font-size="80" fill="#c8e64a" letter-spacing="3">METHOD</text>
+
+        <!-- TECH C -->
+        <g transform="translate(385, 3)">
+          <!-- Outer C -->
+          <path d="
+            M 55 0 L 15 0
+            Q 0 0, 0 15
+            L 0 69
+            Q 0 84, 15 84
+            L 55 84
+            L 55 68
+            L 20 68
+            Q 14 68, 14 62
+            L 14 22
+            Q 14 16, 20 16
+            L 55 16
+            Z
+          " fill="#c8e64a"/>
+
+          <!-- Circuit/tech lines inside -->
+          <rect x="20" y="24" width="20" height="3" rx="1" fill="#0d1117"/>
+          <rect x="20" y="24" width="3" height="16" rx="1" fill="#0d1117"/>
+          <circle cx="21.5" cy="42" r="3" fill="#0d1117"/>
+
+          <rect x="28" y="36" width="3" height="20" rx="1" fill="#0d1117"/>
+          <rect x="28" y="53" width="16" height="3" rx="1" fill="#0d1117"/>
+          <circle cx="46" cy="54.5" r="3" fill="#0d1117"/>
+
+          <rect x="36" y="30" width="3" height="12" rx="1" fill="#0d1117"/>
+          <circle cx="37.5" cy="30" r="2.5" fill="#0d1117"/>
+
+          <!-- Data dots -->
+          <circle cx="46" cy="26" r="2" fill="#0d1117" opacity="0.5"/>
+          <circle cx="42" cy="44" r="2" fill="#0d1117" opacity="0.5"/>
+        </g>
+      </svg>
+      <div class="logo-box-label">Full Wordmark</div>
+    </div>
+  </div>
+
+  <div class="icon-row">
+    <div class="icon-card">
+      <svg width="80" height="90" viewBox="0 0 55 84">
+        <path d="
+          M 55 0 L 15 0
+          Q 0 0, 0 15
+          L 0 69
+          Q 0 84, 15 84
+          L 55 84
+          L 55 68
+          L 20 68
+          Q 14 68, 14 62
+          L 14 22
+          Q 14 16, 20 16
+          L 55 16
+          Z
+        " fill="#c8e64a"/>
+        <rect x="20" y="24" width="20" height="3" rx="1" fill="#0d1117"/>
+        <rect x="20" y="24" width="3" height="16" rx="1" fill="#0d1117"/>
+        <circle cx="21.5" cy="42" r="3" fill="#0d1117"/>
+        <rect x="28" y="36" width="3" height="20" rx="1" fill="#0d1117"/>
+        <rect x="28" y="53" width="16" height="3" rx="1" fill="#0d1117"/>
+        <circle cx="46" cy="54.5" r="3" fill="#0d1117"/>
+        <rect x="36" y="30" width="3" height="12" rx="1" fill="#0d1117"/>
+        <circle cx="37.5" cy="30" r="2.5" fill="#0d1117"/>
+      </svg>
+      <div class="logo-box-label">Icon — Tech</div>
+    </div>
+    <div class="icon-card" style="background: #c8e64a;">
+      <svg width="80" height="90" viewBox="0 0 55 84">
+        <path d="
+          M 55 0 L 15 0
+          Q 0 0, 0 15
+          L 0 69
+          Q 0 84, 15 84
+          L 55 84
+          L 55 68
+          L 20 68
+          Q 14 68, 14 62
+          L 14 22
+          Q 14 16, 20 16
+          L 55 16
+          Z
+        " fill="#0d1117"/>
+        <rect x="20" y="24" width="20" height="3" rx="1" fill="#c8e64a"/>
+        <rect x="20" y="24" width="3" height="16" rx="1" fill="#c8e64a"/>
+        <circle cx="21.5" cy="42" r="3" fill="#c8e64a"/>
+        <rect x="28" y="36" width="3" height="20" rx="1" fill="#c8e64a"/>
+        <rect x="28" y="53" width="16" height="3" rx="1" fill="#c8e64a"/>
+        <circle cx="46" cy="54.5" r="3" fill="#c8e64a"/>
+        <rect x="36" y="30" width="3" height="12" rx="1" fill="#c8e64a"/>
+        <circle cx="37.5" cy="30" r="2.5" fill="#c8e64a"/>
+      </svg>
+      <div class="logo-box-label" style="color: #0d1117;">Icon — Reversed</div>
+    </div>
+  </div>
+
+  <div class="notes-box">
+    <h4>Concept 4</h4>
+    <ul>
+      <li>Linhas de circuito dentro do C — refer&ecirc;ncia a dados, tech, AI</li>
+      <li>Reflecte o lado data-driven: rel&oacute;gio, app sa&uacute;de, m&eacute;tricas</li>
+      <li>Moderno, &uacute;nico, diferente de qualquer marca fitness</li>
+      <li>Pode ser demasiado complexo para tamanhos pequenos — simplificar se escolhido</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ============================================ -->
+<!-- COIN TEST -->
+<!-- ============================================ -->
+<div class="section">
+  <div class="section-title">Coin Test — Todos os &Iacute;cones</div>
+  <div class="section-desc">Se n&atilde;o funciona pequeno, n&atilde;o funciona. Ponto.</div>
+
+  <div style="display: flex; gap: 60px; flex-wrap: wrap;">
+    <!-- Concept 1 sizes -->
+    <div>
+      <div class="label" style="margin-bottom: 15px;">Concept 1 — Diamond</div>
+      <div class="sizes-row">
+        <div class="size-item">
+          <svg width="16" height="16" viewBox="0 0 68 68">
+            <path d="M 56 0 L 18 0 Q 0 0, 0 18 L 0 50 Q 0 68, 18 68 L 56 68 L 56 54 L 22 54 Q 14 54, 14 46 L 14 22 Q 14 14, 22 14 L 56 14 Z" fill="#c8e64a"/>
+            <path d="M 22 22 L 34 34 L 22 46 Z" fill="#0d1117"/>
+            <path d="M 34 34 L 46 22 L 46 46 Z" fill="#0d1117" opacity="0.7"/>
+          </svg>
+          <div class="size-label">16px</div>
+        </div>
+        <div class="size-item">
+          <svg width="32" height="32" viewBox="0 0 68 68">
+            <path d="M 56 0 L 18 0 Q 0 0, 0 18 L 0 50 Q 0 68, 18 68 L 56 68 L 56 54 L 22 54 Q 14 54, 14 46 L 14 22 Q 14 14, 22 14 L 56 14 Z" fill="#c8e64a"/>
+            <path d="M 22 22 L 34 34 L 22 46 Z" fill="#0d1117"/>
+            <path d="M 34 34 L 46 22 L 46 46 Z" fill="#0d1117" opacity="0.7"/>
+          </svg>
+          <div class="size-label">32px</div>
+        </div>
+        <div class="size-item">
+          <svg width="64" height="64" viewBox="0 0 68 68">
+            <path d="M 56 0 L 18 0 Q 0 0, 0 18 L 0 50 Q 0 68, 18 68 L 56 68 L 56 54 L 22 54 Q 14 54, 14 46 L 14 22 Q 14 14, 22 14 L 56 14 Z" fill="#c8e64a"/>
+            <path d="M 22 22 L 34 34 L 22 46 Z" fill="#0d1117"/>
+            <path d="M 34 34 L 46 22 L 46 46 Z" fill="#0d1117" opacity="0.7"/>
+          </svg>
+          <div class="size-label">64px</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Concept 2 sizes -->
+    <div>
+      <div class="label" style="margin-bottom: 15px;">Concept 2 — 3 Levels &#9733;</div>
+      <div class="sizes-row">
+        <div class="size-item">
+          <svg width="16" height="20" viewBox="0 0 60 80">
+            <path d="M 30 0 L 10 0 Q 0 0, 0 10 L 0 16 L 60 16 L 60 0 Z" fill="#c8e64a"/>
+            <rect x="0" y="26" width="16" height="28" fill="#c8e64a"/>
+            <path d="M 0 64 Q 0 80, 10 80 L 60 80 L 60 64 Z" fill="#c8e64a"/>
+          </svg>
+          <div class="size-label">16px</div>
+        </div>
+        <div class="size-item">
+          <svg width="32" height="40" viewBox="0 0 60 80">
+            <path d="M 30 0 L 10 0 Q 0 0, 0 10 L 0 16 L 60 16 L 60 0 Z" fill="#c8e64a"/>
+            <rect x="0" y="26" width="16" height="28" fill="#c8e64a"/>
+            <path d="M 0 64 Q 0 80, 10 80 L 60 80 L 60 64 Z" fill="#c8e64a"/>
+          </svg>
+          <div class="size-label">32px</div>
+        </div>
+        <div class="size-item">
+          <svg width="64" height="80" viewBox="0 0 60 80">
+            <path d="M 30 0 L 10 0 Q 0 0, 0 10 L 0 16 L 60 16 L 60 0 Z" fill="#c8e64a"/>
+            <rect x="0" y="26" width="16" height="28" fill="#c8e64a"/>
+            <path d="M 0 64 Q 0 80, 10 80 L 60 80 L 60 64 Z" fill="#c8e64a"/>
+          </svg>
+          <div class="size-label">64px</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Concept 3 sizes -->
+    <div>
+      <div class="label" style="margin-bottom: 15px;">Concept 3 — Sliced</div>
+      <div class="sizes-row">
+        <div class="size-item">
+          <svg width="16" height="20" viewBox="0 0 55 84">
+            <defs><clipPath id="cs5"><path d="M 55 0 L 15 0 Q 0 0, 0 15 L 0 69 Q 0 84, 15 84 L 55 84 L 55 68 L 20 68 Q 14 68, 14 62 L 14 22 Q 14 16, 20 16 L 55 16 Z"/></clipPath></defs>
+            <g clip-path="url(#cs5)">
+              <rect x="0" y="0" width="60" height="84" fill="#c8e64a"/>
+              <line x1="-5" y1="30" x2="65" y2="22" stroke="#0d1117" stroke-width="4"/>
+              <line x1="-5" y1="58" x2="65" y2="50" stroke="#0d1117" stroke-width="4"/>
+            </g>
+          </svg>
+          <div class="size-label">16px</div>
+        </div>
+        <div class="size-item">
+          <svg width="32" height="40" viewBox="0 0 55 84">
+            <defs><clipPath id="cs6"><path d="M 55 0 L 15 0 Q 0 0, 0 15 L 0 69 Q 0 84, 15 84 L 55 84 L 55 68 L 20 68 Q 14 68, 14 62 L 14 22 Q 14 16, 20 16 L 55 16 Z"/></clipPath></defs>
+            <g clip-path="url(#cs6)">
+              <rect x="0" y="0" width="60" height="84" fill="#c8e64a"/>
+              <line x1="-5" y1="30" x2="65" y2="22" stroke="#0d1117" stroke-width="4"/>
+              <line x1="-5" y1="58" x2="65" y2="50" stroke="#0d1117" stroke-width="4"/>
+            </g>
+          </svg>
+          <div class="size-label">32px</div>
+        </div>
+        <div class="size-item">
+          <svg width="64" height="80" viewBox="0 0 55 84">
+            <defs><clipPath id="cs7"><path d="M 55 0 L 15 0 Q 0 0, 0 15 L 0 69 Q 0 84, 15 84 L 55 84 L 55 68 L 20 68 Q 14 68, 14 62 L 14 22 Q 14 16, 20 16 L 55 16 Z"/></clipPath></defs>
+            <g clip-path="url(#cs7)">
+              <rect x="0" y="0" width="60" height="84" fill="#c8e64a"/>
+              <line x1="-5" y1="30" x2="65" y2="22" stroke="#0d1117" stroke-width="4"/>
+              <line x1="-5" y1="58" x2="65" y2="50" stroke="#0d1117" stroke-width="4"/>
+            </g>
+          </svg>
+          <div class="size-label">64px</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================ -->
+<!-- T-SHIRT MOCKUP -->
+<!-- ============================================ -->
+<div class="section">
+  <div class="section-title">Mockup — Camisola</div>
+  <div class="section-desc">Como fica o &iacute;cone standalone numa camisola.</div>
+
+  <div class="mockup-row">
+    <!-- T-shirt with Concept 1 -->
+    <div class="mockup-card tshirt">
+      <div style="width: 180px; height: 220px; background: #222; border-radius: 8px; margin: 0 auto; display: flex; align-items: center; justify-content: center; position: relative;">
+        <!-- Collar -->
+        <div style="position: absolute; top: -1px; left: 50%; transform: translateX(-50%); width: 40px; height: 15px; background: #222; border-radius: 0 0 20px 20px; border: 2px solid #333; border-top: none;"></div>
+        <svg width="60" height="60" viewBox="0 0 68 68">
+          <path d="M 56 0 L 18 0 Q 0 0, 0 18 L 0 50 Q 0 68, 18 68 L 56 68 L 56 54 L 22 54 Q 14 54, 14 46 L 14 22 Q 14 14, 22 14 L 56 14 Z" fill="#c8e64a"/>
+          <path d="M 22 22 L 34 34 L 22 46 Z" fill="#222"/>
+          <path d="M 34 34 L 46 22 L 46 46 Z" fill="#222" opacity="0.7"/>
+        </svg>
+      </div>
+      <div class="logo-box-label">Concept 1 — Diamond</div>
+    </div>
+
+    <!-- T-shirt with Concept 2 -->
+    <div class="mockup-card tshirt">
+      <div style="width: 180px; height: 220px; background: #222; border-radius: 8px; margin: 0 auto; display: flex; align-items: center; justify-content: center; position: relative;">
+        <div style="position: absolute; top: -1px; left: 50%; transform: translateX(-50%); width: 40px; height: 15px; background: #222; border-radius: 0 0 20px 20px; border: 2px solid #333; border-top: none;"></div>
+        <svg width="50" height="65" viewBox="0 0 60 80">
+          <path d="M 30 0 L 10 0 Q 0 0, 0 10 L 0 16 L 60 16 L 60 0 Z" fill="#c8e64a"/>
+          <rect x="0" y="26" width="16" height="28" fill="#c8e64a"/>
+          <path d="M 0 64 Q 0 80, 10 80 L 60 80 L 60 64 Z" fill="#c8e64a"/>
+        </svg>
+      </div>
+      <div class="logo-box-label">Concept 2 — 3 Levels &#9733;</div>
+    </div>
+
+    <!-- T-shirt with Concept 3 -->
+    <div class="mockup-card tshirt">
+      <div style="width: 180px; height: 220px; background: #222; border-radius: 8px; margin: 0 auto; display: flex; align-items: center; justify-content: center; position: relative;">
+        <div style="position: absolute; top: -1px; left: 50%; transform: translateX(-50%); width: 40px; height: 15px; background: #222; border-radius: 0 0 20px 20px; border: 2px solid #333; border-top: none;"></div>
+        <svg width="50" height="65" viewBox="0 0 55 84">
+          <defs><clipPath id="cs8"><path d="M 55 0 L 15 0 Q 0 0, 0 15 L 0 69 Q 0 84, 15 84 L 55 84 L 55 68 L 20 68 Q 14 68, 14 62 L 14 22 Q 14 16, 20 16 L 55 16 Z"/></clipPath></defs>
+          <g clip-path="url(#cs8)">
+            <rect x="0" y="0" width="60" height="84" fill="#c8e64a"/>
+            <line x1="-5" y1="30" x2="65" y2="22" stroke="#222" stroke-width="4"/>
+            <line x1="-5" y1="58" x2="65" y2="50" stroke="#222" stroke-width="4"/>
+          </g>
+        </svg>
+      </div>
+      <div class="logo-box-label">Concept 3 — Sliced</div>
+    </div>
+  </div>
+</div>
+
+<div class="footer">
+  Method C &mdash; Logo Concepts V2 &mdash; Draplin Methodology &mdash; 2026
+</div>
+
+</body>
+</html>

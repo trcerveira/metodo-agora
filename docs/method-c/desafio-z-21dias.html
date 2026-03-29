@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DESAFIO Z — 21 Dias de Transformação</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: #0a0a0a;
+            color: #e5e5e5;
+            line-height: 1.7;
+        }
+
+        .hero {
+            min-height: 80vh;
+            display: flex; flex-direction: column;
+            justify-content: center; align-items: center; text-align: center;
+            padding: 40px 20px;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #0a0a0a 100%);
+            position: relative; overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+            background: radial-gradient(circle at 30% 50%, rgba(255,107,53,0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 70% 50%, rgba(245,158,11,0.08) 0%, transparent 50%);
+            animation: pulse 8s ease-in-out infinite;
+        }
+        @keyframes pulse { 0%,100%{opacity:.5} 50%{opacity:1} }
+        .hero-content { position: relative; z-index: 1; }
+        .badge {
+            display: inline-block; padding: 8px 24px;
+            border: 1px solid rgba(255,107,53,0.4); border-radius: 50px;
+            font-size: 14px; color: #ff6b35; letter-spacing: 3px; text-transform: uppercase;
+            margin-bottom: 32px;
+        }
+        .hero h1 {
+            font-size: clamp(42px,7vw,84px); font-weight: 800; letter-spacing: -2px; margin-bottom: 16px;
+            background: linear-gradient(135deg,#fff 0%,#ff6b35 100%);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        .hero .subtitle { font-size: clamp(16px,2.5vw,24px); color: #888; font-weight: 300; margin-bottom: 12px; }
+        .hero .price-tag {
+            display: inline-block; margin-top: 24px; padding: 16px 40px;
+            background: rgba(255,107,53,0.15); border: 2px solid #ff6b35;
+            border-radius: 12px; font-size: 28px; font-weight: 800; color: #ff6b35;
+        }
+        .hero .price-tag small { font-size: 14px; color: #888; font-weight: 400; display: block; margin-top: 4px; }
+
+        section { max-width: 900px; margin: 0 auto; padding: 60px 24px; }
+        .section-divider { width: 60px; height: 3px; background: #ff6b35; margin-bottom: 32px; }
+        h2 { font-size: 32px; font-weight: 700; margin-bottom: 24px; color: #fff; }
+        h3 { font-size: 20px; font-weight: 600; margin-bottom: 16px; color: #ff6b35; }
+        p { margin-bottom: 16px; color: #bbb; font-size: 16px; }
+
+        /* Inclui Grid */
+        .includes-grid {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 24px;
+        }
+        .include-card {
+            display: flex; align-items: center; gap: 16px;
+            padding: 20px; background: #111; border-radius: 12px; border: 1px solid #222;
+        }
+        .include-card .inc-icon { font-size: 28px; flex-shrink: 0; }
+        .include-card .inc-text { font-size: 15px; color: #ddd; }
+        .include-card .inc-text strong { color: #fff; }
+
+        /* Week tabs */
+        .week-tabs {
+            display: flex; gap: 8px; margin-bottom: 24px;
+        }
+        .week-tab {
+            flex: 1; padding: 16px; text-align: center;
+            background: #111; border-radius: 12px; border: 1px solid #222;
+            cursor: default;
+        }
+        .week-tab.active { border-color: #ff6b35; background: rgba(255,107,53,0.08); }
+        .week-tab .week-num { font-size: 12px; color: #666; text-transform: uppercase; letter-spacing: 1px; }
+        .week-tab .week-name { font-size: 16px; font-weight: 700; color: #fff; margin-top: 4px; }
+        .week-tab.active .week-name { color: #ff6b35; }
+        .week-tab .week-theme { font-size: 12px; color: #555; margin-top: 4px; }
+
+        /* Day cards */
+        .days-grid { display: grid; grid-template-columns: 1fr; gap: 8px; }
+        .day-row {
+            display: grid; grid-template-columns: 50px 1fr 1fr 1fr; gap: 12px;
+            padding: 16px; background: #111; border-radius: 10px; border: 1px solid #1a1a1a;
+            align-items: center; font-size: 14px;
+        }
+        .day-row.header {
+            background: transparent; border: none; padding: 8px 16px;
+            font-size: 12px; color: #555; text-transform: uppercase; letter-spacing: 1px;
+        }
+        .day-row.rest { opacity: 0.5; }
+        .day-row.special { border-color: #ff6b35; background: rgba(255,107,53,0.05); }
+        .day-num {
+            font-size: 18px; font-weight: 800; color: #ff6b35; text-align: center;
+        }
+        .day-row.rest .day-num { color: #444; }
+        .day-train { color: #ddd; }
+        .day-mini { color: #f59e0b; font-size: 13px; }
+        .day-group { color: #888; font-size: 13px; }
+
+        /* Ranking */
+        .ranking-table { width: 100%; border-collapse: collapse; margin-top: 24px; }
+        .ranking-table th {
+            text-align: left; padding: 12px 16px; background: #1a1a1a;
+            color: #ff6b35; font-size: 13px; text-transform: uppercase; letter-spacing: 1px;
+            border-bottom: 2px solid #ff6b35;
+        }
+        .ranking-table td {
+            padding: 12px 16px; border-bottom: 1px solid #1a1a1a; font-size: 15px; color: #bbb;
+        }
+        .ranking-table td:last-child { color: #ff6b35; font-weight: 700; text-align: center; }
+
+        /* Nutrition cards */
+        .nutrition-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 24px; }
+        .nutri-card {
+            padding: 20px; background: #111; border-radius: 12px;
+            border-left: 3px solid #22c55e;
+        }
+        .nutri-card .nutri-day { font-size: 12px; color: #22c55e; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+        .nutri-card .nutri-title { font-size: 15px; font-weight: 700; color: #fff; margin-bottom: 8px; }
+        .nutri-card .nutri-text { font-size: 14px; color: #888; line-height: 1.6; }
+
+        /* Conversion */
+        .conv-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 12px; margin-top: 24px; }
+        .conv-card {
+            padding: 24px 16px; background: #111; border-radius: 12px; text-align: center;
+            border: 1px solid #222;
+        }
+        .conv-card .conv-who { font-size: 12px; color: #666; text-transform: uppercase; letter-spacing: 1px; }
+        .conv-card .conv-discount { font-size: 32px; font-weight: 800; color: #ff6b35; margin: 8px 0; }
+        .conv-card .conv-price { font-size: 14px; color: #888; }
+        .conv-card:first-child { border-color: #f59e0b; }
+        .conv-card:first-child .conv-discount { color: #f59e0b; }
+
+        /* Certificate */
+        .certificate {
+            margin-top: 32px; padding: 40px; border-radius: 16px; text-align: center;
+            background: #111; border: 2px solid #333;
+            position: relative;
+        }
+        .certificate::before {
+            content: 'CERTIFICADO'; position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
+            background: #0a0a0a; padding: 0 20px; font-size: 12px; color: #ff6b35;
+            letter-spacing: 3px; text-transform: uppercase;
+        }
+        .certificate .cert-name { font-size: 28px; font-weight: 800; color: #fff; margin: 16px 0; }
+        .certificate .cert-text { color: #888; font-size: 15px; }
+        .certificate .cert-badge { margin-top: 16px; font-size: 14px; color: #ff6b35; font-weight: 600; }
+
+        /* Targets */
+        .targets-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; margin-top: 24px; }
+        .target-card { padding: 24px; background: #111; border-radius: 12px; text-align: center; border: 1px solid #222; }
+        .target-card .target-num { font-size: 36px; font-weight: 800; color: #ff6b35; }
+        .target-card .target-label { font-size: 13px; color: #666; text-transform: uppercase; letter-spacing: 1px; margin-top: 8px; }
+
+        /* Post-challenge */
+        .post-timeline { margin-top: 32px; }
+        .post-item {
+            display: grid; grid-template-columns: 60px 1fr; gap: 16px;
+            padding: 20px 0; border-bottom: 1px solid #1a1a1a;
+        }
+        .post-item .post-day {
+            font-size: 14px; font-weight: 700; color: #ff6b35; text-align: center;
+            padding-top: 4px;
+        }
+        .post-item .post-text { font-size: 15px; color: #bbb; }
+        .post-item .post-text strong { color: #fff; }
+
+        .footer { text-align: center; padding: 40px; color: #444; font-size: 14px; }
+        .footer strong { color: #ff6b35; }
+
+        @media (max-width:768px) {
+            .includes-grid, .nutrition-grid { grid-template-columns: 1fr; }
+            .conv-grid { grid-template-columns: 1fr 1fr; }
+            .targets-grid { grid-template-columns: 1fr; }
+            .day-row { grid-template-columns: 40px 1fr; }
+            .day-row .day-mini, .day-row .day-group { display: none; }
+            .day-row.header { display: none; }
+            .week-tabs { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="hero">
+        <div class="hero-content">
+            <div class="badge">21 Dias de Transformação</div>
+            <h1>DESAFIO Z</h1>
+            <p class="subtitle">Treino personalizado. Comunidade. Resultados reais.</p>
+            <p class="subtitle">Avaliação Dia 0 → Treino → Reavaliação Dia 21 → Prova.</p>
+            <div class="price-tag">27-47€<small>pagamento único</small></div>
+        </div>
+    </div>
+
+    <!-- O QUE INCLUI -->
+    <section>
+        <div class="section-divider"></div>
+        <h2>O que está incluído</h2>
+        <div class="includes-grid">
+            <div class="include-card"><div class="inc-icon">📋</div><div class="inc-text"><strong>Plano de treino personalizado</strong> — baseado na tua avaliação</div></div>
+            <div class="include-card"><div class="inc-icon">📊</div><div class="inc-text"><strong>Avaliação Dia 0 + Dia 21</strong> — vê a tua evolução com números</div></div>
+            <div class="include-card"><div class="inc-icon">💬</div><div class="inc-text"><strong>Grupo WhatsApp</strong> — comunidade exclusiva + suporte diário</div></div>
+            <div class="include-card"><div class="inc-icon">📸</div><div class="inc-text"><strong>Check-in diário</strong> — accountability com foto/vídeo</div></div>
+            <div class="include-card"><div class="inc-icon">🏆</div><div class="inc-text"><strong>Ranking / Leaderboard</strong> — gamificação e prémios</div></div>
+            <div class="include-card"><div class="inc-icon">⚡</div><div class="inc-text"><strong>Mini-desafio diário</strong> — hábitos para além do treino</div></div>
+            <div class="include-card"><div class="inc-icon">🥗</div><div class="inc-text"><strong>Dicas de nutrição</strong> — fundamentos simples, sem dietas</div></div>
+            <div class="include-card"><div class="inc-icon">📜</div><div class="inc-text"><strong>Certificado de conclusão</strong> — digital + desconto exclusivo</div></div>
+        </div>
+    </section>
+
+    <!-- PRÉ-DESAFIO -->
+    <section>
+        <div class="section-divider"></div>
+        <h2>Pré-Desafio</h2>
+        <p>2-3 dias antes do Dia 1. Preparar tudo.</p>
+        <div class="post-timeline">
+            <div class="post-item">
+                <div class="post-day">Dia -3</div>
+                <div class="post-text"><strong>Abertura do grupo WhatsApp.</strong> Boas-vindas. Regras do desafio. Apresentação de todos.</div>
+            </div>
+            <div class="post-item">
+                <div class="post-day">Dia -2</div>
+                <div class="post-text"><strong>Instruções da Avaliação Dia 0.</strong> Quais testes fazer, como fazer, como registar os resultados.</div>
+            </div>
+            <div class="post-item">
+                <div class="post-day">Dia -1</div>
+                <div class="post-text"><strong>Participantes fazem a avaliação</strong> e enviam resultados no grupo. Recebem o <strong>plano de treino personalizado</strong>.</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SEMANAS -->
+    <section>
+        <div class="section-divider"></div>
+        <h2>Os 21 Dias</h2>
+
+        <div class="week-tabs">
+            <div class="week-tab active">
+                <div class="week-num">Semana 1</div>
+                <div class="week-name">Fundação</div>
+                <div class="week-theme">Criar o hábito</div>
+            </div>
+            <div class="week-tab">
+                <div class="week-num">Semana 2</div>
+                <div class="week-name">Progressão</div>
+                <div class="week-theme">Aumentar intensidade</div>
+            </div>
+            <div class="week-tab">
+                <div class="week-num">Semana 3</div>
+                <div class="week-name">Prova</div>
+                <div class="week-theme">Mostrar resultados</div>
+            </div>
+        </div>
+
+        <!-- SEMANA 1 -->
+        <h3>Semana 1 — Fundação</h3>
+        <div class="days-grid">
+            <div class="day-row header">
+                <span></span><span>Treino</span><span>Mini-Desafio</span><span>Grupo WhatsApp</span>
+            </div>
+            <div class="day-row">
+                <div class="day-num">1</div>
+                <div class="day-train">Mobilidade + Estabilidade</div>
+                <div class="day-mini">Beber 2L de água</div>
+                <div class="day-group">Motivação + explicar check-in</div>
+            </div>
+            <div class="day-row rest">
+                <div class="day-num">2</div>
+                <div class="day-train">Descanso activo — caminhar 20 min</div>
+                <div class="day-mini">Caminhar 20 min</div>
+                <div class="day-group">Dica: pequeno-almoço com proteína</div>
+            </div>
+            <div class="day-row">
+                <div class="day-num">3</div>
+                <div class="day-train">Força + Flexibilidade</div>
+                <div class="day-mini">Dormir 7h</div>
+                <div class="day-group">Como se sentiram no 1º treino?</div>
+            </div>
+            <div class="day-row rest">
+                <div class="day-num">4</div>
+                <div class="day-train">Descanso</div>
+                <div class="day-mini">Sem telemóvel 1h antes dormir</div>
+                <div class="day-group">Dica: importância da hidratação</div>
+            </div>
+            <div class="day-row">
+                <div class="day-num">5</div>
+                <div class="day-train">Mobilidade + Resistência</div>
+                <div class="day-mini">Beber 2L de água</div>
+                <div class="day-group">Qual exercício foi mais difícil?</div>
+            </div>
+            <div class="day-row">
+                <div class="day-num">6</div>
+                <div class="day-train">Força + Estabilidade</div>
+                <div class="day-mini">Caminhar 20 min</div>
+                <div class="day-group">Dica: reduzir açúcar processado</div>
+            </div>
+            <div class="day-row special">
+                <div class="day-num">7</div>
+                <div class="day-train">Descanso + Reflexão</div>
+                <div class="day-mini">Dormir 7h</div>
+                <div class="day-group">🏆 Ranking Semana 1</div>
+            </div>
+        </div>
+
+        <!-- SEMANA 2 -->
+        <h3 style="margin-top:40px;">Semana 2 — Progressão</h3>
+        <div class="days-grid">
+            <div class="day-row header">
+                <span></span><span>Treino</span><span>Mini-Desafio</span><span>Grupo WhatsApp</span>
+            </div>
+            <div class="day-row">
+                <div class="day-num">8</div>
+                <div class="day-train">Mob + Estabilidade (progressão)</div>
+                <div class="day-mini">Beber 2,5L de água</div>
+                <div class="day-group">"Semana 2 — agora é que começa"</div>
+            </div>
+            <div class="day-row rest">
+                <div class="day-num">9</div>
+                <div class="day-train">Descanso activo — caminhar 30 min</div>
+                <div class="day-mini">Caminhar 30 min</div>
+                <div class="day-group">Dica: proteína em cada refeição</div>
+            </div>
+            <div class="day-row">
+                <div class="day-num">10</div>
+                <div class="day-train">Força + Flexibilidade (progressão)</div>
+                <div class="day-mini">Sem telemóvel 1h antes dormir</div>
+                <div class="day-group">O que já melhorou?</div>
+            </div>
+            <div class="day-row rest">
+                <div class="day-num">11</div>
+                <div class="day-train">Descanso</div>
+                <div class="day-mini">Dormir 7h</div>
+                <div class="day-group">Dica: preparar refeições</div>
+            </div>
+            <div class="day-row">
+                <div class="day-num">12</div>
+                <div class="day-train">Mob + Resistência (progressão)</div>
+                <div class="day-mini">Beber 2,5L de água</div>
+                <div class="day-group">Partilhar nas redes: antes/durante</div>
+            </div>
+            <div class="day-row">
+                <div class="day-num">13</div>
+                <div class="day-train">Força + Estabilidade (progressão)</div>
+                <div class="day-mini">Caminhar 30 min</div>
+                <div class="day-group">Dica: snacks saudáveis</div>
+            </div>
+            <div class="day-row special">
+                <div class="day-num">14</div>
+                <div class="day-train">Descanso + Reflexão</div>
+                <div class="day-mini">Reflexão da semana</div>
+                <div class="day-group">🏆 Ranking Semana 2</div>
+            </div>
+        </div>
+
+        <!-- SEMANA 3 -->
+        <h3 style="margin-top:40px;">Semana 3 — Prova</h3>
+        <div class="days-grid">
+            <div class="day-row header">
+                <span></span><span>Treino</span><span>Mini-Desafio</span><span>Grupo WhatsApp</span>
+            </div>
+            <div class="day-row">
+                <div class="day-num">15</div>
+                <div class="day-train">Mob + Estabilidade (máximo)</div>
+                <div class="day-mini">Beber 3L de água</div>
+                <div class="day-group">"Última semana — vamos provar"</div>
+            </div>
+            <div class="day-row rest">
+                <div class="day-num">16</div>
+                <div class="day-train">Descanso activo — caminhar 30 min</div>
+                <div class="day-mini">Caminhar 30 min</div>
+                <div class="day-group">Dica: sono para resultados</div>
+            </div>
+            <div class="day-row">
+                <div class="day-num">17</div>
+                <div class="day-train">Força + Flexibilidade (máximo)</div>
+                <div class="day-mini">Dormir 7h</div>
+                <div class="day-group">Comparar com o Dia 1</div>
+            </div>
+            <div class="day-row rest">
+                <div class="day-num">18</div>
+                <div class="day-train">Descanso</div>
+                <div class="day-mini">Sem telemóvel 1h antes dormir</div>
+                <div class="day-group">Dica: consistência > perfeição</div>
+            </div>
+            <div class="day-row">
+                <div class="day-num">19</div>
+                <div class="day-train">Mob + Resistência (máximo)</div>
+                <div class="day-mini">Beber 3L de água</div>
+                <div class="day-group">Rever resultados Dia 0</div>
+            </div>
+            <div class="day-row">
+                <div class="day-num">20</div>
+                <div class="day-train">Força + Estabilidade (máximo)</div>
+                <div class="day-mini">Caminhar 30 min</div>
+                <div class="day-group">"Amanhã é o dia da verdade"</div>
+            </div>
+            <div class="day-row special">
+                <div class="day-num">21</div>
+                <div class="day-train" style="color:#ff6b35;font-weight:700;">REAVALIAÇÃO — Repetir todos os testes</div>
+                <div class="day-mini" style="color:#22c55e;">Celebrar!</div>
+                <div class="day-group" style="color:#fff;font-weight:600;">🏆 Resultados finais</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- RANKING -->
+    <section>
+        <div class="section-divider"></div>
+        <h2>Ranking / Leaderboard</h2>
+        <p>Gamificação para manter todos motivados. Pontos por cada acção.</p>
+        <table class="ranking-table">
+            <tr><th>Acção</th><th>Pontos</th></tr>
+            <tr><td>Check-in diário (foto/vídeo a treinar)</td><td>+10</td></tr>
+            <tr><td>Completar mini-desafio do dia</td><td>+5</td></tr>
+            <tr><td>Postar nas redes sociais</td><td>+5</td></tr>
+            <tr><td>Ajudar outro participante no grupo</td><td>+3</td></tr>
+            <tr><td>Completar a reavaliação Dia 21</td><td>+20</td></tr>
+        </table>
+        <p style="margin-top:16px;color:#666;font-size:14px;">Rankings publicados: Fim da Semana 1, Semana 2, e Dia 21 (final)</p>
+    </section>
+
+    <!-- NUTRIÇÃO -->
+    <section>
+        <div class="section-divider"></div>
+        <h2>Dicas de Nutrição</h2>
+        <p>8 mensagens simples ao longo dos 21 dias. Sem dietas, sem complicar.</p>
+        <div class="nutrition-grid">
+            <div class="nutri-card">
+                <div class="nutri-day">Dia 2</div>
+                <div class="nutri-title">Pequeno-almoço</div>
+                <div class="nutri-text">Começa o dia com proteína — ovos, iogurte grego, ou queijo fresco. Evita cereais açucarados.</div>
+            </div>
+            <div class="nutri-card">
+                <div class="nutri-day">Dia 4</div>
+                <div class="nutri-title">Hidratação</div>
+                <div class="nutri-text">A maioria come quando tem sede. Antes de comer entre refeições, bebe um copo de água e espera 10 min.</div>
+            </div>
+            <div class="nutri-card">
+                <div class="nutri-day">Dia 6</div>
+                <div class="nutri-title">Açúcar</div>
+                <div class="nutri-text">Troca refrigerantes por água com limão. Só isto já faz diferença em 21 dias.</div>
+            </div>
+            <div class="nutri-card">
+                <div class="nutri-day">Dia 9</div>
+                <div class="nutri-title">Proteína</div>
+                <div class="nutri-text">Mete proteína em cada refeição. Carne, peixe, ovos, leguminosas. O corpo precisa disto para recuperar.</div>
+            </div>
+            <div class="nutri-card">
+                <div class="nutri-day">Dia 11</div>
+                <div class="nutri-title">Meal Prep</div>
+                <div class="nutri-text">Domingo à noite, prepara 3-4 refeições. Não é dieta — é organização. Quem tem comida pronta não pede fast food.</div>
+            </div>
+            <div class="nutri-card">
+                <div class="nutri-day">Dia 13</div>
+                <div class="nutri-title">Snacks</div>
+                <div class="nutri-text">Fruta + nozes, iogurte grego + mel, cenoura + hummus. Simples, rápidos, sem porcaria.</div>
+            </div>
+            <div class="nutri-card">
+                <div class="nutri-day">Dia 16</div>
+                <div class="nutri-title">Sono</div>
+                <div class="nutri-text">Dormir mal destrói resultados. O corpo recupera e constrói músculo a dormir. 7-8h, não negociável.</div>
+            </div>
+            <div class="nutri-card">
+                <div class="nutri-day">Dia 18</div>
+                <div class="nutri-title">Consistência</div>
+                <div class="nutri-text">Não precisas de ser perfeito. 80% bom todos os dias ganha a 100% perfeito de vez em quando.</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PÓS DESAFIO -->
+    <section>
+        <div class="section-divider"></div>
+        <h2>Pós-Desafio — Conversão</h2>
+        <p>Os 3 dias mais importantes do negócio.</p>
+        <div class="post-timeline">
+            <div class="post-item">
+                <div class="post-day">Dia 22</div>
+                <div class="post-text"><strong>Enviar resultados comparativos</strong> (Dia 0 vs Dia 21) a cada participante. <strong>Certificado de conclusão</strong> para quem completou.</div>
+            </div>
+            <div class="post-item">
+                <div class="post-day">Dia 23</div>
+                <div class="post-text"><strong>"O desafio acabou, a vossa evolução não."</strong> Apresentar o programa mensal com desconto exclusivo no grupo.</div>
+            </div>
+            <div class="post-item">
+                <div class="post-day">Dia 24</div>
+                <div class="post-text"><strong>Último dia do desconto.</strong> Urgência. Fechar inscrições do programa mensal.</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CERTIFICADO -->
+    <section>
+        <div class="section-divider"></div>
+        <h2>Certificado de Conclusão</h2>
+        <div class="certificate">
+            <p class="cert-text">Atesta-se que</p>
+            <p class="cert-name">[Nome do Participante]</p>
+            <p class="cert-text">completou com sucesso o</p>
+            <p class="cert-name" style="color:#ff6b35;font-size:22px;">DESAFIO Z — 21 Dias de Transformação</p>
+            <p class="cert-text">Nível alcançado: [Nível] | Evolução: Dia 0 → Dia 21</p>
+            <p class="cert-badge">— MÉTODO Z —</p>
+        </div>
+    </section>
+
+    <!-- DESCONTOS -->
+    <section>
+        <div class="section-divider"></div>
+        <h2>Desconto Exclusivo — Quem Continua</h2>
+        <p>Prémios para quem completa. Válido 48h após o fim do desafio.</p>
+        <div class="conv-grid">
+            <div class="conv-card">
+                <div class="conv-who">1º Lugar</div>
+                <div class="conv-discount">Grátis</div>
+                <div class="conv-price">1 mês do programa</div>
+            </div>
+            <div class="conv-card">
+                <div class="conv-who">2º e 3º Lugar</div>
+                <div class="conv-discount">50%</div>
+                <div class="conv-price">49,50€ 1º mês</div>
+            </div>
+            <div class="conv-card">
+                <div class="conv-who">Completou 21 dias</div>
+                <div class="conv-discount">30%</div>
+                <div class="conv-price">69€ 1º mês</div>
+            </div>
+            <div class="conv-card">
+                <div class="conv-who">Não completou</div>
+                <div class="conv-discount">10%</div>
+                <div class="conv-price">89€ 1º mês</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ALVOS -->
+    <section>
+        <div class="section-divider"></div>
+        <h2>Números Alvo — Primeiro Desafio</h2>
+        <div class="targets-grid">
+            <div class="target-card">
+                <div class="target-num">20</div>
+                <div class="target-label">Participantes</div>
+            </div>
+            <div class="target-card">
+                <div class="target-num">540€</div>
+                <div class="target-label">Receita do desafio (20 × 27€)</div>
+            </div>
+            <div class="target-card">
+                <div class="target-num">70%</div>
+                <div class="target-label">Taxa de conclusão</div>
+            </div>
+            <div class="target-card">
+                <div class="target-num">30%</div>
+                <div class="target-label">Conversão para mensal</div>
+            </div>
+            <div class="target-card">
+                <div class="target-num">6</div>
+                <div class="target-label">Clientes recorrentes</div>
+            </div>
+            <div class="target-card">
+                <div class="target-num">594€</div>
+                <div class="target-label">Receita mensal (6 × 99€)</div>
+            </div>
+        </div>
+    </section>
+
+    <div class="footer">
+        <strong>Desafio Z</strong> — Método Z<br>
+        Versão 1.0 | Março 2026
+    </div>
+
+</body>
+</html>
