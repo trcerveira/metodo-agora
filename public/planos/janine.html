@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Method C — Janine Training Plan</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: #0a0a0a;
+            color: #e5e5e5;
+            line-height: 1.7;
+        }
+
+        .hero {
+            min-height: 50vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 40px 20px;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #0a0a0a 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%; left: -50%;
+            width: 200%; height: 200%;
+            background: radial-gradient(circle at 30% 50%, rgba(255,107,53,0.08) 0%, transparent 50%),
+                        radial-gradient(circle at 70% 50%, rgba(34,197,94,0.08) 0%, transparent 50%);
+            animation: pulse 8s ease-in-out infinite;
+        }
+        @keyframes pulse { 0%,100%{opacity:.5} 50%{opacity:1} }
+        .hero-content { position: relative; z-index: 1; }
+        .badge {
+            display: inline-block; padding: 8px 24px;
+            border: 1px solid rgba(255,107,53,0.4); border-radius: 50px;
+            font-size: 14px; color: #ff6b35; letter-spacing: 3px; text-transform: uppercase;
+            margin-bottom: 32px;
+        }
+        .hero h1 {
+            font-size: clamp(36px,6vw,72px); font-weight: 800; letter-spacing: -2px; margin-bottom: 16px;
+            background: linear-gradient(135deg,#fff 0%,#ff6b35 100%);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        .hero .subtitle { font-size: clamp(16px,2.5vw,22px); color: #888; font-weight: 300; margin-bottom: 8px; }
+        .hero .level-badge {
+            display: inline-block; margin-top: 24px; padding: 12px 32px;
+            background: rgba(255,107,53,0.15); border: 2px solid #ff6b35;
+            border-radius: 50px; font-size: 18px; font-weight: 700; color: #ff6b35;
+            letter-spacing: 2px;
+        }
+
+        section { max-width: 900px; margin: 0 auto; padding: 60px 24px; }
+        .section-divider { width: 60px; height: 3px; background: #ff6b35; margin-bottom: 32px; }
+        h2 { font-size: 32px; font-weight: 700; margin-bottom: 24px; color: #fff; }
+        h3 { font-size: 20px; font-weight: 600; margin-bottom: 16px; color: #ff6b35; }
+        p { margin-bottom: 16px; color: #bbb; font-size: 16px; }
+
+        .profile-card {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 0;
+            background: #111; border-radius: 16px; border: 1px solid #222; overflow: hidden;
+            margin-top: 24px;
+        }
+        .profile-row {
+            display: flex; justify-content: space-between; padding: 16px 24px;
+            border-bottom: 1px solid #1a1a1a; font-size: 15px;
+        }
+        .profile-row:nth-child(odd) { border-right: 1px solid #1a1a1a; }
+        .profile-row .label { color: #666; }
+        .profile-row .value { color: #fff; font-weight: 600; }
+
+        .assessment-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 24px; }
+        .assess-card {
+            padding: 24px; background: #111; border-radius: 12px;
+            border-left: 3px solid #ff4444;
+        }
+        .assess-card.amarelo { border-left-color: #f59e0b; }
+        .assess-card .cat-name { font-size: 16px; font-weight: 700; color: #fff; margin-bottom: 12px; }
+        .assess-item {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 8px 0; border-bottom: 1px solid #1a1a1a; font-size: 14px;
+        }
+        .assess-item:last-child { border-bottom: none; }
+        .assess-item .test-name { color: #999; }
+        .assess-item .result {
+            padding: 4px 12px; border-radius: 50px; font-size: 12px;
+            font-weight: 700; text-transform: uppercase; letter-spacing: 1px;
+        }
+        .result.poor { background: rgba(255,68,68,0.15); color: #ff4444; }
+        .result.fair { background: rgba(245,158,11,0.15); color: #f59e0b; }
+
+        .diagnosis {
+            margin-top: 32px; padding: 24px 32px; border-radius: 12px;
+            background: rgba(255,107,53,0.06); border: 1px solid rgba(255,107,53,0.2);
+        }
+        .diagnosis p { margin: 0; color: #ddd; font-size: 15px; line-height: 1.8; }
+        .diagnosis strong { color: #ff6b35; }
+
+        .week-grid { display: grid; grid-template-columns: repeat(7,1fr); gap: 8px; margin-top: 24px; }
+        .day-card {
+            padding: 16px 8px; background: #111; border-radius: 10px;
+            text-align: center; border: 1px solid #222;
+        }
+        .day-card.active { border-color: #ff6b35; background: rgba(255,107,53,0.06); }
+        .day-card.rest { opacity: 0.4; }
+        .day-card .day-name { font-size: 11px; color: #666; text-transform: uppercase; letter-spacing: 1px; }
+        .day-card .day-focus { font-size: 11px; color: #ff6b35; margin-top: 8px; font-weight: 600; }
+        .day-card.rest .day-focus { color: #444; }
+        .day-card .day-time { font-size: 11px; color: #555; margin-top: 4px; }
+
+        .workout-day {
+            margin-top: 48px; padding: 32px; background: #111;
+            border-radius: 16px; border: 1px solid #222;
+        }
+        .workout-day-header {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 24px; padding-bottom: 16px; border-bottom: 2px solid #ff6b35;
+        }
+        .workout-day-title { font-size: 24px; font-weight: 800; color: #fff; }
+        .workout-day-focus {
+            padding: 6px 16px; background: rgba(255,107,53,0.15);
+            border-radius: 50px; font-size: 13px; color: #ff6b35; font-weight: 600;
+        }
+
+        .block-title {
+            font-size: 14px; color: #ff6b35; text-transform: uppercase; letter-spacing: 2px;
+            font-weight: 700; margin: 24px 0 12px; padding-top: 16px; border-top: 1px solid #1a1a1a;
+        }
+        .block-title:first-of-type { border-top: none; margin-top: 0; }
+        .block-time { color: #555; font-weight: 400; }
+
+        .exercise-table { width: 100%; border-collapse: collapse; }
+        .exercise-table th {
+            text-align: left; padding: 10px 12px; color: #555;
+            font-size: 12px; text-transform: uppercase; letter-spacing: 1px;
+            border-bottom: 1px solid #222;
+        }
+        .exercise-table td {
+            padding: 12px; border-bottom: 1px solid #1a1a1a; font-size: 14px;
+        }
+        .exercise-table td:first-child { color: #fff; font-weight: 600; }
+        .exercise-table td:nth-child(2) { color: #ff6b35; text-align: center; font-weight: 600; white-space: nowrap; }
+        .exercise-table td:last-child { color: #666; font-size: 13px; }
+        .exercise-table tr:hover td { background: rgba(255,255,255,0.02); }
+
+        .stretch-table { width: 100%; border-collapse: collapse; }
+        .stretch-table td {
+            padding: 10px 12px; border-bottom: 1px solid #1a1a1a; font-size: 14px;
+        }
+        .stretch-table td:first-child { color: #fff; }
+        .stretch-table td:nth-child(2) { color: #22c55e; text-align: right; font-weight: 600; }
+        .stretch-table td:last-child { text-align: right; }
+
+        .yt-link {
+            display: inline-flex; align-items: center; gap: 4px;
+            color: #ff4444; text-decoration: none; font-size: 12px; font-weight: 600;
+            padding: 3px 10px; border-radius: 50px;
+            background: rgba(255,68,68,0.1); border: 1px solid rgba(255,68,68,0.2);
+            transition: all 0.2s;
+        }
+        .yt-link:hover { background: rgba(255,68,68,0.2); color: #fff; }
+        .yt-link svg { width: 14px; height: 14px; fill: currentColor; }
+
+        .warning-box {
+            margin-top: 24px; padding: 20px 24px; border-radius: 12px;
+            background: rgba(245,158,11,0.06); border: 1px solid rgba(245,158,11,0.3);
+            display: flex; gap: 12px; align-items: flex-start;
+        }
+        .warning-box .icon { font-size: 24px; flex-shrink: 0; }
+        .warning-box p { margin: 0; color: #ddd; font-size: 14px; line-height: 1.6; }
+        .warning-box strong { color: #f59e0b; }
+
+        .prog-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 24px; }
+        .prog-card {
+            padding: 28px; background: #111; border-radius: 16px; border: 1px solid #222;
+        }
+        .prog-card h3 { margin-bottom: 20px; }
+        .prog-card.active { border-color: #ff6b35; }
+        .prog-item {
+            display: flex; justify-content: space-between; padding: 10px 0;
+            border-bottom: 1px solid #1a1a1a; font-size: 14px;
+        }
+        .prog-item:last-child { border-bottom: none; }
+        .prog-item .param { color: #888; }
+        .prog-item .val { color: #fff; font-weight: 600; }
+        .prog-card.active .prog-item .val { color: #ff6b35; }
+
+        .goals-grid { display: grid; grid-template-columns: repeat(auto-fill,minmax(250px,1fr)); gap: 16px; margin-top: 24px; }
+        .goal-card {
+            padding: 20px; background: #111; border-radius: 12px; border: 1px solid #222;
+        }
+        .goal-card .goal-name { font-size: 15px; font-weight: 700; color: #fff; margin-bottom: 8px; }
+        .goal-bar-bg {
+            height: 8px; background: #222; border-radius: 4px; overflow: hidden; margin: 12px 0 8px;
+        }
+        .goal-bar {
+            height: 100%; background: linear-gradient(90deg, #ff6b35, #f59e0b);
+            border-radius: 4px;
+        }
+        .goal-values { display: flex; justify-content: space-between; font-size: 13px; }
+        .goal-values .current { color: #888; }
+        .goal-values .target { color: #ff6b35; font-weight: 600; }
+
+        .reeval-box {
+            margin-top: 32px; padding: 32px; border-radius: 16px; text-align: center;
+            background: linear-gradient(135deg,rgba(34,197,94,0.08),rgba(34,197,94,0.02));
+            border: 1px solid rgba(34,197,94,0.3);
+        }
+        .reeval-box .date { font-size: 48px; font-weight: 800; color: #22c55e; margin-bottom: 8px; }
+        .reeval-box h3 { color: #22c55e; font-size: 24px; margin-bottom: 12px; }
+        .reeval-box p { color: #888; max-width: 500px; margin: 0 auto; }
+
+        .footer { text-align: center; padding: 40px; color: #444; font-size: 14px; }
+        .footer strong { color: #ff6b35; }
+
+        @media (max-width:768px) {
+            .profile-card { grid-template-columns: 1fr; }
+            .profile-row:nth-child(odd) { border-right: none; }
+            .assessment-grid { grid-template-columns: 1fr; }
+            .week-grid { grid-template-columns: repeat(4,1fr); }
+            .prog-grid { grid-template-columns: 1fr; }
+            .goals-grid { grid-template-columns: 1fr; }
+            .workout-day-header { flex-direction: column; gap: 12px; align-items: flex-start; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HERO -->
+    <div class="hero">
+        <div class="hero-content">
+            <div class="badge">Method C &mdash; Custom Training Plan</div>
+            <h1>Janine</h1>
+            <p class="subtitle">Lower body fat &bull; Build muscle &bull; Cardio condition &bull; Lower stress</p>
+            <div class="level-badge">LEVEL 1 &mdash; 4 WEEKS &mdash; 60 MIN</div>
+        </div>
+    </div>
+
+    <!-- PROFILE -->
+    <section>
+        <div class="section-divider"></div>
+        <h2>Profile</h2>
+        <div class="profile-card">
+            <div class="profile-row"><span class="label">Start</span><span class="value">March 30, 2026</span></div>
+            <div class="profile-row"><span class="label">Duration</span><span class="value">4 weeks</span></div>
+            <div class="profile-row"><span class="label">Frequency</span><span class="value">5x/week (Mon-Fri)</span></div>
+            <div class="profile-row"><span class="label">Session length</span><span class="value">60 min</span></div>
+            <div class="profile-row"><span class="label">Type</span><span class="value">Full Body (1 workout)</span></div>
+            <div class="profile-row"><span class="label">Strength tempo</span><span class="value">2-2 (always)</span></div>
+        </div>
+    </section>
+
+    <!-- ASSESSMENT -->
+    <section>
+        <div class="section-divider"></div>
+        <h2>Assessment</h2>
+        <p>March 29, 2026</p>
+        <div class="assessment-grid">
+            <div class="assess-card">
+                <div class="cat-name">Mobility &amp; Stability</div>
+                <div class="assess-item"><span class="test-name">Ankle</span><span class="result poor">Poor</span></div>
+                <div class="assess-item"><span class="test-name">Knee</span><span class="result fair">Fair</span></div>
+            </div>
+            <div class="assess-card">
+                <div class="cat-name">Physical Capacity</div>
+                <div class="assess-item"><span class="test-name">Endurance</span><span class="result poor">Poor</span></div>
+                <div class="assess-item"><span class="test-name">Strength</span><span class="result poor">Poor</span></div>
+            </div>
+        </div>
+
+        <div class="diagnosis">
+            <p><strong>Priorities:</strong> Foot stability (ankle red zone) + knee stability (knee yellow zone). Build base strength with 2-2 tempo. Progressive cardio for fat loss. Breathing for stress. <strong>Thumb pain</strong> &mdash; closed fists on all support exercises.</p>
+        </div>
+    </section>
+
+    <!-- WEEK -->
+    <section>
+        <div class="section-divider"></div>
+        <h2>Weekly Structure</h2>
+        <p>1 workout. Repeat 5 days. Same workout, every day. Rest Saturday and Sunday.</p>
+        <div class="week-grid">
+            <div class="day-card active"><div class="day-name">Mon</div><div class="day-focus">Full Body</div><div class="day-time">60 min</div></div>
+            <div class="day-card active"><div class="day-name">Tue</div><div class="day-focus">Full Body</div><div class="day-time">60 min</div></div>
+            <div class="day-card active"><div class="day-name">Wed</div><div class="day-focus">Full Body</div><div class="day-time">60 min</div></div>
+            <div class="day-card active"><div class="day-name">Thu</div><div class="day-focus">Full Body</div><div class="day-time">60 min</div></div>
+            <div class="day-card active"><div class="day-name">Fri</div><div class="day-focus">Full Body</div><div class="day-time">60 min</div></div>
+            <div class="day-card rest"><div class="day-name">Sat</div><div class="day-focus">Rest</div><div class="day-time">&mdash;</div></div>
+            <div class="day-card rest"><div class="day-name">Sun</div><div class="day-focus">Rest</div><div class="day-time">&mdash;</div></div>
+        </div>
+    </section>
+
+    <!-- THE WORKOUT -->
+    <section>
+        <div class="workout-day">
+            <div class="workout-day-header">
+                <div class="workout-day-title">The Workout</div>
+                <div class="workout-day-focus">Full Body &bull; 60 min</div>
+            </div>
+
+            <!-- WARM-UP -->
+            <div class="block-title">Warm-Up <span class="block-time">&mdash; 7 min</span></div>
+            <table class="exercise-table">
+                <tr><th>Exercise</th><th>Sets x Reps</th><th>Notes</th></tr>
+                <tr>
+                    <td>Diaphragmatic breathing <a class="yt-link" href="https://www.youtube.com/results?search_query=diaphragmatic+breathing+exercise+tutorial" target="_blank"><svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814z"/><path d="M9.545 15.568V8.432L15.818 12z" fill="#0a0a0a"/></svg>Video</a></td>
+                    <td>10 breaths</td>
+                    <td>4s inhale, 6s exhale</td>
+                </tr>
+                <tr>
+                    <td>Cat-Cow <a class="yt-link" href="https://www.youtube.com/results?search_query=cat+cow+exercise+tutorial+proper+form" target="_blank"><svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814z"/><path d="M9.545 15.568V8.432L15.818 12z" fill="#0a0a0a"/></svg>Video</a></td>
+                    <td>2x8</td>
+                    <td>Slow and controlled</td>
+                </tr>
+                <tr>
+                    <td>Ankle circles <a class="yt-link" href="https://www.youtube.com/results?search_query=ankle+circles+exercise+warm+up" target="_blank"><svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814z"/><path d="M9.545 15.568V8.432L15.818 12z" fill="#0a0a0a"/></svg>Video</a></td>
+                    <td>10 each foot</td>
+                    <td>Full range, no pain</td>
+                </tr>
+            </table>
+
+            <!-- FOOT & KNEE STABILITY -->
+            <div class="block-title">Foot &amp; Knee Stability <span class="block-time">&mdash; 12 min</span></div>
+            <table class="exercise-table">
+                <tr><th>Exercise</th><th>Sets x Reps</th><th>Notes</th></tr>
+                <tr>
+                    <td>Short foot (arch activation) <a class="yt-link" href="https://www.youtube.com/results?search_query=short+foot+exercise+arch+activation+tutorial" target="_blank"><svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814z"/><path d="M9.545 15.568V8.432L15.818 12z" fill="#0a0a0a"/></svg>Video</a></td>
+                    <td>2x10 each foot</td>
+                    <td>Barefoot. "Shorten" the foot without curling toes</td>
+                </tr>
+                <tr>
+                    <td>Ankle mobility wall drill <a class="yt-link" href="https://www.youtube.com/results?search_query=ankle+mobility+knee+to+wall+drill" target="_blank"><svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814z"/><path d="M9.545 15.568V8.432L15.818 12z" fill="#0a0a0a"/></svg>Video</a></td>
+                    <td>3x8 each foot</td>
+                    <td>Heel on ground, knee pushes toward wall</td>
+                </tr>
+                <tr>
+                    <td>Single leg balance <a class="yt-link" href="https://www.youtube.com/results?search_query=single+leg+balance+exercise+beginner" target="_blank"><svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814z"/><path d="M9.545 15.568V8.432L15.818 12z" fill="#0a0a0a"/></svg>Video</a></td>
+                    <td>3x20s each foot</td>
+                    <td>Barefoot. Eyes fixed on a point</td>
+                </tr>
+                <tr>
+                    <td>Wall sit <a class="yt-link" href="https://www.youtube.com/results?search_query=wall+sit+exercise+proper+form+tutorial" target="_blank"><svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814z"/><path d="M9.545 15.568V8.432L15.818 12z" fill="#0a0a0a"/></svg>Video</a></td>
+                    <td>3x20s</td>
+                    <td>Back flat against wall, knees at 90&deg;</td>
+                </tr>
+            </table>
+
+            <!-- STRENGTH -->
+            <div class="block-title">Full Body Strength &mdash; Tempo 2-2 <span class="block-time">&mdash; 28 min</span></div>
+            <table class="exercise-table">
+                <tr><th>Exercise</th><th>Sets x Reps</th><th>Notes</th></tr>
+                <tr>
+                    <td>Goblet squat (5L bottle at chest) <a class="yt-link" href="https://www.youtube.com/results?search_query=goblet+squat+beginner+tutorial+form" target="_blank"><svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814z"/><path d="M9.545 15.568V8.432L15.818 12z" fill="#0a0a0a"/></svg>Video</a></td>
+                    <td>3x10</td>
+                    <td>Go as deep as possible without pain</td>
+                </tr>
+                <tr>
+                    <td>Split squat (static) <a class="yt-link" href="https://www.youtube.com/results?search_query=split+squat+beginner+proper+form+tutorial" target="_blank"><svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814z"/><path d="M9.545 15.568V8.432L15.818 12z" fill="#0a0a0a"/></svg>Video</a></td>
+                    <td>3x8 each leg</td>
+                    <td>Hold wall if needed</td>
+                </tr>
+                <tr>
+                    <td>Glute bridge <a class="yt-link" href="https://www.youtube.com/results?search_query=glute+bridge+exercise+proper+form+beginner" target="_blank"><svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814z"/><path d="M9.545 15.568V8.432L15.818 12z" fill="#0a0a0a"/></svg>Video</a></td>
+                    <td>3x12</td>
+                    <td>Squeeze glutes 2s at the top</td>
+                </tr>
+                <tr>
+                    <td>Incline push-up (closed fists) <a class="yt-link" href="https://www.youtube.com/results?search_query=incline+push+up+beginner+tutorial+form" target="_blank"><svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814z"/><path d="M9.545 15.568V8.432L15.818 12z" fill="#0a0a0a"/></svg>Video</a></td>
+                    <td>3x8</td>
+                    <td>Fists to protect thumbs</td>
+                </tr>
+                <tr>
+                    <td>Single arm row (bottle/backpack) <a class="yt-link" href="https://www.youtube.com/results?search_query=single+arm+bent+over+row+beginner+form" target="_blank"><svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814z"/><path d="M9.545 15.568V8.432L15.818 12z" fill="#0a0a0a"/></svg>Video</a></td>
+                    <td>3x10 each arm</td>
+                    <td>Light grip, thumb relaxed</td>
+                </tr>
+                <tr>
+                    <td>Dead bug <a class="yt-link" href="https://www.youtube.com/results?search_query=dead+bug+exercise+proper+form+tutorial" target="_blank"><svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814z"/><path d="M9.545 15.568V8.432L15.818 12z" fill="#0a0a0a"/></svg>Video</a></td>
+                    <td>3x6 each side</td>
+                    <td>Lower back pressed into floor</td>
+                </tr>
+                <tr>
+                    <td>Calf raises (bilateral) <a class="yt-link" href="https://www.youtube.com/results?search_query=calf+raises+exercise+beginner+form" target="_blank"><svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814z"/><path d="M9.545 15.568V8.432L15.818 12z" fill="#0a0a0a"/></svg>Video</a></td>
+                    <td>3x12</td>
+                    <td>Tempo 2-2. Ankle reinforcement</td>
+                </tr>
+            </table>
+
+            <!-- CARDIO -->
+            <div class="block-title">Cardio <span class="block-time">&mdash; 8 min</span></div>
+            <table class="exercise-table">
+                <tr><th>Exercise</th><th>Format</th><th>Notes</th></tr>
+                <tr>
+                    <td>Brisk walking / light jog <a class="yt-link" href="https://www.youtube.com/results?search_query=walking+intervals+cardio+beginner+fat+loss" target="_blank"><svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814z"/><path d="M9.545 15.568V8.432L15.818 12z" fill="#0a0a0a"/></svg>Video</a></td>
+                    <td>2 min fast + 1 min normal &times;3</td>
+                    <td>Should be able to talk but with effort</td>
+                </tr>
+            </table>
+
+            <!-- COOL-DOWN -->
+            <div class="block-title">Cool-Down <span class="block-time">&mdash; 5 min</span></div>
+            <table class="stretch-table">
+                <tr>
+                    <td>Calf stretch against wall</td>
+                    <td>30s each</td>
+                    <td><a class="yt-link" href="https://www.youtube.com/results?search_query=calf+stretch+wall+exercise" target="_blank"><svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814z"/><path d="M9.545 15.568V8.432L15.818 12z" fill="#0a0a0a"/></svg>Video</a></td>
+                </tr>
+                <tr>
+                    <td>Pigeon stretch</td>
+                    <td>45s each side</td>
+                    <td><a class="yt-link" href="https://www.youtube.com/results?search_query=pigeon+stretch+hip+opener+beginner" target="_blank"><svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814z"/><path d="M9.545 15.568V8.432L15.818 12z" fill="#0a0a0a"/></svg>Video</a></td>
+                </tr>
+                <tr>
+                    <td>Diaphragmatic breathing lying down</td>
+                    <td>2 min</td>
+                    <td><a class="yt-link" href="https://www.youtube.com/results?search_query=diaphragmatic+breathing+lying+down+relaxation" target="_blank"><svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814z"/><path d="M9.545 15.568V8.432L15.818 12z" fill="#0a0a0a"/></svg>Video</a></td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- THUMB WARNING -->
+        <div class="warning-box">
+            <div class="icon">&#9888;&#65039;</div>
+            <div>
+                <p><strong>Thumb pain:</strong> Push-ups always with closed fists. Rows with light grip, thumb relaxed. If any exercise causes thumb pain &mdash; stop and modify. Never push through pain.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- PROGRESSION -->
+    <section>
+        <div class="section-divider"></div>
+        <h2>Progression</h2>
+        <p>Same workout, harder every 2 weeks.</p>
+        <div class="prog-grid">
+            <div class="prog-card">
+                <h3>Weeks 1-2 (Foundation)</h3>
+                <div class="prog-item"><span class="param">Strength reps</span><span class="val">8-10</span></div>
+                <div class="prog-item"><span class="param">Wall sit</span><span class="val">20s</span></div>
+                <div class="prog-item"><span class="param">Single leg balance</span><span class="val">20s eyes open</span></div>
+                <div class="prog-item"><span class="param">Push-ups</span><span class="val">Table (high)</span></div>
+                <div class="prog-item"><span class="param">Cardio</span><span class="val">2 min + 1 min &times;3</span></div>
+                <div class="prog-item"><span class="param">Glute bridge</span><span class="val">Both legs</span></div>
+                <div class="prog-item"><span class="param">Calf raises</span><span class="val">Bilateral</span></div>
+            </div>
+            <div class="prog-card active">
+                <h3>Weeks 3-4 (Progression)</h3>
+                <div class="prog-item"><span class="param">Strength reps</span><span class="val">10-12</span></div>
+                <div class="prog-item"><span class="param">Wall sit</span><span class="val">30s</span></div>
+                <div class="prog-item"><span class="param">Single leg balance</span><span class="val">30s or 10s eyes closed</span></div>
+                <div class="prog-item"><span class="param">Push-ups</span><span class="val">Chair (lower)</span></div>
+                <div class="prog-item"><span class="param">Cardio</span><span class="val">2 min + 1 min &times;4</span></div>
+                <div class="prog-item"><span class="param">Glute bridge</span><span class="val">Try single leg</span></div>
+                <div class="prog-item"><span class="param">Calf raises</span><span class="val">Try unilateral</span></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- GOALS -->
+    <section>
+        <div class="section-divider"></div>
+        <h2>Goals &mdash; 4 Weeks</h2>
+        <div class="goals-grid">
+            <div class="goal-card">
+                <div class="goal-name">Ankle Mobility</div>
+                <div class="goal-bar-bg"><div class="goal-bar" style="width:30%"></div></div>
+                <div class="goal-values"><span class="current">Knee doesn't pass toes</span><span class="target">Target: +2-3cm</span></div>
+            </div>
+            <div class="goal-card">
+                <div class="goal-name">Wall Sit</div>
+                <div class="goal-bar-bg"><div class="goal-bar" style="width:66%"></div></div>
+                <div class="goal-values"><span class="current">20s</span><span class="target">Target: 30s</span></div>
+            </div>
+            <div class="goal-card">
+                <div class="goal-name">Single Leg Balance</div>
+                <div class="goal-bar-bg"><div class="goal-bar" style="width:40%"></div></div>
+                <div class="goal-values"><span class="current">Baseline</span><span class="target">Target: 30s</span></div>
+            </div>
+            <div class="goal-card">
+                <div class="goal-name">Incline Push-ups</div>
+                <div class="goal-bar-bg"><div class="goal-bar" style="width:50%"></div></div>
+                <div class="goal-values"><span class="current">8 reps (table)</span><span class="target">Target: 10 (chair)</span></div>
+            </div>
+            <div class="goal-card">
+                <div class="goal-name">Cardio Intervals</div>
+                <div class="goal-bar-bg"><div class="goal-bar" style="width:45%"></div></div>
+                <div class="goal-values"><span class="current">3 rounds</span><span class="target">Target: 4 rounds</span></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- REASSESSMENT -->
+    <section>
+        <div class="reeval-box">
+            <div class="date">April 29, 2026</div>
+            <h3>Reassessment &mdash; 30 days</h3>
+            <p>Repeat ankle, knee, strength and endurance tests. Compare with baseline. Measure all goals. Decide Month 2 plan.</p>
+        </div>
+    </section>
+
+    <div class="footer">
+        <strong>Method C</strong> &mdash; Custom training plan for Janine<br>
+        Level 1 &bull; 4 Weeks &bull; 60 min &bull; March-April 2026
+    </div>
+
+</body>
+</html>
