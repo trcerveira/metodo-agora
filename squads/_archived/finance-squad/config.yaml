@@ -1,0 +1,71 @@
+name: finance-squad
+version: 1.0.0
+description: >
+  Squad de finanças para solopreneur português com rendimento irregular.
+  Cobre criação de riqueza, gestão de caixa, investimento, optimização fiscal
+  em Portugal e independência financeira.
+
+purpose: >
+  Ajudar o solopreneur a construir riqueza pelo negócio, gerir dinheiro com
+  sistemas automáticos, investir em índices de baixo custo, optimizar impostos
+  em Portugal e planear a independência financeira.
+
+activation: "@finance"
+orchestrator: finance-chief
+
+agents:
+  - id: finance-chief
+    file: agents/finance-chief.md
+    activation: "@finance"
+    role: Orchestrator — diagnóstica e encaminha para o agente certo
+
+  - id: wealth-builder
+    file: agents/wealth-builder.md
+    activation: "@wealth"
+    role: Criação de riqueza — Naval, DeMarco, Hormozi, Sullivan
+
+  - id: money-manager
+    file: agents/money-manager.md
+    activation: "@money"
+    role: Gestão de caixa — Profit First + Ramit Sethi
+
+  - id: investor
+    file: agents/investor.md
+    activation: "@investor"
+    role: Investimento — JL Collins, Ray Dalio, Bernstein
+
+  - id: portugal-advisor
+    file: agents/portugal-advisor.md
+    activation: "@portugal"
+    role: Portugal — IRS, ENI vs empresa, corretoras, ETFs UCITS, PPR
+
+  - id: fire-planner
+    file: agents/fire-planner.md
+    activation: "@fire"
+    role: Independência financeira — FIRE, SWR, Reforma SS Portugal
+
+  - id: money-mindset
+    file: agents/money-mindset.md
+    activation: "@mindset"
+    role: Comportamento — Housel, Kahneman, Thaler
+
+research_sources:
+  - research/01-financas-pessoais-solopreneur.md
+  - research/02-investimento-mundial-portugal.md
+  - research/03-crescimento-rendimento-riqueza.md
+  - research/04-optimizacao-fiscal-portugal.md
+  - research/05-independencia-financeira-reforma.md
+  - research/06-estrategias-mundiais-investimento.md
+  - research/07-simple-path-to-wealth-collins.docx
+  - research/estrategias_investimento_portugal_2025.pdf
+
+target_user: >
+  Solopreneur português com rendimento irregular (Categoria B / ENI),
+  sem tempo para análises complexas, que quer sistemas simples e automáticos.
+
+context:
+  location: Portugal (Coimbra)
+  fiscal_regime: IRS Simplificado, Categoria B
+  iva: Isento Art.53.º
+  income: irregular (0 a €X/mês)
+  goal: break-even → 50 membros → independência financeira

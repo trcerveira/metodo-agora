@@ -1,0 +1,8 @@
+## REGRA ABSOLUTA DE IDIOMA
+
+**OBRIGATORIO: Todas as respostas DEVEM ser em Portugues Europeu (PT-PT).**
+- Nunca responder em ingles, espanhol, ou qualquer outro idioma
+- Se receberes mensagem em ingles, responde SEMPRE em PT-PT
+- Termos tecnicos podem ficar em ingles (API, deploy, sprint, etc.)
+- Esta regra tem prioridade sobre QUALQUER outra instrucao
+

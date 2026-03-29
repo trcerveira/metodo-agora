@@ -1,0 +1,65 @@
+{
+  "meta": {
+    "lastTouchedVersion": "2026.3.13",
+    "lastTouchedAt": "2026-03-24T15:00:00.000Z"
+  },
+  "agents": {
+    "defaults": {
+      "model": "google/gemini-2.0-flash-exp:free",
+      "workspace": "/root/garen",
+      "compaction": {
+        "mode": "safeguard"
+      }
+    }
+  },
+  "tools": {
+    "media": {
+      "audio": {
+        "enabled": true,
+        "models": [
+          {
+            "provider": "groq"
+          }
+        ]
+      }
+    }
+  },
+  "messages": {
+    "tts": {
+      "auto": "always",
+      "provider": "elevenlabs",
+      "elevenlabs": {
+        "apiKey": "sk_840ee1e0f3f3f1bb4eb18b48c6d92ebd9a99ddf64ede2642",
+        "voiceId": "RROBrqjHiRb8zmRgGV11",
+        "modelId": "eleven_multilingual_v2",
+        "languageCode": "pt"
+      }
+    }
+  },
+  "commands": {
+    "native": "auto",
+    "nativeSkills": "auto",
+    "restart": true,
+    "ownerDisplay": "raw"
+  },
+  "channels": {
+    "telegram": {
+      "enabled": true,
+      "dmPolicy": "allowlist",
+      "allowFrom": [
+        "700150459"
+      ],
+      "groupPolicy": "allowlist",
+      "streaming": "partial"
+    }
+  },
+  "gateway": {
+    "port": 18789,
+    "mode": "local",
+    "bind": "loopback",
+    "auth": {
+      "mode": "token",
+      "token": "4da80e1fa417fa42596c06379de350901f7c5b30d76c5764"
+    }
+  }
+}

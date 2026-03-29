@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Wallpaper</title>
+<style>
+  * { margin: 0; padding: 0; }
+  body {
+    background: #000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    font-family: 'Segoe UI', Arial, sans-serif;
+  }
+  canvas { display: none; }
+  #preview {
+    width: 960px;
+    height: 540px;
+    border: 1px solid #333;
+    margin-bottom: 30px;
+  }
+  button {
+    padding: 14px 40px;
+    background: #fff;
+    color: #000;
+    border: none;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+  button:hover { background: #ccc; }
+</style>
+</head>
+<body>
+
+<canvas id="canvas" width="1920" height="1080"></canvas>
+<img id="preview" />
+<button onclick="download()">Download JPEG</button>
+
+<script>
+function render() {
+  const c = document.getElementById('canvas');
+  const ctx = c.getContext('2d');
+
+  // Black background
+  ctx.fillStyle = '#000000';
+  ctx.fillRect(0, 0, 1920, 1080);
+
+  // "controle yourself" — top line, lighter weight
+  ctx.fillStyle = '#ffffff';
+  ctx.font = '300 64px "Segoe UI", "Helvetica Neue", Arial, sans-serif';
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.letterSpacing = '8px';
+  ctx.fillText('controle yourself', 960, 480);
+
+  // Thin separator line
+  ctx.strokeStyle = '#ffffff';
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.moveTo(760, 520);
+  ctx.lineTo(1160, 520);
+  ctx.stroke();
+
+  // "just do it" — bottom line, bold
+  ctx.font = '700 42px "Segoe UI", "Helvetica Neue", Arial, sans-serif';
+  ctx.letterSpacing = '12px';
+  ctx.fillText('JUST DO IT', 960, 570);
+
+  // Preview
+  document.getElementById('preview').src = c.toDataURL('image/jpeg', 1.0);
+}
+
+function download() {
+  const c = document.getElementById('canvas');
+  const link = document.createElement('a');
+  link.download = 'wallpaper-controle-yourself.jpg';
+  link.href = c.toDataURL('image/jpeg', 1.0);
+  link.click();
+}
+
+render();
+</script>
+</body>
+</html>

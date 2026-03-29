@@ -1,0 +1,53 @@
+squad:
+  name: method-c-ops
+  title: "Method C Ops — Mobility Score Operations"
+  version: "1.0.0"
+  created: "2026-03-27"
+  author: "Telmo Cerveira"
+  description: |
+    Squad operacional do Method C. 3 agentes focados em manter o Telmo
+    nos seus 0,8% (assessment, venda, estratégia, cara gradual).
+    Tudo o resto é tratado por esta squad.
+
+  domain: "Method C — Fitness Operations"
+  keywords:
+    - method-c
+    - mobility-score
+    - fitness
+    - operations
+    - content
+    - training-programs
+
+  orchestrator: leao
+  orchestrator_location: "../conselheiros/agents/leao.md"
+
+  principle: |
+    REGRA DE OURO: Esta squad existe para LIBERTAR o Telmo.
+    Se o Telmo está a fazer algo que um agente devia fazer, a squad falhou.
+    Telmo = 0,8% (assessment, venda, estratégia, cara).
+    Squad = os outros 99,2%.
+
+  agents:
+    - programa
+    - conteudo
+    - operacoes
+
+  routing:
+    assessment_to_plan: programa
+    content_creation: conteudo
+    client_management: operacoes
+    strategy: leao
+
+  activation:
+    orchestrator: "@leao"
+    agents: "@method-c:{agent-id}"
+    examples:
+      - "@method-c:programa — gera plano de treino a partir do assessment"
+      - "@method-c:conteudo — cria posts a partir de ideias do Telmo"
+      - "@method-c:operacoes — onboarding, follow-up, tracking"
+
+  build_order:
+    week_1: "programa — já tem clientes sem planos Method C"
+    week_2: "operacoes — clientes novos precisam de onboarding"
+    week_3: "conteudo — sem conteúdo, sem clientes novos"
+    rule: "Só avança quando o anterior FUNCIONA com pessoa real"
