@@ -127,27 +127,27 @@ export default function MethodCLanding() {
             {
               item: "Avaliação completa com score",
               desc: "Articular, força, resistência, flexibilidade — sabes exactamente onde estás",
-              value: "80€",
+              value: "40€",
             },
             {
               item: "Programa personalizado de 4 semanas",
               desc: "Baseado nos teus resultados, não genérico",
-              value: "120€",
+              value: "35€",
             },
             {
               item: "Suporte diário por WhatsApp",
               desc: "Dúvidas, ajustes, motivação — respostas no próprio dia",
-              value: "150€",
+              value: "30€",
             },
             {
               item: "Grupo exclusivo de alunos Method C",
               desc: "Comunidade de pessoas no mesmo caminho que tu",
-              value: "Inestimável",
+              value: "10€",
             },
             {
               item: "Reavaliação aos 30 dias + novo plano",
               desc: "Vês a evolução em números e recebes o próximo nível",
-              value: "80€",
+              value: "35€",
             },
           ].map((v, i) => (
             <div
