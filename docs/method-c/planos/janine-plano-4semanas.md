@@ -47,6 +47,15 @@ All exercises: **2 seconds up, 2 seconds down.**
 |----------|--------|-------|
 | Brisk walking / light jog | 2 min fast + 1 min normal x3 | Should be able to talk but with effort |
 
+### Rehab — Fisioterapia (5 min)
+
+| Exercise | Sets x Reps | Notes |
+|----------|-------------|-------|
+| Thumb tendon glides | 3x10 (all 5 positions) | Straight → hook fist → full fist → tabletop → straight fist. Slow, pain-free. Stop if pain increases |
+| Eccentric wrist extension (tennis elbow) | 3x10 | Arm on table, palm down, wrist off edge. Use other hand to lift wrist up, then slowly lower (3s) with affected arm only. Use small water bottle (~330ml) |
+
+**⚠️ Thumb pain 7/10 — these are rehab exercises, NOT strength. Zero pain tolerance. If pain goes above 4/10 during exercise, stop immediately.**
+
 ### Cool-Down (5 min)
 
 | Exercise | Duration |
